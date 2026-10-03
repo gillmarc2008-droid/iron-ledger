@@ -1,2 +1,2 @@
 # iron-ledger
-Workouy app
+Workout app
