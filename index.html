@@ -941,12 +941,126 @@ body.is-editing #view:has(.restbar) { padding-bottom: calc(env(safe-area-inset-b
 /* rows used as links */
 a.datarow { text-decoration: none; }
 .datarow .tag { flex: none; }
+
+/* =====================================================================
+   ALPHA 2 — WORKOUT ENGINE
+   ===================================================================== */
+/* dialogs */
+.dlg__msg { white-space: pre-line; }
+.dlg__stack { display: grid; gap: 8px; margin-top: 20px; }
+.sheet__btn .tag { margin-left: auto; }
+.sheet__btn[aria-current="true"] { background: var(--surface-2); }
+
+/* in-progress card (Home) + compact strip (other screens) */
+.inprogress {
+  display: grid; gap: 4px; margin: 14px 0 6px; padding: 16px;
+  border-radius: var(--r-lg); background: var(--surface); text-decoration: none;
+  box-shadow: inset 0 0 0 1.5px var(--accent);
+}
+.inprogress__label { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 650; color: var(--accent); }
+.inprogress__name { font-size: 24px; font-weight: 740; letter-spacing: -.02em; }
+.inprogress__time { font-size: 17px; font-weight: 650; color: var(--text-2); margin-bottom: 8px; }
+.pulse { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); flex: none; animation: pulse 1.6s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity: .35; } }
+.activebar-slot:empty { display: none; }
+.activebar {
+  position: fixed; left: 0; right: 0; z-index: 19;
+  bottom: calc(var(--nav-h) + env(safe-area-inset-bottom, 0px));
+  max-width: var(--maxw); margin: 0 auto;
+  display: flex; align-items: center; gap: 10px; min-height: 52px; padding: 6px 14px;
+  background: var(--surface-2); border-top: 1px solid var(--line); text-decoration: none;
+}
+.activebar__body { flex: 1; min-width: 0; line-height: 1.25; }
+.activebar__title { display: block; font-size: 13px; font-weight: 650; color: var(--accent); }
+.activebar__sub { display: block; font-size: 15px; font-weight: 650; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.activebar__cta { font-weight: 700; padding: 10px 14px; border-radius: 10px; background: var(--accent); color: var(--accent-ink); font-size: 15px; }
+body.has-activebar #view { padding-bottom: calc(var(--nav-h) + env(safe-area-inset-bottom, 0px) + 96px); }
+body.has-activebar .toast { bottom: calc(var(--nav-h) + env(safe-area-inset-bottom, 0px) + 66px); }
+
+/* week strip marks */
+.week__day.has-workout b { color: var(--accent); }
+.week__day.has-workout::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); order: 3; }
+.cal__cell { position: relative; }
+.cal__cell.has-workout::after { content: ""; position: absolute; bottom: 4px; left: 50%; width: 5px; height: 5px; margin-left: -2.5px; border-radius: 50%; background: var(--accent); }
+
+/* active workout */
+.aw-head__end { display: flex; align-items: center; gap: 2px; }
+.aw-ex { padding: 14px 10px 6px 12px; }
+.aw-ex__muscle .tag { margin-left: 6px; vertical-align: 1px; }
+.aw-target { gap: 14px; flex-wrap: wrap; color: var(--text-3); }
+.aw-target b { margin-left: 0; }
+.aw-target span b { margin-left: 3px; }
+.aw-note {
+  margin: 6px 0 2px; padding: 8px 10px; border-radius: var(--r-sm);
+  background: var(--surface-2); font-size: 15px; color: var(--text);
+}
+.aw-note--today { box-shadow: inset 3px 0 0 var(--accent); }
+.note-label { display: block; font-size: 12px; font-weight: 700; color: var(--text-3); margin-bottom: 1px; }
+.sets { margin-top: 8px; }
+.srow {
+  display: grid; align-items: center; gap: 4px;
+  grid-template-columns: 30px minmax(46px, 64px) minmax(56px, 1fr) 52px 44px 46px;
+  padding: 3px 0;
+}
+.srow--head { font-size: 12px; font-weight: 650; color: var(--text-3); text-align: center; padding-bottom: 0; }
+.srow--head span:nth-child(2) { text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.srow--head svg { width: 14px; height: 14px; vertical-align: -2px; }
+.srow__label {
+  height: 44px; border: 0; border-radius: 10px; background: transparent;
+  font-weight: 760; font-size: 16px; color: var(--text-2); padding: 0;
+}
+.srow--warmup .srow__label, .srow--drop .srow__label, .srow--failure .srow__label { color: var(--text); background: var(--surface-2); }
+.srow__prev {
+  height: 44px; border: 0; background: transparent; padding: 0 2px; text-align: left;
+  font-size: 13px; color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+button.srow__prev { text-decoration: underline dotted; text-underline-offset: 3px; }
+.srow__prev.is-empty { display: flex; align-items: center; }
+.srow__in {
+  width: 100%; min-width: 0; height: 48px; padding: 0 4px;
+  border: 1.5px solid transparent; border-radius: 10px; background: var(--surface-2);
+  font-size: 19px; font-weight: 700; text-align: center;
+}
+.srow__in::placeholder { color: var(--text-3); font-weight: 500; font-size: 15px; opacity: .8; }
+.srow__in:focus { outline: none; border-color: var(--focus); background: var(--bg); }
+.srow__in[aria-invalid="true"] { border-color: var(--danger); }
+.srow.is-done .srow__in { background: var(--accent-soft); }
+.srow.is-done .srow__label { color: var(--accent); }
+.srow .setcheck { width: 46px; height: 48px; }
+.aw-addset { margin-top: 2px; }
+.restbar.is-done { background: var(--accent); color: var(--accent-ink); }
+.restbar.is-done .restbar__btn { color: var(--accent-ink); background: color-mix(in srgb, var(--accent-ink) 14%, transparent); }
+.restbar.is-done .restbar__btn--skip { background: var(--accent-ink); color: var(--accent); }
+
+/* history */
+.wcards { display: grid; gap: 10px; }
+.wcard--real { border: 0; }
+.wcard--real .wcard__date { font-size: 14px; }
+.wcard--real .wcard__stats { grid-template-columns: repeat(3, auto); }
+.hgroup + .hgroup { margin-top: 22px; }
+.hgroup .group-head { margin-top: 18px; }
+.mini tr.is-skipped td { color: var(--text-3); }
+.cw__sub .note-label { display: inline; margin-right: 6px; }
+.xh__item { padding: 12px 0; border-bottom: 1px solid var(--line); }
+.xh { border-top: 1px solid var(--line); }
+.xh__head { display: flex; align-items: center; gap: 10px; min-height: 44px; text-decoration: none; }
+.xh__date { font-weight: 700; }
+.xh__name { flex: 1; color: var(--text-3); }
+
+button.srow__prev {
+  display: flex; flex-direction: column; justify-content: center; line-height: 1.15;
+  text-decoration: none; font-size: 13px; color: var(--text-2);
+  border-radius: 8px; background: transparent; box-shadow: inset 0 -1.5px 0 var(--line-strong);
+}
+button.srow__prev span:last-child { color: var(--text-3); }
+.hint + .section, .summary + .section { margin-top: 28px; }
 </style>
 </head>
 <body>
 <a class="skip-link" href="#view">Skip to content</a>
 <div id="banner" class="banner"></div>
 <main id="view" tabindex="-1" aria-live="off"></main>
+<div id="activebar" class="activebar-slot"></div>
 
 <nav class="tabbar" aria-label="Primary">
   <div class="tabbar__inner">
@@ -998,24 +1112,33 @@ a.datarow { text-decoration: none; }
    ======================================================================= */
 const CONFIG = Object.freeze({
   APP_NAME: 'Iron Ledger',
-  APP_VERSION: '2.0.0-alpha.1.5',
-  APP_STAGE: 'Alpha 1.5',
-  SCHEMA_VERSION: 1,
+  APP_VERSION: '2.0.0-alpha.2',
+  APP_STAGE: 'Alpha 2',
+  SCHEMA_VERSION: 2,   // v2 (Alpha 2): adds completed workout sessions
   BACKUP_KIND: 'iron-ledger-backup',
   MAX_IMPORT_BYTES: 5 * 1024 * 1024,
   KEYS: Object.freeze({
     DATA: 'ironLedger.v2.data',                  // all persistent app data
-    ACTIVE_WORKOUT: 'ironLedger.v2.activeWorkout', // reserved for Alpha 2 (unused)
-    RECOVERY_PREFIX: 'ironLedger.v2.recovery.'   // copies of unreadable data
+    ACTIVE_WORKOUT: 'ironLedger.v2.activeWorkout', // the ONE in-progress session (saved on every edit)
+    RECOVERY_PREFIX: 'ironLedger.v2.recovery.',  // copies of unreadable data
+    PREMIGRATION_PREFIX: 'ironLedger.v2.premigration.schema' // untouched copy kept before each schema upgrade
   }),
   LIMITS: Object.freeze({
     sets: [1, 10],
     reps: [1, 100],
     rir: [0, 5],
-    restSec: [0, 600]
+    restSec: [0, 600],
+    // Logged performance (active and completed sessions)
+    weightKg: [0, 1000],
+    loggedReps: [0, 999],
+    loggedRir: [0, 10]
   }),
+  /* Weight is stored in KILOGRAMS everywhere (canonical). Pounds exist only
+     at the display/input boundary, via the Units helper. */
+  KG_PER_LB: 0.45359237,
+  SET_TYPES: Object.freeze(['warmup', 'working', 'drop', 'failure']),
   REST_STEP_SEC: 15,
-  ALPHA2_MESSAGE: 'Workout logging will be enabled in Alpha 2.'
+  DOUBLE_TAP_MS: 600
 });
 
 
@@ -1505,7 +1628,8 @@ const Models = {
       meta: { createdAt: t, updatedAt: t, seededAt: null, appVersion: CONFIG.APP_VERSION },
       settings: Models.settings(),
       exercises: [],
-      routines: []
+      routines: [],
+      sessions: []   // COMPLETED workout sessions only (v2+)
     };
   }
 };
@@ -1575,7 +1699,17 @@ const Validate = {
     }
     if (!Array.isArray(d.exercises)) e.push('Missing exercise list.');
     if (!Array.isArray(d.routines)) e.push('Missing routine list.');
+    if (!Array.isArray(d.sessions)) e.push('Missing workout history list.');
     if (e.length) return e;
+
+    const sessionIds = new Set();
+    d.sessions.forEach((ws) => {
+      if (ws && typeof ws.id === 'string') {
+        if (sessionIds.has(ws.id)) e.push(`Duplicate workout id: ${ws.id}.`);
+        sessionIds.add(ws.id);
+      }
+      Validate.session(ws, 'completed').forEach((m) => e.push(m));
+    });
 
     const exIds = new Set();
     d.exercises.forEach((x, i) => {
@@ -1612,6 +1746,45 @@ const Validate = {
     return e;
   },
 
+  /**
+   * One workout session (active or completed). Lenient about references
+   * (an exercise or routine may have been deleted since) because sessions
+   * carry their own snapshots; strict about structure and logged values.
+   */
+  session(s, expectStatus) {
+    const e = [];
+    if (!s || typeof s !== 'object' || Array.isArray(s)) return ['Workout record is not an object.'];
+    const label = `Workout "${s.sourceRoutineName || s.id || '?'}"`;
+    const isTime = (v) => typeof v === 'string' && !isNaN(Date.parse(v));
+    if (typeof s.id !== 'string' || !s.id) e.push(`${label} has no id.`);
+    if (s.status !== expectStatus) e.push(`${label} has status "${s.status}", expected "${expectStatus}".`);
+    if (!isTime(s.startedAt)) e.push(`${label} has no valid start time.`);
+    if (expectStatus === 'completed' && !isTime(s.completedAt)) e.push(`${label} has no valid finish time.`);
+    if (!Array.isArray(s.exercises)) { e.push(`${label} has no exercise list.`); return e; }
+    const L = CONFIG.LIMITS;
+    const ids = new Set();
+    s.exercises.forEach((x, i) => {
+      const xl = `${label}, exercise ${i + 1}`;
+      if (!x || typeof x !== 'object') { e.push(`${xl} is invalid.`); return; }
+      if (typeof x.id !== 'string' || !x.id || ids.has(x.id)) e.push(`${xl} has a missing or duplicate id.`);
+      else ids.add(x.id);
+      if (typeof x.nameSnapshot !== 'string') e.push(`${xl} has no name snapshot.`);
+      if (!Array.isArray(x.sets)) { e.push(`${xl} has no set list.`); return; }
+      x.sets.forEach((st, j) => {
+        const sl = `${xl}, set ${j + 1}`;
+        if (!st || typeof st !== 'object') { e.push(`${sl} is invalid.`); return; }
+        if (typeof st.id !== 'string' || !st.id || ids.has(st.id)) e.push(`${sl} has a missing or duplicate id.`);
+        else ids.add(st.id);
+        if (!CONFIG.SET_TYPES.includes(st.type)) e.push(`${sl} has an unknown type.`);
+        if (st.weightKg !== null && !(typeof st.weightKg === 'number' && isFinite(st.weightKg) && st.weightKg >= L.weightKg[0] && st.weightKg <= L.weightKg[1])) e.push(`${sl} has an invalid weight.`);
+        if (st.reps !== null && !Util.isIntIn(st.reps, L.loggedReps)) e.push(`${sl} has invalid reps.`);
+        if (st.rir !== null && !Util.isIntIn(st.rir, L.loggedRir)) e.push(`${sl} has an invalid RIR.`);
+        if (typeof st.completed !== 'boolean') e.push(`${sl} has no completion state.`);
+      });
+    });
+    return e;
+  },
+
   /** Checks the outer backup envelope before looking at the data inside. */
   backupEnvelope(obj) {
     if (!obj || typeof obj !== 'object' || Array.isArray(obj)) return ['The file does not contain a JSON object.'];
@@ -1629,11 +1802,21 @@ const Validate = {
 /* =======================================================================
    7. MIGRATIONS
    Each entry upgrades data FROM that version to version + 1.
-   Example for the future:  1: (d) => { d.sessions = []; d.schemaVersion = 2; return d; }
    Never change stored shapes without adding a migration here.
+
+   v1 -> v2 (Alpha 2): adds `sessions: []` for completed workouts. Nothing
+   existing is renamed, moved or deleted. Before the first v2 write, the
+   untouched v1 JSON is kept under ironLedger.v2.premigration.schema1.
    ======================================================================= */
 const Migrations = {
-  steps: {},
+  steps: {
+    1: (d) => {
+      d.sessions = Array.isArray(d.sessions) ? d.sessions : [];
+      d.schemaVersion = 2;
+      if (d.meta && typeof d.meta === 'object') d.meta.migratedToV2At = Util.now();
+      return d;
+    }
+  },
   run(data) {
     let d = data;
     while (d.schemaVersion < CONFIG.SCHEMA_VERSION) {
@@ -1675,6 +1858,26 @@ const StorageService = {
     } catch (error) { return { ok: false, error }; }
   },
   clearData() { localStorage.removeItem(CONFIG.KEYS.DATA); },
+
+  /* The in-progress workout lives under its own key so the frequent
+     (every edit) saves stay small and never rewrite completed history. */
+  loadActive() {
+    const raw = localStorage.getItem(CONFIG.KEYS.ACTIVE_WORKOUT);
+    if (raw == null) return { status: 'empty' };
+    try { return { status: 'ok', value: JSON.parse(raw), raw }; }
+    catch (_) { return { status: 'corrupt', raw }; }
+  },
+  saveActive(session) {
+    try {
+      localStorage.setItem(CONFIG.KEYS.ACTIVE_WORKOUT, JSON.stringify(session));
+      return { ok: true };
+    } catch (error) { return { ok: false, error }; }
+  },
+  clearActive() { try { localStorage.removeItem(CONFIG.KEYS.ACTIVE_WORKOUT); } catch (_) { /* ignore */ } },
+  /** Writes a copy once (never overwrites an existing copy). */
+  keepCopyOnce(key, raw) {
+    try { if (localStorage.getItem(key) == null) localStorage.setItem(key, raw); return true; } catch (_) { return false; }
+  },
   /** Preserves unreadable data instead of silently discarding it. */
   keepRecoveryCopy(raw) {
     const key = CONFIG.KEYS.RECOVERY_PREFIX + new Date().toISOString().replace(/[:.]/g, '-');
@@ -1696,8 +1899,39 @@ const StorageService = {
    ======================================================================= */
 const Store = (() => {
   let data = null;
+  let active = null;      // the in-progress workout session, or null
   let persistent = true;
   const notices = [];
+
+  function persistActive(a) {
+    if (!persistent) return;
+    const r = StorageService.saveActive(a);
+    if (!r.ok) throw new AppError('Could not save your workout. Device storage may be full. Your last saved state is unchanged.');
+  }
+
+  /** Loads the in-progress workout, if any, AFTER the main data is ready. */
+  function initActive() {
+    const res = StorageService.loadActive();
+    if (res.status === 'empty') return;
+    if (res.status === 'corrupt') {
+      const key = StorageService.keepRecoveryCopy(res.raw);
+      StorageService.clearActive();
+      notices.push(`An in-progress workout could not be read.${key ? ` A copy was preserved under "${key}".` : ''}`);
+      return;
+    }
+    const a = res.value;
+    // Finishing writes history FIRST, then clears the active key. If the page
+    // closed between those two steps, the workout is already safe in history.
+    if (a && data.sessions.some((ws) => ws.id === a.id)) { StorageService.clearActive(); return; }
+    const errors = Validate.session(a, 'active');
+    if (errors.length) {
+      const key = StorageService.keepRecoveryCopy(res.raw);
+      StorageService.clearActive();
+      notices.push(`An in-progress workout was damaged and could not be resumed (${errors[0]})${key ? ` A copy was preserved under "${key}".` : ''}`);
+      return;
+    }
+    active = a;
+  }
 
   function persist(d) {
     if (!persistent) return;
@@ -1736,6 +1970,9 @@ const Store = (() => {
       return;
     }
     try {
+      if (stored && Number.isInteger(stored.schemaVersion) && stored.schemaVersion < CONFIG.SCHEMA_VERSION) {
+        StorageService.keepCopyOnce(CONFIG.KEYS.PREMIGRATION_PREFIX + stored.schemaVersion, res.raw);
+      }
       const migrated = Migrations.run(stored);
       const errors = Validate.dataset(migrated);
       if (errors.length) { recover(res.raw, `Saved data failed an integrity check (${errors[0]})`); return; }
@@ -1744,6 +1981,7 @@ const Store = (() => {
     } catch (err) {
       recover(res.raw, `Saved data could not be upgraded (${err.message}).`);
     }
+    if (persistent) initActive();
   }
 
   function transact(mutator) {
@@ -1760,18 +1998,68 @@ const Store = (() => {
     return result;
   }
 
-  /** Replaces the entire dataset (import / reset). Validates first. */
-  function replace(next) {
+  /** Replaces the entire dataset AND the active workout (import / reset). */
+  function replace(next, nextActive = null) {
     const errors = Validate.dataset(next);
+    if (nextActive) errors.push(...Validate.session(nextActive, 'active'));
     if (errors.length) throw new AppError('The data is not valid and was not loaded.', errors);
     persist(next);
+    if (nextActive) persistActive(nextActive);
+    else if (persistent) StorageService.clearActive();
     data = next;
+    active = nextActive;
+  }
+
+  /* ---------- active workout ---------- */
+  function beginActive(session) {
+    if (active) throw new AppError('A workout is already in progress.');
+    const errors = Validate.session(session, 'active');
+    if (errors.length) throw new AppError('The workout could not be started.', errors);
+    persistActive(session);
+    active = session;
+  }
+
+  /** Same clone -> mutate -> validate -> persist -> swap pattern as transact(). */
+  function activeTransact(mutator) {
+    if (!active) throw new AppError('No workout is in progress.');
+    const draft = Util.clone(active);
+    const result = mutator(draft);
+    const errors = Validate.session(draft, 'active');
+    if (errors.length) {
+      console.error('Workout integrity check failed', errors);
+      throw new AppError('That change was blocked because it would damage the workout record.', errors);
+    }
+    persistActive(draft);
+    active = draft;
+    return result;
+  }
+
+  /**
+   * Transaction-like completion:
+   *   1. write the completed session into history (durable),
+   *   2. only then remove the active workout.
+   * A crash between 1 and 2 is repaired by initActive().
+   */
+  function commitActive(completed) {
+    transact((d) => { if (!d.sessions.some((ws) => ws.id === completed.id)) d.sessions.push(completed); });
+    if (persistent) StorageService.clearActive();
+    active = null;
+  }
+
+  function discardActive() {
+    if (persistent) StorageService.clearActive();
+    active = null;
   }
 
   return {
     init,
     transact,
     replace,
+    beginActive,
+    activeTransact,
+    commitActive,
+    discardActive,
+    getActive: () => active,
     get: () => data,
     isPersistent: () => persistent,
     takeNotices: () => notices.splice(0)
@@ -1805,6 +2093,127 @@ const Calc = {
     });
     return [...tally.entries()].sort((a, b) => b[1] - a[1]).slice(0, limit).map(([m]) => m);
   },
+  /* ---------- workout sessions (single source for every session metric) ----------
+     Definitions used everywhere:
+       working set  = any set whose type is NOT warm-up (working, drop, failure)
+       volume       = weightKg × reps over COMPLETED working sets only
+       duration     = completedAt (or now) − startedAt, from timestamps        */
+  isWorkingSet(set) { return set.type !== 'warmup'; },
+
+  setVolumeKg(set) {
+    if (!set.completed || !Calc.isWorkingSet(set)) return 0;
+    if (typeof set.weightKg !== 'number' || !Number.isInteger(set.reps)) return 0;
+    return set.weightKg * set.reps;
+  },
+
+  sessionDurationSec(session, now = Date.now()) {
+    const start = Date.parse(session.startedAt);
+    const end = session.completedAt ? Date.parse(session.completedAt) : now;
+    return Math.max(0, Math.floor((end - start) / 1000));
+  },
+
+  sessionStats(session) {
+    let workingSets = 0;
+    let warmupSets = 0;
+    let incompleteSets = 0;
+    let volumeKg = 0;
+    session.exercises.forEach((x) => x.sets.forEach((st) => {
+      if (!st.completed) { incompleteSets++; return; }
+      if (Calc.isWorkingSet(st)) workingSets++; else warmupSets++;
+      volumeKg += Calc.setVolumeKg(st);
+    }));
+    return { workingSets, warmupSets, incompleteSets, volumeKg, durationSec: Calc.sessionDurationSec(session) };
+  },
+
+  /** Display labels: warm-ups "W", drops "D", failure "F", working sets numbered 1..n. */
+  setLabels(sets) {
+    let n = 0;
+    return sets.map((st) => {
+      if (st.type === 'warmup') return 'W';
+      if (st.type === 'drop') return 'D';
+      if (st.type === 'failure') return 'F';
+      n += 1;
+      return String(n);
+    });
+  },
+
+  /**
+   * Most recent COMPLETED session (excluding `excludeId`) in which this exercise
+   * id was actually performed, with its completed sets. Follows the exercise,
+   * not the routine. Active and preview data are never in this list.
+   */
+  previousPerformance(sessions, exerciseId, excludeId = null) {
+    let best = null;
+    sessions.forEach((ws) => {
+      if (ws.status !== 'completed' || ws.id === excludeId) return;
+      const sets = [];
+      ws.exercises.forEach((x) => {
+        if (x.performedExerciseId === exerciseId) x.sets.forEach((st) => { if (st.completed) sets.push(st); });
+      });
+      if (!sets.length) return;
+      if (!best || Date.parse(ws.completedAt) > Date.parse(best.session.completedAt)) best = { session: ws, sets };
+    });
+    return best;
+  },
+
+  /** Matches a set to the previous session's set of the same type and position. */
+  previousSetFor(prev, sets, set) {
+    if (!prev) return null;
+    const ordinal = sets.filter((st) => st.type === set.type).indexOf(set);
+    const same = prev.sets.filter((st) => st.type === set.type);
+    return same[ordinal] || null;
+  },
+
+  restRemainingSec(timer, now = Date.now()) {
+    if (!timer || !timer.endsAt) return 0;
+    return Math.max(0, Math.ceil((Date.parse(timer.endsAt) - now) / 1000));
+  },
+
+  /** Totals for completed sessions whose start falls in [from, to). */
+  periodStats(sessions, from, to) {
+    const out = { workouts: 0, workingSets: 0, volumeKg: 0, durationSec: 0, muscles: {} };
+    sessions.forEach((ws) => {
+      if (ws.status !== 'completed') return;
+      const t = Date.parse(ws.startedAt);
+      if ((from && t < from.getTime()) || (to && t >= to.getTime())) return;
+      const st = Calc.sessionStats(ws);
+      out.workouts++;
+      out.workingSets += st.workingSets;
+      out.volumeKg += st.volumeKg;
+      out.durationSec += st.durationSec;
+      ws.exercises.forEach((x) => {
+        const n = x.sets.filter((s) => s.completed && Calc.isWorkingSet(s)).length;
+        if (n && x.primaryMuscleSnapshot) out.muscles[x.primaryMuscleSnapshot] = (out.muscles[x.primaryMuscleSnapshot] || 0) + n;
+      });
+    });
+    return out;
+  },
+
+  periodStart(period, now = new Date()) {
+    const d = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const back = { '7d': 6, '30d': 29 }[period];
+    if (back != null) { d.setDate(d.getDate() - back); return d; }
+    if (period === '3m') { d.setMonth(d.getMonth() - 3); return d; }
+    if (period === '1y') { d.setFullYear(d.getFullYear() - 1); return d; }
+    return null; // all time
+  },
+
+  /** What differs from the source routine. Recorded for Alpha 3's review; never applied here. */
+  sessionChanges(session) {
+    const out = [];
+    session.exercises.forEach((x) => {
+      if (x.addedDuringSession) { out.push({ kind: 'added', label: x.nameSnapshot }); return; }
+      const working = x.sets.filter((st) => Calc.isWorkingSet(st)).length;
+      if (working !== x.targetSets) out.push({ kind: 'sets', label: `${x.nameSnapshot}: ${x.targetSets} → ${working} working sets` });
+    });
+    (session.removedExercises || []).forEach((r) => out.push({ kind: 'removed', label: r.nameSnapshot }));
+    const original = (session.routineOrderSnapshot || []);
+    const nowOrder = session.exercises.map((x) => x.routineItemId).filter((id) => id && original.includes(id));
+    const expected = original.filter((id) => nowOrder.includes(id));
+    if (nowOrder.join() !== expected.join()) out.push({ kind: 'order', label: 'Exercise order changed' });
+    return out;
+  },
+
   /** Calendar week containing `date`, honouring the week-start setting. */
   weekDays(date, weekStart) {
     const d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
@@ -1837,6 +2246,29 @@ const Fmt = {
   shortDate(d) { return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }); },
   weekdayInitial(d) { return d.toLocaleDateString(undefined, { weekday: 'short' }); },
   plural(n, one, many) { return `${n} ${n === 1 ? one : (many || one + 's')}`; },
+  /** Elapsed clock: 38:24 or 1:04:12 */
+  clock(sec) {
+    const h = Math.floor(sec / 3600);
+    const m = Math.floor((sec % 3600) / 60);
+    const s = sec % 60;
+    return h ? `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}` : `${m}:${String(s).padStart(2, '0')}`;
+  },
+  /** Duration words: 1h 04m, 42m */
+  duration(sec) {
+    const h = Math.floor(sec / 3600);
+    const m = Math.floor((sec % 3600) / 60);
+    return h ? `${h}h ${String(m).padStart(2, '0')}m` : `${m}m`;
+  },
+  time(iso) { return new Date(iso).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' }); },
+  dayDate(iso) { return new Date(iso).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' }); },
+  monthYear(iso) { return new Date(iso).toLocaleDateString(undefined, { month: 'long', year: 'numeric' }); },
+  ago(iso) {
+    const min = Math.max(0, Math.round((Date.now() - Date.parse(iso)) / 60000));
+    if (min < 1) return 'just now';
+    if (min < 60) return `${min} minute${min === 1 ? '' : 's'} ago`;
+    const h = Math.floor(min / 60);
+    return `${h} hour${h === 1 ? '' : 's'} ${min % 60} min ago`;
+  },
   bytes(n) { return n < 1024 ? `${n} B` : `${(n / 1024).toFixed(n < 10240 ? 1 : 0)} KB`; },
   sameDay(a, b) { return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate(); },
   /** "Chest, shoulders and triceps" */
@@ -1847,6 +2279,40 @@ const Fmt = {
   },
   exerciseMeta(ex) {
     return `${Tax.label('muscles', ex.primaryMuscle)}, ${Tax.label('equipment', ex.equipment).toLowerCase()}`;
+  }
+};
+
+
+/* =======================================================================
+   11b. UNITS — the ONLY place kg <-> lb conversion happens.
+   Stored values are always kilograms. Switching the unit setting changes
+   display and input interpretation only; stored history never changes.
+   ======================================================================= */
+const Units = {
+  current() { return SettingsService.get().units; },
+  toDisplay(kg, unit = Units.current()) {
+    if (typeof kg !== 'number') return null;
+    const v = unit === 'lb' ? kg / CONFIG.KG_PER_LB : kg;
+    return Math.round(v * 100) / 100;
+  },
+  fromDisplay(value, unit = Units.current()) {
+    const kg = unit === 'lb' ? value * CONFIG.KG_PER_LB : value;
+    return Math.round(kg * 1e6) / 1e6;
+  },
+  /** Accepts "22.5", "22,5" or "22." Returns {empty} | {invalid} | {value}. */
+  parse(raw) {
+    const s = String(raw == null ? '' : raw).trim().replace(',', '.');
+    if (!s) return { empty: true };
+    if (!/^\d+(\.\d*)?$/.test(s)) return { invalid: true };
+    return { value: parseFloat(s) };
+  },
+  fmt(kg, unit = Units.current()) {
+    const v = Units.toDisplay(kg, unit);
+    return v == null ? '' : String(v);
+  },
+  fmtVolume(kg, unit = Units.current()) {
+    const v = unit === 'lb' ? kg / CONFIG.KG_PER_LB : kg;
+    return `${Math.round(v).toLocaleString()} ${unit}`;
   }
 };
 
@@ -2089,7 +2555,8 @@ const BackupService = {
       app: CONFIG.APP_NAME,
       appVersion: CONFIG.APP_VERSION,
       exportedAt: Util.now(),
-      data: Util.clone(Store.get()) // the complete persistent dataset
+      data: Util.clone(Store.get()),                 // routines, exercises, settings, completed history
+      activeWorkout: Store.getActive() ? Util.clone(Store.getActive()) : null // in-progress workout, if any
     };
   },
   filename(date = new Date()) {
@@ -2106,15 +2573,299 @@ const BackupService = {
     try { data = Migrations.run(Util.clone(obj.data)); }
     catch (err) { return { ok: false, errors: [err.message] }; }
     const errors = Validate.dataset(data);
+    let active = obj.activeWorkout || null;
+    if (active) {
+      if (data.sessions.some((ws) => ws.id === active.id)) active = null; // already completed: history wins
+      else errors.push(...Validate.session(active, 'active'));
+    }
     if (errors.length) return { ok: false, errors };
     return {
-      ok: true, data,
-      summary: { exportedAt: obj.exportedAt, routines: data.routines.length, exercises: data.exercises.length }
+      ok: true, data, active,
+      summary: { exportedAt: obj.exportedAt, routines: data.routines.length, exercises: data.exercises.length, sessions: data.sessions.length, hasActive: !!active }
     };
   },
-  apply(data) { Store.replace(data); },
-  /** Restores seed data AND default settings. */
-  reset() { Store.replace(Seed.build()); }
+  apply(data, active = null) { Store.replace(data, active); },
+  /** Restores seed data AND default settings; clears any workout in progress. */
+  reset() { Store.replace(Seed.build(), null); }
+};
+
+
+/** Completed workout history (read + delete). Never edits logged values. */
+const SessionService = {
+  list() {
+    return Store.get().sessions.slice().sort((a, b) => Date.parse(b.startedAt) - Date.parse(a.startedAt));
+  },
+  get(id) { return Store.get().sessions.find((ws) => ws.id === id) || null; },
+  forExercise(exerciseId) {
+    return SessionService.list().map((ws) => {
+      const sets = [];
+      ws.exercises.forEach((x) => { if (x.performedExerciseId === exerciseId) x.sets.forEach((st, i) => { if (st.completed) sets.push({ set: st, label: Calc.setLabels(x.sets)[i] }); }); });
+      return sets.length ? { session: ws, sets } : null;
+    }).filter(Boolean);
+  },
+  remove(id) {
+    Store.transact((d) => {
+      const before = d.sessions.length;
+      d.sessions = d.sessions.filter((ws) => ws.id !== id);
+      if (d.sessions.length === before) throw new AppError('That workout no longer exists.');
+    });
+  }
+};
+
+/**
+ * The active workout engine. All changes go through Store.activeTransact,
+ * which saves after EVERY change. Routines are only ever READ here.
+ */
+const WorkoutService = {
+  active() { return Store.getActive(); },
+
+  idsIn(session) {
+    const t = new Set([session.id]);
+    session.exercises.forEach((x) => { t.add(x.id); x.sets.forEach((st) => t.add(st.id)); });
+    return t;
+  },
+
+  newSet(type, weightKg, ids) {
+    const id = Id.unique('st', ids);
+    ids.add(id);
+    return { id, type, weightKg: weightKg == null ? null : weightKg, reps: null, rir: null, completed: false, completedAt: null };
+  },
+
+  /** Builds a session exercise from a library exercise + prescription (snapshots included). */
+  buildExercise(ex, t, ids) {
+    const id = Id.unique('se', ids);
+    ids.add(id);
+    const sets = [];
+    for (let i = 0; i < t.sets; i++) sets.push(WorkoutService.newSet('working', null, ids));
+    return {
+      id,
+      originalExerciseId: t.exerciseId,
+      performedExerciseId: t.exerciseId,
+      routineItemId: t.routineItemId || null,
+      nameSnapshot: ex ? ex.name : 'Unknown exercise',
+      primaryMuscleSnapshot: ex ? ex.primaryMuscle : null,
+      equipmentSnapshot: ex ? ex.equipment : null,
+      targetSets: t.sets,
+      targetRepMin: t.repMin, targetRepMax: t.repMax,
+      targetRirMin: t.rirMin, targetRirMax: t.rirMax,
+      restSeconds: t.restSec,
+      notesSnapshot: t.notes || '',
+      sessionNote: '',
+      substitution: false,
+      substitutionReason: null,
+      addedDuringSession: !!t.added,
+      sets
+    };
+  },
+
+  /** Starts a session from a DEEP SNAPSHOT of the routine. */
+  start(routineId) {
+    if (Store.getActive()) throw new AppError('A workout is already in progress.');
+    const routine = RoutineService.get(routineId);
+    if (!routine) throw new AppError('That routine no longer exists.');
+    const snap = Util.clone(routine);
+    const ids = new Set(Store.get().sessions.map((ws) => ws.id));
+    const id = Id.unique('ws', ids);
+    ids.add(id);
+    const session = {
+      id,
+      status: 'active',
+      sourceRoutineId: snap.id,
+      sourceRoutineName: snap.name,
+      startedAt: Util.now(),
+      completedAt: null,
+      durationSec: null,
+      notes: '',
+      restTimer: null,
+      routineOrderSnapshot: snap.exercises.map((it) => it.id),
+      removedExercises: [],
+      appVersion: CONFIG.APP_VERSION,
+      exercises: snap.exercises.map((it) => WorkoutService.buildExercise(ExerciseService.get(it.exerciseId), {
+        exerciseId: it.exerciseId, routineItemId: it.id, sets: it.sets, repMin: it.repMin, repMax: it.repMax,
+        rirMin: it.rirMin, rirMax: it.rirMax, restSec: it.restSec, notes: it.notes, added: false
+      }, ids))
+    };
+    Store.beginActive(session);
+    return id;
+  },
+
+  find(d, seId, setId) {
+    const x = d.exercises.find((e) => e.id === seId);
+    if (!x) throw new AppError('That exercise is no longer in this workout.');
+    if (setId == null) return { x };
+    const st = x.sets.find((e) => e.id === setId);
+    if (!st) throw new AppError('That set no longer exists.');
+    return { x, st };
+  },
+
+  /**
+   * Saves one typed value. Blank stores null; an invalid value stores null
+   * and reports invalid so the field can be flagged (never silently guessed).
+   */
+  updateSetField(seId, setId, field, raw) {
+    const L = CONFIG.LIMITS;
+    let value = null;
+    let invalid = false;
+    if (field === 'weight') {
+      const p = Units.parse(raw);
+      if (p.invalid) invalid = true;
+      else if (!p.empty) {
+        const kg = Units.fromDisplay(p.value);
+        if (kg > L.weightKg[1]) invalid = true; else value = kg;
+      }
+    } else {
+      const s = String(raw).trim();
+      const n = Util.parseIntOrNull(s);
+      const range = field === 'reps' ? L.loggedReps : L.loggedRir;
+      if (s && (n == null || !Util.isIntIn(n, range))) invalid = true;
+      else value = n;
+    }
+    const key = { weight: 'weightKg', reps: 'reps', rir: 'rir' }[field];
+    Store.activeTransact((d) => { WorkoutService.find(d, seId, setId).st[key] = value; });
+    return { invalid };
+  },
+
+  /** Completes or un-completes a set. Completion validates, saves and starts rest. */
+  toggleSet(seId, setId) {
+    return Store.activeTransact((d) => {
+      const { x, st } = WorkoutService.find(d, seId, setId);
+      const label = Calc.setLabels(x.sets)[x.sets.indexOf(st)];
+      if (st.completed) {
+        st.completed = false;
+        st.completedAt = null;
+        return { completed: false };
+      }
+      const weightRequired = x.equipmentSnapshot !== 'bodyweight';
+      if (weightRequired && st.weightKg == null) throw new AppError(`Enter the weight for set ${label}.`, [{ setId: st.id, field: 'weight' }]);
+      if (st.reps == null) throw new AppError(`Enter the reps for set ${label}.`, [{ setId: st.id, field: 'reps' }]);
+      // RIR is encouraged but optional (Alpha 2 decision).
+      st.completed = true;
+      st.completedAt = Util.now();
+      // Quick entry: carry WEIGHT (never reps/RIR) to the next open set of the same type.
+      const i = x.sets.indexOf(st);
+      const next = x.sets.slice(i + 1).find((n) => !n.completed && n.type === st.type);
+      if (next && next.weightKg == null && st.weightKg != null) next.weightKg = st.weightKg;
+      // Rest starts after working and failure sets (not warm-ups, not mid-drop-set).
+      if ((st.type === 'working' || st.type === 'failure') && x.restSeconds > 0) {
+        const now = Date.now();
+        d.restTimer = { sessionExerciseId: x.id, durationSec: x.restSeconds, startedAt: new Date(now).toISOString(), endsAt: new Date(now + x.restSeconds * 1000).toISOString() };
+      }
+      return { completed: true };
+    });
+  },
+
+  copyPrevious(seId, setId, weightKg, reps) {
+    Store.activeTransact((d) => {
+      const { st } = WorkoutService.find(d, seId, setId);
+      if (st.completed) throw new AppError('Undo the completed set before changing it.');
+      if (weightKg != null) st.weightKg = weightKg;
+      if (reps != null) st.reps = reps;
+    });
+  },
+
+  addSet(seId, type = 'working') {
+    Store.activeTransact((d) => {
+      const { x } = WorkoutService.find(d, seId);
+      const ids = WorkoutService.idsIn(d);
+      const last = x.sets.filter((st) => st.type === type && st.weightKg != null).pop();
+      const set = WorkoutService.newSet(type, last ? last.weightKg : null, ids);
+      if (type === 'warmup') {
+        const at = x.sets.filter((st) => st.type === 'warmup').length;
+        x.sets.splice(at, 0, set);
+      } else x.sets.push(set);
+    });
+  },
+
+  removeSet(seId, setId) {
+    Store.activeTransact((d) => {
+      const { x } = WorkoutService.find(d, seId, setId);
+      x.sets = x.sets.filter((st) => st.id !== setId);
+    });
+  },
+
+  setHasData(st) { return st.completed || st.weightKg != null || st.reps != null || st.rir != null; },
+
+  setType(seId, setId, type) {
+    if (!CONFIG.SET_TYPES.includes(type)) throw new AppError('Unknown set type.');
+    Store.activeTransact((d) => { WorkoutService.find(d, seId, setId).st.type = type; });
+  },
+
+  addExercises(exerciseIds) {
+    Store.activeTransact((d) => {
+      const ids = WorkoutService.idsIn(d);
+      exerciseIds.forEach((exId) => {
+        const ex = ExerciseService.get(exId);
+        if (!ex) return;
+        const iso = ex.mechanic === 'isolation';
+        d.exercises.push(WorkoutService.buildExercise(ex, {
+          exerciseId: ex.id, routineItemId: null, sets: 3, repMin: iso ? 10 : 8, repMax: iso ? 15 : 12,
+          rirMin: 1, rirMax: 2, restSec: ex.defaultRestSec, notes: '', added: true
+        }, ids));
+      });
+    });
+  },
+
+  removeExercise(seId) {
+    Store.activeTransact((d) => {
+      const { x } = WorkoutService.find(d, seId);
+      if (!x.addedDuringSession) {
+        d.removedExercises.push({ sessionExerciseId: x.id, originalExerciseId: x.originalExerciseId, routineItemId: x.routineItemId, nameSnapshot: x.nameSnapshot, removedAt: Util.now() });
+      }
+      d.exercises = d.exercises.filter((e) => e.id !== seId);
+      if (d.restTimer && d.restTimer.sessionExerciseId === seId) d.restTimer = null;
+    });
+  },
+
+  moveExercise(seId, dir) {
+    return Store.activeTransact((d) => {
+      const i = d.exercises.findIndex((e) => e.id === seId);
+      const j = i + dir;
+      if (i < 0 || j < 0 || j >= d.exercises.length) return false;
+      [d.exercises[i], d.exercises[j]] = [d.exercises[j], d.exercises[i]];
+      return true;
+    });
+  },
+
+  setExerciseNote(seId, text) {
+    Store.activeTransact((d) => { WorkoutService.find(d, seId).x.sessionNote = String(text || '').trim(); });
+  },
+
+  setWorkoutNotes(text) {
+    Store.activeTransact((d) => { d.notes = String(text || '').trim(); });
+  },
+
+  adjustRest(deltaSec) {
+    Store.activeTransact((d) => {
+      if (!d.restTimer) return;
+      const now = Date.now();
+      const ends = Math.max(now, Date.parse(d.restTimer.endsAt) + deltaSec * 1000);
+      d.restTimer.endsAt = new Date(ends).toISOString();
+    });
+  },
+
+  skipRest() { Store.activeTransact((d) => { d.restTimer = null; }); },
+
+  incompleteCount() {
+    const a = Store.getActive();
+    return a ? a.exercises.reduce((n, x) => n + x.sets.filter((st) => !st.completed).length, 0) : 0;
+  },
+
+  /** Completes the workout. Incomplete sets are kept as not-completed; nothing is invented. */
+  finish() {
+    const a = Store.getActive();
+    if (!a) throw new AppError('No workout is in progress.');
+    const done = Util.clone(a);
+    done.status = 'completed';
+    done.completedAt = Util.now();
+    done.durationSec = Calc.sessionDurationSec(done);
+    done.restTimer = null;
+    const errors = Validate.session(done, 'completed');
+    if (errors.length) throw new AppError('The workout could not be saved.', errors);
+    Store.commitActive(done);
+    return done.id;
+  },
+
+  discard() { Store.discardActive(); }
 };
 
 
@@ -2323,11 +3074,21 @@ const Dialog = (() => {
             <button type="button" class="btn ${danger ? 'btn-danger' : 'btn-primary'}" data-dialog="submit">${esc(confirmLabel)}</button>
           </div></div>`, { validate });
     },
+    /** Several stacked choices; resolves the chosen id or null. */
+    choose({ title, message = '', actions }) {
+      const cls = { primary: 'btn-primary', danger: 'btn-danger', secondary: 'btn-secondary', ghost: 'btn-ghost' };
+      return open(`<div class="dlg" role="document">
+          <h2>${esc(title)}</h2>
+          ${message ? `<p class="dlg__msg">${esc(message)}</p>` : ''}
+          <div class="dlg__stack">
+            ${actions.map((a, i) => `<button type="button" class="btn btn-block ${cls[a.kind] || 'btn-secondary'}" data-dialog="${esc(a.id)}" ${i === 0 ? 'data-dialog-default' : ''}>${esc(a.label)}</button>`).join('')}
+          </div></div>`);
+    },
     sheet({ title, actions }) {
       return open(`<div role="document">
           <h2 class="sheet__title">${esc(title)}</h2>
           <div class="sheet__actions">
-            ${actions.map((a) => `<button type="button" class="sheet__btn ${a.danger ? 'sheet__btn--danger' : ''}" data-dialog="${esc(a.id)}">${icon(a.icon)}<span>${esc(a.label)}</span></button>`).join('')}
+            ${actions.map((a) => `<button type="button" class="sheet__btn ${a.danger ? 'sheet__btn--danger' : ''}" data-dialog="${esc(a.id)}" ${a.current ? 'aria-current="true"' : ''}>${icon(a.icon)}<span>${esc(a.label)}</span>${a.current ? '<span class="tag">Current</span>' : ''}</button>`).join('')}
             <button type="button" class="sheet__btn sheet__cancel" data-dialog="cancel">Cancel</button>
           </div></div>`, { sheet: true });
     }
@@ -2388,7 +3149,7 @@ const Partials = {
         ${Partials.prefTags(ex)}${icon('chevron', 'xrow__chev')}</a></li>`).join('');
   },
 
-  pickerRows(list, selected, inRoutine) {
+  pickerRows(list, selected, inRoutine, existingLabel = 'already in routine') {
     if (!list.length) return '<li class="empty"><p>No exercises match. Try a different search or clear the filters.</p></li>';
     return list.map((ex) => {
       const pos = selected.indexOf(ex.id);
@@ -2396,7 +3157,7 @@ const Partials = {
       return `<li><button type="button" class="xrow" data-action="pick-toggle" data-id="${esc(ex.id)}" aria-pressed="${on}">
           <span class="pick-badge num" aria-hidden="true">${on ? pos + 1 : ''}</span>
           <span class="xrow__body"><span class="xrow__name">${esc(ex.name)}</span>
-          <span class="xrow__meta">${esc(Fmt.exerciseMeta(ex))}${inRoutine.has(ex.id) ? ', already in routine' : ''}</span></span>
+          <span class="xrow__meta">${esc(Fmt.exerciseMeta(ex))}${inRoutine.has(ex.id) ? `, ${esc(existingLabel)}` : ''}</span></span>
           ${Partials.prefTags(ex)}</button></li>`;
     }).join('');
   },
@@ -2477,6 +3238,29 @@ const Partials = {
     return `<button type="button" class="${cls}" data-action="${action}" ${msg ? `data-msg="${esc(msg)}"` : ''}>${inner}</button>`;
   },
 
+  /** "1  22.5 × 10  RIR 2" lines for completed sets ({set, label}). */
+  setLines(items) {
+    return `<table class="mini">
+      <thead><tr><th scope="col">Set</th><th scope="col">${esc(Units.current())} × reps</th><th scope="col">RIR</th></tr></thead>
+      <tbody>${items.map(({ set, label }) => `<tr class="${set.completed ? '' : 'is-skipped'}">
+        <td class="num">${esc(label)}</td>
+        <td class="num">${set.completed ? `<b>${set.weightKg == null ? 'BW' : esc(Units.fmt(set.weightKg))} × ${set.reps}</b>` : '<span class="muted">Not completed</span>'}</td>
+        <td class="num">${set.completed && set.rir != null ? set.rir : '–'}</td></tr>`).join('')}</tbody>
+    </table>`;
+  },
+
+  /** Real completed-workout card (no preview marker). */
+  sessionCard(ws) {
+    const st = Calc.sessionStats(ws);
+    return `<a class="wcard wcard--real" href="#/history/${esc(ws.id)}">
+      <span class="wcard__top"><span class="wcard__name">${esc(ws.sourceRoutineName)}</span><span class="wcard__date">${esc(Fmt.dayDate(ws.startedAt))}</span></span>
+      <span class="wcard__stats">
+        <span class="fig"><b>${Fmt.duration(st.durationSec)}</b><span>duration</span></span>
+        <span class="fig"><b>${st.workingSets}</b><span>working sets</span></span>
+        <span class="fig"><b>${esc(Units.fmtVolume(st.volumeKg))}</b><span>volume</span></span>
+      </span></a>`;
+  },
+
   workoutCard(w, href) {
     return `<a class="wcard" href="${href}">
       <span class="wcard__top"><span class="wcard__name">${esc(w.routine)}</span><span class="tag tag--preview">Preview</span></span>
@@ -2516,17 +3300,29 @@ const Views = {
       </li>`;
     }).join('');
 
+    const active = WorkoutService.active();
+    const sessions = Store.get().sessions;
+    const end = new Date(days[6]); end.setDate(end.getDate() + 1);
+    const week = Calc.periodStats(sessions, days[0], end);
+    const trainedDays = new Set(sessions.map((ws) => new Date(ws.startedAt).toDateString()));
     return `
       <header class="home-head">
         <div class="wordmark"><span class="wordmark__rule" aria-hidden="true"></span><span>IRON LEDGER</span></div>
         <p class="home-date">${esc(Fmt.longDate(today))}</p>
       </header>
 
+      ${active ? `<a class="inprogress" href="#/workout/active">
+        <span class="inprogress__label"><span class="pulse" aria-hidden="true"></span>Workout in progress</span>
+        <span class="inprogress__name">${esc(active.sourceRoutineName)}</span>
+        <span class="inprogress__time num" data-tick="elapsed">${Fmt.clock(Calc.sessionDurationSec(active))}</span>
+        <span class="btn btn-primary btn-block">${icon('play')}Resume workout</span>
+      </a>` : ''}
+
       <section class="section" aria-labelledby="today-h">
         <div class="section-head"><h2 class="section-title" id="today-h">Today's workout</h2>${Partials.laterTag('Scheduling later')}</div>
         <div class="today">
           <p class="today__title">No workout scheduled yet.</p>
-          <p class="today__sub">You can start any routine below, on any day.</p>
+          <p class="today__sub">Scheduling arrives in a later Alpha. You can start any routine below, on any day.</p>
         </div>
       </section>
 
@@ -2539,12 +3335,6 @@ const Views = {
             <p>Create a routine to plan the exercises, sets and reps you want to train.</p>
             <a class="btn btn-primary" href="#/routine/new">${icon('plus')}Create routine</a>
           </div>`}
-        <a class="pv-link" href="#/preview/workout">
-          ${icon('eye')}
-          <span class="pv-link__body"><span class="pv-link__title">Preview active workout</span>
-          <span class="pv-link__sub">See the Alpha 2 logging screen. Nothing is recorded.</span></span>
-          <span class="tag tag--preview">UI preview</span>
-        </a>
       </section>
 
       <section class="section" aria-labelledby="missed-h">
@@ -2558,9 +3348,17 @@ const Views = {
           <span class="meta num">${esc(Fmt.shortDate(days[0]))} – ${esc(Fmt.shortDate(days[6]))}</span>
         </div>
         <ol class="week" aria-label="Days this week">
-          ${days.map((d) => `<li class="week__day" ${Fmt.sameDay(d, today) ? 'aria-current="date"' : ''}><span>${esc(Fmt.weekdayInitial(d))}</span><b class="num">${d.getDate()}</b></li>`).join('')}
+          ${days.map((d) => {
+            const trained = trainedDays.has(d.toDateString());
+            return `<li class="week__day ${trained ? 'has-workout' : ''}" ${Fmt.sameDay(d, today) ? 'aria-current="date"' : ''}><span>${esc(Fmt.weekdayInitial(d))}</span><b class="num">${d.getDate()}</b>${trained ? '<span class="sr-only">workout logged</span>' : ''}</li>`;
+          }).join('')}
         </ol>
-        <div class="empty-inline">${icon('progress')}<p>Complete your first workout to start building your training history.</p></div>
+        ${week.workouts ? Partials.tiles([
+          ['Workouts', String(week.workouts)],
+          ['Working sets', String(week.workingSets)],
+          ['Volume', Units.fmtVolume(week.volumeKg)],
+          ['Training time', Fmt.duration(week.durationSec)]
+        ]) : `<div class="empty-inline">${icon('progress')}<p>${sessions.length ? 'No workouts logged this week yet.' : 'Complete your first workout to start building your training history.'}</p></div>`}
       </section>
 
       <section class="section" aria-labelledby="next-h">
@@ -2817,11 +3615,21 @@ const Views = {
   },
 
   exerciseHistory(ex) {
-    return `<div class="empty">
-      <div class="empty__mark">${icon('list')}</div>
-      <h2>No sessions logged yet</h2>
-      <p>Every completed set of ${esc(ex.name)} will appear here, whichever routine it was part of.</p>
-    </div>`;
+    const entries = SessionService.forExercise(ex.id);
+    if (!entries.length) {
+      return `<div class="empty">
+        <div class="empty__mark">${icon('list')}</div>
+        <h2>No sessions logged yet</h2>
+        <p>Every completed set of ${esc(ex.name)} will appear here, whichever routine it was part of.</p>
+      </div>`;
+    }
+    return `<ol class="xh">${entries.map(({ session, sets }) => `<li class="xh__item">
+      <a class="xh__head" href="#/history/${esc(session.id)}">
+        <span class="xh__date">${esc(Fmt.dayDate(session.startedAt))}</span>
+        <span class="xh__name">${esc(session.sourceRoutineName)}</span>${icon('chevron', 'xrow__chev')}
+      </a>
+      ${Partials.setLines(sets)}
+    </li>`).join('')}</ol>`;
   },
 
   exerciseProgress() {
@@ -2983,34 +3791,46 @@ Object.assign(Views, {
       </section>`;
   },
 
-  /* ---------------- WORKOUT › HISTORY ---------------- */
+  /* ---------------- WORKOUT › HISTORY (real, completed sessions only) ---------------- */
   history() {
     const mode = UIState.ui.historyMode;
+    const all = SessionService.list();
     return `
       <div class="hist-tools">
         <div class="search">${icon('search')}
           <label class="sr-only" for="hist-q">Search workouts</label>
-          <input id="hist-q" type="search" placeholder="Search workouts" disabled aria-describedby="hist-hint">
+          <input id="hist-q" type="search" placeholder="Search workouts or exercises" data-hist-search value="${esc(UIState.ui.historyQuery || '')}" ${all.length ? '' : 'disabled'}>
         </div>
         <button type="button" class="icon-btn icon-btn--boxed" data-action="later" data-msg="${LATER.history}" aria-label="Filter workouts">${icon('filter')}</button>
       </div>
-      <p class="hint" id="hist-hint">Search and filters work once workouts are logged.</p>
       <div class="hist-mode">${Partials.uiChoice({ label: 'History view', key: 'historyMode', options: [['list', 'List'], ['calendar', 'Calendar']] })}</div>
-      ${mode === 'calendar' ? Views.calendar() : ''}
-      <div class="empty">
-        <div class="empty__mark">${icon('list')}</div>
-        <h2>No workouts logged yet.</h2>
-        <p>Completed workouts will appear here, grouped by date.</p>
-      </div>
-      <section class="section" aria-labelledby="hp-h">
-        ${Partials.previewBanner('Example only.', 'This is how a completed workout will appear. It is not part of your history.')}
-        <h2 class="group-head" id="hp-h">${esc(PREVIEW.completed.month)}</h2>
-        ${Partials.workoutCard(PREVIEW.completed, '#/history/preview')}
-      </section>`;
+      ${mode === 'calendar' ? Views.calendar(all) : ''}
+      ${all.length ? `<div id="hist-results">${Views.historyList()}</div>` : `
+        <div class="empty">
+          <div class="empty__mark">${icon('list')}</div>
+          <h2>No workouts logged yet.</h2>
+          <p>Completed workouts will appear here, grouped by date.</p>
+        </div>`}`;
   },
 
-  calendar() {
+  historyList() {
+    const q = Util.normalize(UIState.ui.historyQuery || '');
+    const list = SessionService.list().filter((ws) => !q
+      || Util.normalize([ws.sourceRoutineName, ...ws.exercises.map((x) => x.nameSnapshot)].join(' ')).includes(q));
+    if (!list.length) return '<p class="hint">No workouts match that search.</p>';
+    const groups = [];
+    list.forEach((ws) => {
+      const m = Fmt.monthYear(ws.startedAt);
+      if (!groups.length || groups[groups.length - 1].m !== m) groups.push({ m, items: [] });
+      groups[groups.length - 1].items.push(ws);
+    });
+    return groups.map((g) => `<section class="hgroup"><h2 class="group-head">${esc(g.m)}</h2>
+      <div class="wcards">${g.items.map((ws) => Partials.sessionCard(ws)).join('')}</div></section>`).join('');
+  },
+
+  calendar(sessions = []) {
     const today = new Date();
+    const trained = new Set(sessions.map((ws) => new Date(ws.startedAt).toDateString()));
     const weekStart = SettingsService.get().weekStart;
     const first = new Date(today.getFullYear(), today.getMonth(), 1);
     const lead = (first.getDay() - (weekStart === 'sunday' ? 0 : 1) + 7) % 7;
@@ -3020,13 +3840,14 @@ Object.assign(Views, {
     for (let i = 0; i < lead; i++) cells.push('<span class="cal__cell" aria-hidden="true"></span>');
     for (let d = 1; d <= daysIn; d++) {
       const isToday = d === today.getDate();
-      cells.push(`<span class="cal__cell ${isToday ? 'is-today' : ''}" ${isToday ? 'aria-current="date"' : ''}><span class="num">${d}</span></span>`);
+      const has = trained.has(new Date(today.getFullYear(), today.getMonth(), d).toDateString());
+      cells.push(`<span class="cal__cell ${isToday ? 'is-today' : ''} ${has ? 'has-workout' : ''}" ${isToday ? 'aria-current="date"' : ''}><span class="num">${d}</span>${has ? '<span class="sr-only">workout logged</span>' : ''}</span>`);
     }
     return `<div class="cal">
       <p class="cal__month">${esc(today.toLocaleDateString(undefined, { month: 'long', year: 'numeric' }))}</p>
       <div class="cal__grid" aria-hidden="true">${heads.map((h) => `<span class="cal__head">${esc(h)}</span>`).join('')}</div>
       <div class="cal__grid">${cells.join('')}</div>
-      <p class="hint">Days with logged workouts will be marked here.</p>
+      <p class="hint">Marked days have a logged workout.</p>
     </div>`;
   },
 
@@ -3073,42 +3894,42 @@ Object.assign(Views, {
   },
 
   progressOverview() {
-    const pv = UIState.ui.progressPreview;
-    const P = PREVIEW.overview;
-    const v = (x) => (pv ? x : '—');
-    const max = Math.max(...Object.values(P.muscles));
+    const from = Calc.periodStart(UIState.ui.progressPeriod);
+    const P = Calc.periodStats(Store.get().sessions, from, null);
+    const has = P.workouts > 0;
+    const max = Math.max(1, ...Object.values(P.muscles));
     const muscles = Tax.filterMuscles().map((m) => {
-      const n = pv ? P.muscles[m.id] : null;
+      const n = P.muscles[m.id] || 0;
       return `<li class="mbar">
         <span class="mbar__label">${esc(m.label)}</span>
-        <span class="mbar__track" aria-hidden="true"><span class="mbar__fill" style="width:${n ? Math.round((n / max) * 100) : 0}%"></span></span>
-        <span class="mbar__value num">${n == null ? '—' : `${n} sets`}</span>
+        <span class="mbar__track" aria-hidden="true"><span class="mbar__fill" style="width:${has ? Math.round((n / max) * 100) : 0}%"></span></span>
+        <span class="mbar__value num">${has ? `${n} sets` : '—'}</span>
       </li>`;
     }).join('');
     return `
       <div class="ov-controls">
         ${Partials.uiChoice({ label: 'Period', key: 'progressPeriod', options: [['7d', '7D'], ['30d', '30D'], ['3m', '3M'], ['1y', '1Y'], ['all', 'All']] })}
-        <button type="button" class="switch" role="switch" aria-checked="${pv}" data-action="toggle-progress-preview">
-          <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>Preview layout
-        </button>
       </div>
-      ${pv ? Partials.previewBanner('Sample numbers.', 'Shows how this screen fills in. None of these values are yours.') : ''}
 
       <section class="section" aria-labelledby="ov-t">
         <div class="section-head"><h2 class="section-title" id="ov-t">Training</h2></div>
-        ${Partials.tiles([['Workouts', v(P.workouts)], ['Working sets', v(P.workingSets)], ['Training volume', v(P.volume)], ['Training time', v(P.time)]])}
-        ${pv ? '' : '<p class="hint">Values appear after you log workouts.</p>'}
+        ${Partials.tiles([
+          ['Workouts', has ? String(P.workouts) : '—'],
+          ['Working sets', has ? String(P.workingSets) : '—'],
+          ['Training volume', has ? Units.fmtVolume(P.volumeKg) : '—'],
+          ['Training time', has ? Fmt.duration(P.durationSec) : '—']
+        ])}
+        ${has ? '<p class="hint">Working sets exclude warm-ups. Volume counts completed working sets only.</p>' : '<p class="hint">Values appear after you complete workouts in this period.</p>'}
       </section>
 
       <section class="section" aria-labelledby="ov-m">
-        <div class="section-head"><h2 class="section-title" id="ov-m">Muscle groups</h2><span class="meta">Working sets</span></div>
+        <div class="section-head"><h2 class="section-title" id="ov-m">Muscle groups</h2><span class="meta">Working sets, by primary muscle</span></div>
         <ul class="mbars">${muscles}</ul>
       </section>
 
       <section class="section" aria-labelledby="ov-p">
         <div class="section-head"><h2 class="section-title" id="ov-p">Recent PRs</h2></div>
-        ${pv ? `<ul class="prs">${P.prs.map((p) => `<li>${icon('trophy')}<span class="prs__name">${esc(p.exercise)}</span><span class="prs__val num">${esc(p.value)}</span><span class="prs__when">${esc(p.when)}</span></li>`).join('')}</ul>`
-          : `<div class="empty-inline">${icon('trophy')}<p>No personal records yet.</p></div>`}
+        <div class="empty-inline">${icon('trophy')}<p>PR detection will be enabled in a later Alpha.</p></div>
       </section>
 
       <section class="section" aria-labelledby="ov-x">
@@ -3239,10 +4060,8 @@ Object.assign(Views, {
 
       <section class="section" aria-labelledby="pv-h">
         <div class="section-head"><h2 class="section-title" id="pv-h">Planned screens</h2></div>
-        ${Partials.navRow({ href: '#/preview/workout', icon: 'play', title: 'Active workout', sub: 'Logging sets, rest timer, exercise menu', tag: pvTag })}
         ${Partials.navRow({ href: '#/preview/substitute', icon: 'swap', title: 'Exercise substitution', sub: 'Replacing an exercise mid-workout', tag: pvTag })}
-        ${Partials.navRow({ href: '#/preview/finish', icon: 'check', title: 'Finish workout', sub: 'Summary and routine change review', tag: pvTag })}
-        ${Partials.navRow({ href: '#/history/preview', icon: 'list', title: 'Completed workout', sub: 'How a logged workout will read', tag: pvTag })}
+        ${Partials.navRow({ href: '#/preview/review', icon: 'check', title: 'Review routine changes', sub: 'Choosing which changes update the routine', tag: pvTag })}
         ${Partials.navRow({ href: '#/workout/schedule', icon: 'calendar', title: 'Schedule', sub: 'Weekly plan and missed workouts', tag: pvTag })}
       </section>
 
@@ -3314,7 +4133,7 @@ Object.assign(Views, {
         <span class="choice__body"><span class="choice__title">${esc(title)}${extra}</span>${sub ? `<span class="choice__sub">${esc(sub)}</span>` : ''}</span>
       </button>`;
     return `
-      ${Partials.subHead({ title: 'Replace exercise', back: '#/preview/workout' })}
+      ${Partials.subHead({ title: 'Replace exercise', back: UIState.previewReturn || '#/more' })}
       ${Partials.previewBanner('Substitution preview.', 'No routine or exercise is changed.')}
       <p class="sub-lede">Replace <b>${esc(S.exercise)}</b></p>
 
@@ -3380,7 +4199,7 @@ Object.assign(Views, {
     if (!UIState.review) UIState.review = Object.fromEntries(PREVIEW.finish.review.map((r) => [r.id, r.checked]));
     const n = Object.values(UIState.review).filter(Boolean).length;
     return `
-      ${Partials.subHead({ title: 'Review changes', back: '#/preview/finish' })}
+      ${Partials.subHead({ title: 'Review changes', back: UIState.previewReturn || '#/more' })}
       ${Partials.previewBanner('Review preview.', 'Applying here changes nothing.')}
       <p class="desc">Tick the changes that should update Push A. Anything unticked stays as it is.</p>
       <div class="checks">
@@ -3390,6 +4209,196 @@ Object.assign(Views, {
       <div class="sticky-foot">
         <button type="button" class="btn btn-primary btn-block" data-action="review-apply" ${n ? '' : 'disabled'}>${n ? `Apply selected changes (${n})` : "No changes selected"}</button>
       </div>`;
+  }
+});
+
+
+/* =======================================================================
+   14c. WORKOUT ENGINE VIEWS (Alpha 2)
+   Render the active session, the summary and completed history.
+   Everything shown comes from session records (snapshots), never from the
+   current routine, so later edits cannot rewrite what happened.
+   ======================================================================= */
+const SET_TYPE_LABELS = Object.freeze({ warmup: 'Warm-up', working: 'Working', drop: 'Drop', failure: 'Failure' });
+
+Object.assign(Views, {
+  /* ---------------- ACTIVE WORKOUT ---------------- */
+  activeWorkout() {
+    const a = WorkoutService.active();
+    if (!a) { Toast.show('No workout in progress.'); return Router.redirect('#/home'); }
+    const unit = Units.current();
+    const history = Store.get().sessions;
+    return `
+      <header class="aw-head">
+        <a class="icon-btn" href="#/home" aria-label="Minimise. The workout keeps running.">${icon('down')}</a>
+        <div class="aw-head__mid">
+          <span class="aw-head__name">${esc(a.sourceRoutineName)}</span>
+          <span class="aw-head__time num">${icon('clock')}<span data-tick="elapsed">${Fmt.clock(Calc.sessionDurationSec(a))}</span></span>
+        </div>
+        <span class="aw-head__end">
+          <button type="button" class="icon-btn" data-action="aw-menu" aria-label="Workout options">${icon('dots')}</button>
+          <button type="button" class="btn btn-primary btn-sm" data-action="aw-finish">Finish</button>
+        </span>
+      </header>
+      ${a.notes ? `<p class="aw-note aw-note--today"><span class="note-label">Workout note</span>${esc(a.notes)}</p>` : ''}
+      ${a.exercises.length ? a.exercises.map((x, i) => Views.awCard(a, x, i, unit, history)).join('') : `
+        <div class="empty"><div class="empty__mark">${icon('workout')}</div><h2>No exercises</h2><p>Add an exercise to keep logging.</p></div>`}
+      <button type="button" class="btn btn-add" data-action="aw-add-exercise">${icon('plus')}Add exercise</button>
+      <div id="restbar-slot">${Views.restBar(a)}</div>`;
+  },
+
+  awCard(a, x, i, unit, history) {
+    const prev = Calc.previousPerformance(history, x.performedExerciseId, a.id);
+    const labels = Calc.setLabels(x.sets);
+    const reps = Fmt.range(x.targetRepMin, x.targetRepMax);
+    const rir = Fmt.range(x.targetRirMin, x.targetRirMax);
+    const muscle = x.primaryMuscleSnapshot ? Tax.label('muscles', x.primaryMuscleSnapshot) : '';
+    const last = a.exercises.length - 1;
+    return `<section class="aw-ex" id="se-${esc(x.id)}" aria-labelledby="sen-${esc(x.id)}">
+      <div class="aw-ex__head">
+        <div>
+          <h2 class="aw-ex__name" id="sen-${esc(x.id)}">${esc(x.nameSnapshot)}</h2>
+          <p class="aw-ex__muscle">${esc(muscle)}${x.addedDuringSession ? ' <span class="tag">Added today</span>' : ''}</p>
+        </div>
+        <button type="button" class="icon-btn" data-action="aw-ex-menu" data-se="${esc(x.id)}" data-first="${i === 0}" data-last="${i === last}" aria-label="Options for ${esc(x.nameSnapshot)}">${icon('dots')}</button>
+      </div>
+      <p class="aw-target num"><b>${x.targetSets} × ${reps}</b><span>RIR <b>${rir}</b></span><span>Rest <b>${Fmt.rest(x.restSeconds)}</b></span></p>
+      ${x.notesSnapshot ? `<p class="aw-note"><span class="note-label">Routine note</span>${esc(x.notesSnapshot)}</p>` : ''}
+      ${x.sessionNote ? `<p class="aw-note aw-note--today"><span class="note-label">Today's note</span>${esc(x.sessionNote)}</p>` : ''}
+      <div class="sets" role="table" aria-label="Sets for ${esc(x.nameSnapshot)}">
+        <div class="srow srow--head" role="row">
+          <span role="columnheader">Set</span>
+          <span role="columnheader" ${prev ? `title="Previous: ${esc(Fmt.shortDate(new Date(prev.session.startedAt)))}"` : ''}>${prev ? esc(Fmt.shortDate(new Date(prev.session.startedAt))) : 'Prev'}</span>
+          <span role="columnheader">${esc(unit)}</span>
+          <span role="columnheader">Reps</span>
+          <span role="columnheader">RIR</span>
+          <span role="columnheader"><span class="sr-only">Done</span>${icon('check')}</span>
+        </div>
+        ${x.sets.map((st, j) => Views.awSetRow(x, st, labels[j], Calc.previousSetFor(prev, x.sets, st), reps, rir, unit)).join('')}
+      </div>
+      <button type="button" class="btn btn-ghost btn-sm aw-addset" data-action="aw-add-set" data-se="${esc(x.id)}">${icon('plus')}Add set</button>
+    </section>`;
+  },
+
+  awSetRow(x, st, label, p, reps, rir, unit) {
+    const sid = esc(st.id);
+    const se = esc(x.id);
+    const typeName = SET_TYPE_LABELS[st.type];
+    const prevText = p ? `${p.weightKg == null ? 'BW' : Units.fmt(p.weightKg, unit)}×${p.reps}` : '';
+    return `<div class="srow ${st.completed ? 'is-done' : ''} srow--${st.type}" role="row" id="row-${sid}">
+      <button type="button" class="srow__label" data-action="aw-set-menu" data-se="${se}" data-set="${sid}" aria-label="Set ${esc(label)}, ${typeName}. Change type or remove">${esc(label)}</button>
+      ${p ? `<button type="button" class="srow__prev num" data-action="aw-copy-prev" data-se="${se}" data-set="${sid}" aria-label="Previous ${esc(prevText)}. Tap to copy"><span>${esc(p.weightKg == null ? 'BW' : Units.fmt(p.weightKg, unit))}</span><span>×${p.reps}</span></button>`
+          : '<span class="srow__prev is-empty" aria-label="No previous">—</span>'}
+      <input class="srow__in num" id="w-${sid}" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="next"
+        data-aw="weight" data-se="${se}" data-set="${sid}" value="${esc(Units.fmt(st.weightKg, unit))}"
+        placeholder="${p && p.weightKg != null ? esc(Units.fmt(p.weightKg, unit)) : (x.equipmentSnapshot === 'bodyweight' ? 'BW' : '')}" aria-label="Weight in ${esc(unit)}, set ${esc(label)}">
+      <input class="srow__in num" id="r-${sid}" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="3" autocomplete="off" enterkeyhint="next"
+        data-aw="reps" data-se="${se}" data-set="${sid}" value="${st.reps == null ? '' : st.reps}" placeholder="${esc(reps)}" aria-label="Reps, set ${esc(label)}">
+      <input class="srow__in num" id="q-${sid}" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="2" autocomplete="off" enterkeyhint="done"
+        data-aw="rir" data-se="${se}" data-set="${sid}" value="${st.rir == null ? '' : st.rir}" placeholder="${esc(rir)}" aria-label="RIR (optional), set ${esc(label)}">
+      <button type="button" class="setcheck" data-action="aw-toggle" data-se="${se}" data-set="${sid}" aria-pressed="${st.completed}"
+        aria-label="${st.completed ? `Set ${esc(label)} completed. Tap to undo` : `Complete set ${esc(label)}`}">${st.completed ? icon('check') : ''}</button>
+    </div>`;
+  },
+
+  restBar(a) {
+    const t = a && a.restTimer;
+    if (!t) return '';
+    const rem = Calc.restRemainingSec(t);
+    const done = rem <= 0;
+    return `<div class="restbar ${done ? 'is-done' : ''}" role="group" aria-label="Rest timer">
+      <span class="restbar__label" data-rest-label>${done ? 'Rest complete' : 'Rest'}</span>
+      <span class="restbar__time num" data-tick="rest">${Fmt.clock(rem)}</span>
+      <button type="button" class="restbar__btn" data-action="aw-rest-adjust" data-delta="-15" aria-label="Subtract 15 seconds">−15</button>
+      <button type="button" class="restbar__btn restbar__btn--skip" data-action="aw-rest-skip" data-rest-skip>${done ? 'Dismiss' : 'Skip'}</button>
+      <button type="button" class="restbar__btn" data-action="aw-rest-adjust" data-delta="15" aria-label="Add 15 seconds">+15</button>
+    </div>`;
+  },
+
+  /* ---------------- SUMMARY (after Finish) ---------------- */
+  workoutSummary(id) {
+    const ws = SessionService.get(id);
+    if (!ws) { Toast.show('That workout could not be found.'); return Router.redirect('#/workout/history'); }
+    const st = Calc.sessionStats(ws);
+    const changes = Calc.sessionChanges(ws);
+    const icons = { added: 'plus', removed: 'trash', sets: 'list', order: 'swap' };
+    return `
+      <header class="aw-head">
+        <a class="icon-btn" href="#/home" aria-label="Close summary">${icon('close')}</a>
+        <div class="aw-head__mid"><span class="aw-head__name">Workout saved</span></div>
+        <span style="width:44px"></span>
+      </header>
+      <div class="done-hero">
+        <span class="done-hero__mark">${icon('check')}</span>
+        <h1 class="display">${esc(ws.sourceRoutineName)} complete</h1>
+        <p class="meta">${esc(Fmt.dayDate(ws.startedAt))}, ${esc(Fmt.time(ws.startedAt))}–${esc(Fmt.time(ws.completedAt))}</p>
+      </div>
+      <div class="summary">
+        <span class="fig"><b>${Fmt.duration(st.durationSec)}</b><span>duration</span></span>
+        <span class="fig"><b>${st.workingSets}</b><span>working sets</span></span>
+        <span class="fig"><b>${esc(Units.fmtVolume(st.volumeKg))}</b><span>volume</span></span>
+      </div>
+      <p class="hint">Working sets and volume count completed non-warm-up sets only.${st.incompleteSets ? ` ${Fmt.plural(st.incompleteSets, 'set')} not completed.` : ''}</p>
+      <section class="section" aria-labelledby="sp-h">
+        <div class="section-head"><h2 class="section-title" id="sp-h">Personal records</h2></div>
+        <div class="empty-inline">${icon('trophy')}<p>PR detection will be enabled in a later Alpha.</p></div>
+      </section>
+      <section class="section" aria-labelledby="sc-h">
+        <div class="section-head"><h2 class="section-title" id="sc-h">Changes today</h2></div>
+        ${changes.length ? `<ul class="changes">${changes.map((c) => `<li>${icon(icons[c.kind])}<span>${c.kind === 'added' ? `${esc(c.label)} <span class="tag">Added</span>` : c.kind === 'removed' ? `${esc(c.label)} <span class="tag">Removed</span>` : esc(c.label)}</span></li>`).join('')}</ul>`
+          : `<div class="empty-inline">${icon('check')}<p>Workout matched the routine.</p></div>`}
+        <p class="hint">${esc(ws.sourceRoutineName)} was not changed. Routine update review is coming in Alpha 3.</p>
+      </section>
+      <div class="finish-actions">
+        <a class="btn btn-primary btn-block" href="#/home">Done</a>
+        <a class="btn btn-secondary btn-block" href="#/history/${esc(ws.id)}">View workout</a>
+      </div>`;
+  },
+
+  /* ---------------- COMPLETED WORKOUT DETAIL (read-only) ---------------- */
+  historyDetail(id) {
+    const ws = SessionService.get(id);
+    if (!ws) { Toast.show('That workout no longer exists.'); return Router.redirect('#/workout/history'); }
+    const st = Calc.sessionStats(ws);
+    return `
+      ${Partials.subHead({
+        title: ws.sourceRoutineName, back: '#/workout/history',
+        actions: `<button type="button" class="icon-btn" data-action="history-menu" data-id="${esc(ws.id)}" aria-label="Workout options">${icon('dots')}</button>`
+      })}
+      <p class="desc">${esc(Fmt.longDate(new Date(ws.startedAt)))}, ${esc(Fmt.time(ws.startedAt))}–${esc(Fmt.time(ws.completedAt))}</p>
+      <div class="summary">
+        <span class="fig"><b>${Fmt.duration(st.durationSec)}</b><span>duration</span></span>
+        <span class="fig"><b>${st.workingSets}</b><span>working sets</span></span>
+        <span class="fig"><b>${esc(Units.fmtVolume(st.volumeKg))}</b><span>volume</span></span>
+      </div>
+      ${ws.notes ? `<p class="aw-note aw-note--today"><span class="note-label">Workout note</span>${esc(ws.notes)}</p>` : ''}
+      <ol class="cw">
+        ${ws.exercises.map((x) => {
+          const labels = Calc.setLabels(x.sets);
+          return `<li class="cw__ex">
+            <div class="cw__head">
+              <h2 class="cw__name">${esc(x.nameSnapshot)}</h2>
+              ${x.addedDuringSession ? '<span class="tag">Added</span>' : ''}
+            </div>
+            ${x.sessionNote ? `<p class="cw__sub"><span class="note-label">Today's note</span>${esc(x.sessionNote)}</p>` : ''}
+            ${x.sets.length ? Partials.setLines(x.sets.map((set, i) => ({ set, label: labels[i] }))) : '<p class="hint">No sets.</p>'}
+          </li>`;
+        }).join('')}
+      </ol>
+      <p class="hint">Completed workouts are read-only in Alpha 2.</p>`;
+  },
+
+  /** Compact "workout in progress" strip shown on other screens. */
+  activeStrip() {
+    const a = WorkoutService.active();
+    if (!a) return '';
+    const rem = Calc.restRemainingSec(a.restTimer);
+    return `<a class="activebar" href="#/workout/active">
+      <span class="pulse" aria-hidden="true"></span>
+      <span class="activebar__body"><span class="activebar__title">Workout in progress</span>
+      <span class="activebar__sub num">${esc(a.sourceRoutineName)} · <span data-tick="elapsed">${Fmt.clock(Calc.sessionDurationSec(a))}</span>${a.restTimer ? ` · Rest <span data-tick="rest">${Fmt.clock(rem)}</span>` : ''}</span></span>
+      <span class="activebar__cta">Resume</span>
+    </a>`;
   }
 });
 
@@ -3469,18 +4478,22 @@ const Editor = {
   }
 };
 
+/**
+ * Exercise picker shared by the routine editor and the active workout.
+ * ctx = { title, existingIds(): string[], existingLabel, onAdd(ids) }
+ */
 const Picker = {
+  ctx: null,
   el() { return $('#picker'); },
 
-  open() {
-    const d = Editor.draft();
-    if (!d) return;
+  open(ctx) {
+    this.ctx = ctx;
     UIState.picker = { q: '', muscle: 'all', equipment: 'all', favourites: false, selected: [] };
     const p = this.el();
     p.innerHTML = `
       <header class="picker__head">
         <button type="button" class="btn btn-ghost" style="justify-self:start" data-action="picker-close">Cancel</button>
-        <h2 id="picker-title">Add exercises</h2>
+        <h2 id="picker-title">${esc(ctx.title)}</h2>
         <span class="picker__count num" id="pick-count" aria-live="polite">0 selected</span>
       </header>
       <div class="picker__filters">${Partials.filters('pick', UIState.picker)}</div>
@@ -3497,11 +4510,10 @@ const Picker = {
   close() { hideDialog(this.el()); },
 
   renderList() {
-    const d = Editor.draft();
     const s = UIState.picker;
     const list = ExerciseService.query({ ...s, sort: 'preference' });
-    const inRoutine = new Set(d ? d.exercises.map((it) => it.exerciseId) : []);
-    $('#pick-results').innerHTML = Partials.pickerRows(list, s.selected, inRoutine);
+    const existing = new Set(this.ctx ? this.ctx.existingIds() : []);
+    $('#pick-results').innerHTML = Partials.pickerRows(list, s.selected, existing, this.ctx ? this.ctx.existingLabel : '');
     this.updateFooter();
   },
 
@@ -3527,16 +4539,10 @@ const Picker = {
   },
 
   add() {
-    const d = Editor.draft();
     const sel = UIState.picker.selected.slice();
-    if (!d || !sel.length) return;
-    const before = d.exercises.length;
-    RoutineDraft.addExercises(d, sel); // added in the order they were selected
+    if (!sel.length || !this.ctx) return;
     this.close();
-    Editor.renderItems();
-    const first = d.exercises[before];
-    const node = first && document.getElementById(`item-${first.id}`);
-    if (node) node.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    this.ctx.onAdd(sel); // added in the order they were selected
     Toast.show(`Added ${Fmt.plural(sel.length, 'exercise')}`);
   }
 };
@@ -3584,6 +4590,10 @@ const Router = (() => {
     { re: /^#\/home$/, tab: 'home', view: () => Views.home() },
     { re: /^#\/workout\/(routines|schedule|history|exercises)$/, tab: 'workout', view: (m) => Views.workout(m[1]) },
     { re: /^#\/history\/preview$/, tab: 'workout', preview: true, view: () => Views.previewCompleted() },
+    { re: /^#\/history\/([\w-]+)$/, tab: 'workout', view: (m) => Views.historyDetail(m[1]) },
+    // Real workout engine (full screen, no bottom nav)
+    { re: /^#\/workout\/active$/, tab: 'workout', editing: true, view: () => Views.activeWorkout() },
+    { re: /^#\/workout\/summary\/([\w-]+)$/, tab: 'workout', editing: true, view: (m) => Views.workoutSummary(m[1]) },
     { re: /^#\/routine\/new$/, tab: 'workout', editing: true, view: () => Views.routineEditor(null) },
     { re: /^#\/routine\/([\w-]+)\/edit$/, tab: 'workout', editing: true, view: (m) => Views.routineEditor(m[1]) },
     { re: /^#\/routine\/([\w-]+)$/, tab: 'workout', view: (m) => Views.routineDetail(m[1]) },
@@ -3635,6 +4645,10 @@ const Router = (() => {
     const y = window.scrollY;
     view.innerHTML = html;
     document.body.classList.toggle('is-editing', !!match.r.editing);
+    // Compact "workout in progress" strip everywhere except Home (which has its own card) and full-screen views.
+    const showStrip = !!WorkoutService.active() && !match.r.editing && match.r.tab !== 'home';
+    $('#activebar').innerHTML = showStrip ? Views.activeStrip() : '';
+    document.body.classList.toggle('has-activebar', showStrip);
     $$('.tab').forEach((t) => {
       if (t.dataset.tab === match.r.tab) t.setAttribute('aria-current', 'page');
       else t.removeAttribute('aria-current');
@@ -3704,13 +4718,251 @@ function resetPreviewState() {
 }
 
 const Actions = {
-  async 'start-routine'() {
-    const see = await Dialog.confirm({
-      title: 'Not available yet',
-      message: CONFIG.ALPHA2_MESSAGE,
-      confirmLabel: 'Preview layout', cancelLabel: 'OK'
+  /** Starts a REAL session. Guards against double taps and a second active workout. */
+  async 'start-routine'(el) {
+    const id = el.dataset.id;
+    const a = WorkoutService.active();
+    if (a) {
+      // A fast second tap on the same routine just opens the workout it created.
+      if (a.sourceRoutineId === id && Date.now() - Date.parse(a.startedAt) < 5000) { Router.go('#/workout/active'); return; }
+      const choice = await Dialog.choose({
+        title: 'Workout already in progress',
+        message: `${a.sourceRoutineName}, started ${Fmt.ago(a.startedAt)}.`,
+        actions: [
+          { id: 'resume', label: `Resume ${a.sourceRoutineName}`, kind: 'primary' },
+          { id: 'discard', label: 'Discard & start new', kind: 'secondary' },
+          { id: 'cancel', label: 'Cancel', kind: 'ghost' }
+        ]
+      });
+      if (choice === 'resume') { Router.go('#/workout/active'); return; }
+      if (choice !== 'discard') return;
+      const sure = await Dialog.confirm({
+        title: `Discard ${a.sourceRoutineName}?`,
+        message: 'Every set logged in this workout will be deleted. This cannot be undone.',
+        confirmLabel: 'Discard workout', danger: true
+      });
+      if (!sure) return;
+      WorkoutService.discard();
+    }
+    if (Actions._starting) return;
+    Actions._starting = true;
+    try {
+      WorkoutService.start(id);
+      Router.go('#/workout/active', { force: true });
+    } finally {
+      setTimeout(() => { Actions._starting = false; }, CONFIG.DOUBLE_TAP_MS);
+    }
+  },
+
+  /* ----- active workout ----- */
+  'aw-toggle'(el) {
+    const { se, set } = el.dataset;
+    const now = Date.now();
+    const last = Actions._lastToggle;
+    if (last && last.set === set && now - last.t < CONFIG.DOUBLE_TAP_MS) return; // ignore accidental double tap
+    Actions._lastToggle = { set, t: now };
+    try {
+      WorkoutService.toggleSet(se, set);
+    } catch (err) {
+      const d = err instanceof AppError && err.details && err.details[0];
+      if (d && d.setId) {
+        const input = document.getElementById(`${d.field === 'weight' ? 'w' : 'r'}-${d.setId}`);
+        if (input) { input.setAttribute('aria-invalid', 'true'); input.focus(); }
+      }
+      throw err;
+    }
+    Router.refresh();
+  },
+
+  async 'aw-set-menu'(el) {
+    const a = WorkoutService.active();
+    const { x, st } = WorkoutService.find(a, el.dataset.se, el.dataset.set);
+    const label = Calc.setLabels(x.sets)[x.sets.indexOf(st)];
+    const icons = { warmup: 'spark', working: 'list', drop: 'down', failure: 'alert' };
+    const choice = await Dialog.sheet({
+      title: `Set ${label}, ${x.nameSnapshot}`,
+      actions: [
+        ...CONFIG.SET_TYPES.map((t) => ({ id: `type:${t}`, label: SET_TYPE_LABELS[t], icon: icons[t], current: st.type === t })),
+        { id: 'remove', label: 'Remove set', icon: 'trash', danger: true }
+      ]
     });
-    if (see) Router.go('#/preview/workout');
+    if (!choice) return;
+    if (choice.startsWith('type:')) {
+      WorkoutService.setType(x.id, st.id, choice.slice(5));
+      Router.refresh();
+      return;
+    }
+    if (WorkoutService.setHasData(st)) {
+      const ok = await Dialog.confirm({
+        title: `Remove set ${label}?`,
+        message: `This set has ${st.completed ? 'been completed' : 'values entered'}. It will be removed from today's workout only.`,
+        confirmLabel: 'Remove set', danger: true
+      });
+      if (!ok) return;
+    }
+    WorkoutService.removeSet(x.id, st.id);
+    Router.refresh();
+  },
+
+  'aw-copy-prev'(el) {
+    const a = WorkoutService.active();
+    const { x, st } = WorkoutService.find(a, el.dataset.se, el.dataset.set);
+    const prev = Calc.previousPerformance(Store.get().sessions, x.performedExerciseId, a.id);
+    const p = Calc.previousSetFor(prev, x.sets, st);
+    if (!p) return;
+    WorkoutService.copyPrevious(x.id, st.id, p.weightKg, p.reps);
+    Router.refresh();
+  },
+
+  'aw-add-set'(el) {
+    WorkoutService.addSet(el.dataset.se, 'working');
+    Router.refresh();
+  },
+
+  async 'aw-ex-menu'(el) {
+    const a = WorkoutService.active();
+    const { x } = WorkoutService.find(a, el.dataset.se);
+    const choice = await Dialog.sheet({
+      title: x.nameSnapshot,
+      actions: [
+        { id: 'set', label: 'Add set', icon: 'plus' },
+        { id: 'warmup', label: 'Add warm-up set', icon: 'spark' },
+        { id: 'note', label: x.sessionNote ? "Edit today's note" : "Add today's note", icon: 'edit' },
+        { id: 'history', label: 'View history', icon: 'list' },
+        ...(el.dataset.first === 'true' ? [] : [{ id: 'up', label: 'Move up', icon: 'up' }]),
+        ...(el.dataset.last === 'true' ? [] : [{ id: 'down', label: 'Move down', icon: 'down' }]),
+        { id: 'replace', label: 'Replace exercise', icon: 'swap' },
+        { id: 'remove', label: 'Remove from workout', icon: 'trash', danger: true }
+      ]
+    });
+    if (!choice) return;
+    if (choice === 'set' || choice === 'warmup') { WorkoutService.addSet(x.id, choice === 'set' ? 'working' : 'warmup'); Router.refresh(); }
+    if (choice === 'replace') Toast.show('Exercise substitution arrives in a later Alpha.');
+    if (choice === 'history') {
+      if (ExerciseService.get(x.performedExerciseId)) Router.go(`#/exercise/${x.performedExerciseId}/history`);
+      else Toast.show('This exercise is no longer in your library.');
+    }
+    if (choice === 'up' || choice === 'down') {
+      WorkoutService.moveExercise(x.id, choice === 'up' ? -1 : 1);
+      Router.refresh();
+      const card = document.getElementById(`se-${x.id}`);
+      if (card) card.scrollIntoView({ block: 'center' });
+    }
+    if (choice === 'note') {
+      const text = await Dialog.prompt({
+        title: "Today's note", label: `${x.nameSnapshot} (this workout only)`, value: x.sessionNote,
+        message: x.notesSnapshot ? `Routine note: ${x.notesSnapshot}` : '', confirmLabel: 'Save note', maxLength: 200
+      });
+      if (text == null) return;
+      WorkoutService.setExerciseNote(x.id, text);
+      Router.refresh();
+    }
+    if (choice === 'remove') {
+      const logged = x.sets.filter((st) => WorkoutService.setHasData(st)).length;
+      const ok = await Dialog.confirm({
+        title: `Remove ${x.nameSnapshot}?`,
+        message: logged
+          ? `${Fmt.plural(logged, 'set')} with logged data will be deleted from today's workout. The routine is not changed.`
+          : "It will be removed from today's workout only. The routine is not changed.",
+        confirmLabel: logged ? 'Delete logged sets' : 'Remove', danger: true
+      });
+      if (!ok) return;
+      WorkoutService.removeExercise(x.id);
+      Router.refresh();
+    }
+  },
+
+  'aw-add-exercise'() {
+    Picker.open({
+      title: 'Add to workout',
+      existingLabel: 'already in workout',
+      existingIds: () => (WorkoutService.active() ? WorkoutService.active().exercises.map((x) => x.performedExerciseId) : []),
+      onAdd: (ids) => {
+        const before = WorkoutService.active().exercises.length;
+        WorkoutService.addExercises(ids); // session only; the routine is untouched
+        Router.refresh();
+        const first = WorkoutService.active().exercises[before];
+        const card = first && document.getElementById(`se-${first.id}`);
+        if (card) card.scrollIntoView({ block: 'start' });
+      }
+    });
+  },
+
+  async 'aw-menu'() {
+    const a = WorkoutService.active();
+    const choice = await Dialog.sheet({
+      title: a.sourceRoutineName,
+      actions: [
+        { id: 'notes', label: a.notes ? 'Edit workout note' : 'Add workout note', icon: 'edit' },
+        { id: 'discard', label: 'Discard workout', icon: 'trash', danger: true }
+      ]
+    });
+    if (choice === 'notes') {
+      const text = await Dialog.prompt({ title: 'Workout note', label: 'Note for this workout', value: a.notes, confirmLabel: 'Save note', maxLength: 500 });
+      if (text == null) return;
+      WorkoutService.setWorkoutNotes(text);
+      Router.refresh();
+    }
+    if (choice === 'discard') {
+      const ok = await Dialog.confirm({
+        title: `Discard ${a.sourceRoutineName}?`,
+        message: 'Every set logged in this workout will be deleted and nothing goes to History. This cannot be undone.',
+        confirmLabel: 'Discard workout', danger: true
+      });
+      if (!ok) return;
+      WorkoutService.discard();
+      Toast.show('Workout discarded');
+      Router.go('#/home', { force: true });
+    }
+  },
+
+  async 'aw-finish'() {
+    const a = WorkoutService.active();
+    const st = Calc.sessionStats(a);
+    const open = WorkoutService.incompleteCount();
+    let go;
+    if (st.workingSets + st.warmupSets === 0) {
+      go = (await Dialog.choose({
+        title: 'Finish workout?', message: 'No sets are completed yet. Finishing saves a workout with no completed sets.',
+        actions: [{ id: 'back', label: 'Return to workout', kind: 'primary' }, { id: 'finish', label: 'Finish anyway', kind: 'secondary' }]
+      })) === 'finish';
+    } else if (open) {
+      go = (await Dialog.choose({
+        title: 'Finish workout?', message: `${Fmt.plural(open, 'planned set is', 'planned sets are')} incomplete. They will not be counted.`,
+        actions: [{ id: 'back', label: 'Return to workout', kind: 'primary' }, { id: 'finish', label: 'Finish anyway', kind: 'secondary' }]
+      })) === 'finish';
+    } else {
+      go = await Dialog.confirm({ title: 'Finish workout?', message: 'All sets are complete.', confirmLabel: 'Finish workout', cancelLabel: 'Not yet' });
+    }
+    if (!go) return;
+    const id = WorkoutService.finish();
+    Router.go(`#/workout/summary/${id}`, { force: true });
+  },
+
+  'aw-rest-adjust'(el) {
+    WorkoutService.adjustRest(Number(el.dataset.delta));
+    $('#restbar-slot').innerHTML = Views.restBar(WorkoutService.active());
+  },
+
+  'aw-rest-skip'() {
+    WorkoutService.skipRest();
+    $('#restbar-slot').innerHTML = '';
+  },
+
+  async 'history-menu'(el) {
+    const ws = SessionService.get(el.dataset.id);
+    if (!ws) return;
+    const choice = await Dialog.sheet({ title: ws.sourceRoutineName, actions: [{ id: 'delete', label: 'Delete workout', icon: 'trash', danger: true }] });
+    if (choice !== 'delete') return;
+    const ok = await Dialog.confirm({
+      title: 'Delete this workout?',
+      message: `${ws.sourceRoutineName} on ${Fmt.dayDate(ws.startedAt)} will be removed from History and from every statistic. This cannot be undone.`,
+      confirmLabel: 'Delete workout', danger: true
+    });
+    if (!ok) return;
+    SessionService.remove(ws.id);
+    Toast.show('Workout deleted');
+    Router.go('#/workout/history', { force: true });
   },
 
   /* ----- planned features: explain, never fake ----- */
@@ -3878,7 +5130,23 @@ const Actions = {
     Toast.show(`Removed ${ex ? ex.name : 'exercise'}`);
   },
 
-  'open-picker'() { Picker.open(); },
+  'open-picker'() {
+    Picker.open({
+      title: 'Add exercises',
+      existingLabel: 'already in routine',
+      existingIds: () => (Editor.draft() ? Editor.draft().exercises.map((it) => it.exerciseId) : []),
+      onAdd: (ids) => {
+        const d = Editor.draft();
+        if (!d) return;
+        const before = d.exercises.length;
+        RoutineDraft.addExercises(d, ids);
+        Editor.renderItems();
+        const first = d.exercises[before];
+        const node = first && document.getElementById(`item-${first.id}`);
+        if (node) node.scrollIntoView({ block: 'start', behavior: 'smooth' });
+      }
+    });
+  },
   'picker-close'() { Picker.close(); },
   'pick-toggle'(el) { Picker.toggle(el.dataset.id); },
   'picker-add'() { Picker.add(); },
@@ -4007,7 +5275,7 @@ const Actions = {
   async 'reset-data'() {
     const typed = await Dialog.prompt({
       title: 'Reset Alpha data?',
-      message: 'This permanently erases your routines, custom exercises, preferences and settings, then reloads the sample data. Export a backup first if you want to keep anything.',
+      message: 'This permanently erases your routines, workout history, any workout in progress, custom exercises and settings, then reloads the sample data. Export a backup first if you want to keep anything.',
       label: 'Type RESET to confirm', confirmLabel: 'Reset data', danger: true, maxLength: 10,
       validate: (v) => (v.trim() === 'RESET' ? null : 'Type RESET in capital letters to confirm.')
     });
@@ -4042,11 +5310,11 @@ async function handleImportFile(file) {
   const when = res.summary.exportedAt ? new Date(res.summary.exportedAt) : null;
   const ok = await Dialog.confirm({
     title: 'Replace all data?',
-    message: `This backup${when && !isNaN(when) ? ` from ${when.toLocaleString()}` : ''} contains ${Fmt.plural(res.summary.routines, 'routine')} and ${Fmt.plural(res.summary.exercises, 'exercise')}. Your current data will be replaced.`,
+    message: `This backup${when && !isNaN(when) ? ` from ${when.toLocaleString()}` : ''} contains ${Fmt.plural(res.summary.routines, 'routine')}, ${Fmt.plural(res.summary.exercises, 'exercise')} and ${Fmt.plural(res.summary.sessions, 'completed workout')}${res.summary.hasActive ? ', plus a workout in progress' : ''}. All current data, including any workout in progress, will be replaced.`,
     confirmLabel: 'Replace data', danger: true
   });
   if (!ok) return;
-  BackupService.apply(res.data);
+  BackupService.apply(res.data, res.active);
   Forms.clear();
   Theme.apply(SettingsService.get().theme);
   Toast.show('Backup imported');
@@ -4073,7 +5341,15 @@ function bindEvents() {
   const onEdit = (e) => {
     const el = e.target;
     try {
-      if (el.dataset.ui) { UIState.ui[el.dataset.ui] = el.value; Router.refresh(); }
+      if (el.dataset.aw) {
+        // Saved on every keystroke: nothing is lost if the page closes mid-entry.
+        const r = WorkoutService.updateSetField(el.dataset.se, el.dataset.set, el.dataset.aw, el.value);
+        el.setAttribute('aria-invalid', String(r.invalid));
+      } else if (el.dataset.histSearch !== undefined) {
+        UIState.ui.historyQuery = el.value;
+        const box = $('#hist-results');
+        if (box) box.innerHTML = Views.historyList();
+      } else if (el.dataset.ui) { UIState.ui[el.dataset.ui] = el.value; Router.refresh(); }
       else if (el.dataset.filter) Filters.onSearch(el);
       else if (el.dataset.bind) Forms.bind(el);
       else if (el.dataset.item && el.dataset.field) Editor.onItemInput(el);
@@ -4081,6 +5357,16 @@ function bindEvents() {
   };
   document.addEventListener('input', (e) => { if (!e.target.dataset.ui) onEdit(e); });
   document.addEventListener('change', (e) => { if (e.target.tagName === 'SELECT') onEdit(e); });
+
+  // Enter moves weight -> reps -> RIR within a set row, then closes the keyboard.
+  document.addEventListener('keydown', (e) => {
+    const el = e.target;
+    if (e.key !== 'Enter' || !el.dataset || !el.dataset.aw) return;
+    e.preventDefault();
+    const next = { weight: 'r', reps: 'q' }[el.dataset.aw];
+    const target = next && document.getElementById(`${next}-${el.dataset.set}`);
+    if (target) target.focus(); else el.blur();
+  });
 
   $('#import-file').addEventListener('change', (e) => {
     handleImportFile(e.target.files && e.target.files[0]).catch(handleError);
@@ -4102,6 +5388,41 @@ function bindEvents() {
   }
 }
 
+/**
+ * Updates elapsed time and rest countdown once a second. Every value is
+ * recomputed from stored timestamps, so screen lock, backgrounding or a
+ * throttled interval cannot make the clocks drift.
+ */
+const Ticker = {
+  restDoneKey: null,
+  start() {
+    const a = WorkoutService.active();
+    if (a && a.restTimer && Calc.restRemainingSec(a.restTimer) <= 0) Ticker.restDoneKey = a.restTimer.endsAt;
+    setInterval(() => Ticker.tick(), 1000);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) Ticker.tick(); });
+    window.addEventListener('pageshow', () => Ticker.tick());
+  },
+  tick() {
+    const a = WorkoutService.active();
+    if (!a) return;
+    const elapsed = Fmt.clock(Calc.sessionDurationSec(a));
+    $$('[data-tick="elapsed"]').forEach((n) => { if (n.textContent !== elapsed) n.textContent = elapsed; });
+    const t = a.restTimer;
+    if (!t) return;
+    const rem = Calc.restRemainingSec(t);
+    const txt = Fmt.clock(rem);
+    $$('[data-tick="rest"]').forEach((n) => { if (n.textContent !== txt) n.textContent = txt; });
+    if (rem > 0) return;
+    const bar = $('.restbar');
+    if (bar && !bar.classList.contains('is-done')) {
+      bar.classList.add('is-done');
+      const label = $('[data-rest-label]', bar); if (label) label.textContent = 'Rest complete';
+      const skip = $('[data-rest-skip]', bar); if (skip) skip.textContent = 'Dismiss';
+    }
+    if (Ticker.restDoneKey !== t.endsAt) { Ticker.restDoneKey = t.endsAt; Toast.show('Rest complete'); }
+  }
+};
+
 function showBanner(messages) {
   if (!messages.length) return;
   $('#banner').innerHTML = `<div class="banner__box" role="alert">${icon('alert')}<p>${messages.map(esc).join(' ')}</p>
@@ -4121,6 +5442,7 @@ function boot() {
   bindEvents();
   showBanner(Store.takeNotices());
   Router.start();
+  Ticker.start();
 }
 
 boot();
