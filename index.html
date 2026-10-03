@@ -8,6 +8,10 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Iron Ledger</title>
+<!-- Home-screen icon + full-screen app mode. These files sit next to index.html. -->
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>
 /* =====================================================================
    DESIGN TOKENS
@@ -715,7 +719,7 @@ body.is-editing .toast { bottom: calc(env(safe-area-inset-bottom, 0px) + 20px); 
 .today__title { font-size: 18px; font-weight: 650; }
 .today__sub { color: var(--text-3); font-size: 15px; margin-top: 2px; }
 .home-head + .section { margin-top: 18px; }
-#choose-h { font-size: 32px; margin-bottom: 4px; }
+
 
 /* tiles */
 .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 4px 0 14px; }
@@ -1054,6 +1058,68 @@ button.srow__prev {
 }
 button.srow__prev span:last-child { color: var(--text-3); }
 .hint + .section, .summary + .section { margin-top: 28px; }
+
+/* =====================================================================
+   ALPHA 3 — SCHEDULE, SUBSTITUTION, REVIEW, GOALS
+   ===================================================================== */
+.dlg__stack--scroll { max-height: 56vh; overflow-y: auto; padding-bottom: 2px; }
+.today + .today { margin-top: 10px; }
+.today__actions { display: flex; gap: 8px; margin-top: 14px; align-items: center; }
+.today__actions .btn-primary { flex: 1; }
+.today--done .today__sub { display: flex; align-items: center; gap: 6px; color: var(--accent); }
+.today--done .today__sub svg { width: 18px; height: 18px; }
+.today--done a { color: var(--accent); font-weight: 600; }
+.start-empty { margin-top: 12px; }
+.missed + .missed, .stack .missed + .missed { margin-top: 10px; }
+.next {
+  display: flex; align-items: center; gap: 12px; min-height: 60px; padding: 12px 16px;
+  border-radius: var(--r-lg); background: var(--surface); text-decoration: none;
+}
+.next__name { font-weight: 700; font-size: 17px; }
+.next__when { flex: 1; color: var(--text-3); font-size: 15px; text-align: right; }
+
+/* schedule */
+.sday { align-items: flex-start; padding: 10px 0; }
+.sday__date { padding-top: 4px; }
+.sday__entry { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; min-height: 44px; }
+.sday__entry .icon-btn { margin-left: auto; }
+.sday__entry.is-moved .sday__name { color: var(--text-3); text-decoration: line-through; text-decoration-thickness: 1px; }
+.sday__body { padding-top: 0; }
+.sday__rest { padding-top: 10px; }
+.sday__spacer { width: 44px; }
+.sday .tag svg { width: 12px; height: 12px; }
+.plan { border-top: 1px solid var(--line); }
+.plan__row {
+  display: flex; align-items: center; gap: 12px; width: 100%; min-height: 56px; padding: 8px 0;
+  border: 0; border-bottom: 1px solid var(--line); background: transparent; text-align: left;
+}
+.plan__day { width: 7.5em; font-weight: 650; }
+.plan__val { flex: 1; color: var(--text); font-weight: 550; }
+.plan__val.is-rest { color: var(--text-3); font-weight: 400; }
+
+/* substitution */
+.aw-sub { display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--accent); font-weight: 600; margin-top: 2px; }
+.aw-sub svg { width: 16px; height: 16px; }
+.chips--wrap { flex-wrap: wrap; overflow: visible; margin: 10px 0 0; padding: 0; }
+.chip[aria-checked="true"] { background: var(--text); color: var(--bg); border-color: var(--text); font-weight: 650; }
+.browse-all { margin-top: 8px; color: var(--accent); padding: 0 4px; }
+.review-foot { display: grid; gap: 8px; }
+.restbar--idle { background: var(--surface-2); color: var(--text); border-top: 1px solid var(--line); }
+.restbar--idle .restbar__btn { background: var(--surface); color: var(--text); }
+.restbar--idle .restbar__btn--skip { background: var(--accent); color: var(--accent-ink); }
+.restbar__btn--wide { display: inline-flex; align-items: center; gap: 6px; padding: 0 14px; }
+.restbar__btn--wide svg, .restbar__btn svg { width: 16px; height: 16px; }
+.restbar--idle { grid-template-columns: auto 1fr auto auto; }
+
+/* goals */
+.goals dd { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: center; }
+.goal-cur { font-weight: 650; }
+.goal-target { color: var(--text-3); font-weight: 500; }
+.setting .switch:disabled { opacity: .5; cursor: not-allowed; }
+.setting select.input { width: 100%; min-height: 48px; padding: 0 36px 0 14px; border-radius: var(--r-md); border: 1px solid var(--line-strong); background-color: var(--surface);
+  -webkit-appearance: none; appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--text-3) 50%), linear-gradient(135deg, var(--text-3) 50%, transparent 50%);
+  background-position: calc(100% - 19px) 21px, calc(100% - 14px) 21px; background-size: 5px 5px; background-repeat: no-repeat; }
 </style>
 </head>
 <body>
@@ -1086,7 +1152,6 @@ button.srow__prev span:last-child { color: var(--text-3); }
      1. CONFIG            constants, storage keys, limits
      2. TAXONOMY          muscles, equipment, movements, preferences
      3. SEED DATA         default exercises + sample routines (first run only)
-     3b. PREVIEW DATA     frozen demo content for UI previews (never stored)
      4. UTILITIES         ids, cloning, escaping, text normalisation
      5. MODELS            factories that produce normalised records
      6. VALIDATION        one place that defines what valid data is
@@ -1112,9 +1177,9 @@ button.srow__prev span:last-child { color: var(--text-3); }
    ======================================================================= */
 const CONFIG = Object.freeze({
   APP_NAME: 'Iron Ledger',
-  APP_VERSION: '2.0.0-alpha.2',
-  APP_STAGE: 'Alpha 2',
-  SCHEMA_VERSION: 2,   // v2 (Alpha 2): adds completed workout sessions
+  APP_VERSION: '2.0.0-alpha.3',
+  APP_STAGE: 'Alpha 3',
+  SCHEMA_VERSION: 3,   // v2 (Alpha 2): sessions. v3 (Alpha 3): goals, schedule, routine reviews, new settings
   BACKUP_KIND: 'iron-ledger-backup',
   MAX_IMPORT_BYTES: 5 * 1024 * 1024,
   KEYS: Object.freeze({
@@ -1138,7 +1203,9 @@ const CONFIG = Object.freeze({
   KG_PER_LB: 0.45359237,
   SET_TYPES: Object.freeze(['warmup', 'working', 'drop', 'failure']),
   REST_STEP_SEC: 15,
-  DOUBLE_TAP_MS: 600
+  DOUBLE_TAP_MS: 600,
+  SCHEDULE_WINDOW_DAYS: 14,   // how far ahead the weekly plan is turned into dated entries
+  MISSED_LOOKBACK_DAYS: 7     // missed workouts older than this are not surfaced on Home
 });
 
 
@@ -1204,7 +1271,25 @@ const TAXONOMY = Object.freeze({
   ],
   units: [{ id: 'kg', label: 'kg' }, { id: 'lb', label: 'lb' }],
   themes: [{ id: 'system', label: 'System' }, { id: 'light', label: 'Light' }, { id: 'dark', label: 'Dark' }],
-  weekStarts: [{ id: 'monday', label: 'Monday' }, { id: 'sunday', label: 'Sunday' }]
+  weekStarts: [{ id: 'monday', label: 'Monday' }, { id: 'sunday', label: 'Sunday' }],
+  rirDisplays: [{ id: 'range', label: 'Range' }, { id: 'single', label: 'Single value' }],
+  restModes: [{ id: 'auto', label: 'Auto-start' }, { id: 'manual', label: 'Manual' }],
+  restPresets: [60, 90, 120, 180],
+  weekdays: [
+    { id: 'sun', label: 'Sunday' }, { id: 'mon', label: 'Monday' }, { id: 'tue', label: 'Tuesday' },
+    { id: 'wed', label: 'Wednesday' }, { id: 'thu', label: 'Thursday' }, { id: 'fri', label: 'Friday' }, { id: 'sat', label: 'Saturday' }
+  ],
+  substitutionReasons: [
+    { id: 'equipmentUnavailable', label: 'Equipment unavailable' },
+    { id: 'pain', label: 'Pain or discomfort' },
+    { id: 'preference', label: 'Want another exercise' },
+    { id: 'location', label: 'Different equipment or location' },
+    { id: 'other', label: 'Other' }
+  ],
+  painAreas: [
+    { id: 'shoulder', label: 'Shoulder' }, { id: 'elbow', label: 'Elbow' }, { id: 'wrist', label: 'Wrist' },
+    { id: 'lowerBack', label: 'Lower back' }, { id: 'hip', label: 'Hip' }, { id: 'knee', label: 'Knee' }, { id: 'other', label: 'Other' }
+  ]
 });
 
 const Tax = {
@@ -1408,101 +1493,6 @@ const SEED_ROUTINES = [
 
 
 /* =======================================================================
-   3b. UI PREVIEW DATA
-   Demo content that ONLY illustrates screens whose logic does not exist yet.
-   Rules enforced by design:
-     - lives in code and is deeply frozen (cannot be mutated at runtime)
-     - is never passed to Store, StorageService or BackupService
-     - is never read by Calc, so it cannot affect statistics or PRs
-     - every screen that renders it shows the "UI preview" marker
-   Values are display strings, not calculations, on purpose.
-   ======================================================================= */
-function deepFreeze(o) {
-  Object.values(o).forEach((v) => { if (v && typeof v === 'object') deepFreeze(v); });
-  return Object.freeze(o);
-}
-
-const PREVIEW = deepFreeze({
-  schedule: { mon: 'Push A', tue: 'Pull A', wed: null, thu: 'Legs', fri: 'Push B', sat: 'Pull B', sun: null },
-  missed: { routine: 'Pull A', when: 'Scheduled yesterday' },
-
-  activeWorkout: {
-    routine: 'Push A',
-    elapsed: '24:16',
-    rest: '1:58',
-    exercises: [
-      { name: 'Incline Dumbbell Press', muscle: 'Upper chest', target: { sets: 3, reps: '8–10', rir: '1–2' },
-        rows: [
-          { set: 1, prev: '22.5×10', kg: '22.5', reps: '10', rir: '2', done: true },
-          { set: 2, prev: '22.5×9', kg: '22.5', reps: '9', rir: '2', done: true },
-          { set: 3, prev: '22.5×8', kg: '22.5', reps: null, rir: null, done: false }
-        ] },
-      { name: 'Machine Chest Press', muscle: 'Chest', target: { sets: 3, reps: '8–12', rir: '1–2' },
-        rows: [
-          { set: 1, prev: '65×8', kg: '65', reps: null, rir: null, done: false },
-          { set: 2, prev: '65×8', kg: '65', reps: null, rir: null, done: false },
-          { set: 3, prev: '60×10', kg: '60', reps: null, rir: null, done: false }
-        ] }
-    ],
-    menu: ['Replace exercise', 'Add set', 'Add warm-up set', 'Add drop set', 'View history', 'Add note', 'Remove exercise']
-  },
-
-  substitution: {
-    exercise: 'Incline Dumbbell Press',
-    reasons: [
-      { id: 'equipment', label: 'Equipment unavailable' },
-      { id: 'pain', label: 'Pain or discomfort' },
-      { id: 'preference', label: 'Want another exercise' },
-      { id: 'location', label: 'Different equipment or location' },
-      { id: 'other', label: 'Other' }
-    ],
-    matches: [
-      { id: 'm1', name: 'Smith Incline Press', meta: 'Chest, smith machine', why: 'Same incline press, fixed bar path' },
-      { id: 'm2', name: 'Incline Machine Press', meta: 'Chest, machine', why: 'Same angle, guided movement' },
-      { id: 'm3', name: 'Cable Incline Press', meta: 'Chest, cable', why: 'Same angle, constant tension' }
-    ]
-  },
-
-  completed: {
-    routine: 'Push A', date: 'October 3', month: 'October 2026', duration: '1h 04m',
-    workingSets: 18, volume: '9,420 kg', prs: 3,
-    exercises: [
-      { name: 'Incline Dumbbell Press', sets: [['22.5', '10', '2'], ['22.5', '9', '2'], ['22.5', '8', '1']] },
-      { name: 'Machine Chest Press', pr: true, sets: [['65', '8', '1'], ['65', '8', '1'], ['60', '10', '1']] },
-      { name: 'Machine Shoulder Press', replaced: 'Seated Dumbbell Shoulder Press', reason: 'Equipment unavailable',
-        sets: [['45', '10', '2'], ['45', '9', '1'], ['45', '8', '1']] },
-      { name: 'Lateral Raise', sets: [['10', '15', '1'], ['10', '14', '1'], ['10', '12', '0'], ['10', '12', '0']] },
-      { name: 'Rope Pressdown', sets: [['30', '12', '2'], ['30', '11', '1'], ['30', '10', '1']] },
-      { name: 'Overhead Rope Extension', sets: [['25', '14', '1'], ['25', '12', '1']] }
-    ]
-  },
-
-  finish: {
-    routine: 'Push A', duration: '1h 04m', workingSets: 18, volume: '9,420 kg',
-    prs: [{ exercise: 'Machine Chest Press', value: '65 kg × 8' }],
-    changes: [
-      { kind: 'replaced', label: 'Incline DB Press', detail: 'Smith Incline Press' },
-      { kind: 'added', label: 'Cable Fly', detail: 'Added' }
-    ],
-    review: [
-      { id: 'r1', label: 'Replace Incline DB Press with Smith Incline Press', checked: false },
-      { id: 'r2', label: 'Add Cable Fly', checked: true },
-      { id: 'r3', label: 'Change Chest Press to 4 sets', checked: false }
-    ]
-  },
-
-  overview: {
-    workouts: '4', workingSets: '74', volume: '38,240 kg', time: '4h 12m',
-    muscles: { chest: 14, back: 13, shoulders: 12, biceps: 9, triceps: 9, quads: 6, hamstrings: 6, calves: 4, core: 3 },
-    prs: [
-      { exercise: 'Machine Chest Press', value: '65 kg × 8', when: 'Oct 3' },
-      { exercise: 'Wide-Grip Lat Pulldown', value: '70 kg × 10', when: 'Oct 1' }
-    ]
-  }
-});
-
-
-/* =======================================================================
    4. UTILITIES
    ======================================================================= */
 class AppError extends Error {
@@ -1510,8 +1500,25 @@ class AppError extends Error {
   constructor(message, details) { super(message); this.name = 'AppError'; this.details = details || []; }
 }
 
+/** Single source of "now" so date logic (schedule, missed, timers) is testable. */
+const Clock = {
+  now() { return Date.now(); },
+  date() { return new Date(Clock.now()); }
+};
+
+/** Local calendar dates as 'YYYY-MM-DD' keys (schedule dates are calendar days, not instants). */
+const DateKey = {
+  of(d) { return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; },
+  today() { return DateKey.of(Clock.date()); },
+  toDate(key) { const [y, m, d] = key.split('-').map(Number); return new Date(y, m - 1, d); },
+  add(key, days) { const d = DateKey.toDate(key); d.setDate(d.getDate() + days); return DateKey.of(d); },
+  weekday(key) { return ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'][DateKey.toDate(key).getDay()]; },
+  isKey(v) { return typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v) && !isNaN(DateKey.toDate(v)); },
+  diffDays(a, b) { return Math.round((DateKey.toDate(a) - DateKey.toDate(b)) / 86400000); }
+};
+
 const Util = {
-  now() { return new Date().toISOString(); },
+  now() { return Clock.date().toISOString(); },
   clone(v) { return typeof structuredClone === 'function' ? structuredClone(v) : JSON.parse(JSON.stringify(v)); },
   esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, (c) => (
@@ -1537,7 +1544,7 @@ const Id = {
     if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
       core = crypto.randomUUID().replace(/-/g, '').slice(0, 16);
     } else {
-      core = Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+      core = Clock.now().toString(36) + Math.random().toString(36).slice(2, 10);
     }
     return `${prefix}_${core}`;
   },
@@ -1616,7 +1623,32 @@ const Models = {
     return {
       units: Tax.has('units', src.units) ? src.units : 'kg',
       theme: Tax.has('themes', src.theme) ? src.theme : 'system',
-      weekStart: Tax.has('weekStarts', src.weekStart) ? src.weekStart : 'monday'
+      weekStart: Tax.has('weekStarts', src.weekStart) ? src.weekStart : 'monday',
+      rirDisplay: Tax.has('rirDisplays', src.rirDisplay) ? src.rirDisplay : 'range',
+      restMode: Tax.has('restModes', src.restMode) ? src.restMode : 'auto',
+      defaultRestSec: Util.isIntIn(src.defaultRestSec, [15, 600]) ? src.defaultRestSec : 90,
+      restAlerts: src.restAlerts === true
+    };
+  },
+
+  goals(src = {}) {
+    return {
+      bodyweightKg: typeof src.bodyweightKg === 'number' ? src.bodyweightKg : null,
+      bodyFatPct: typeof src.bodyFatPct === 'number' ? src.bodyFatPct : null,
+      workoutsPerWeek: Util.isIntIn(src.workoutsPerWeek, [1, 7]) ? src.workoutsPerWeek : null,
+      strength: Array.isArray(src.strength) ? src.strength : []
+    };
+  },
+
+  /** plan = recurring weekly template; entries = dated occurrences (the real schedule). */
+  schedule(src = {}) {
+    const plan = {};
+    Tax.ids('weekdays').forEach((k) => { plan[k] = src.plan && Array.isArray(src.plan[k]) ? src.plan[k].slice() : []; });
+    return {
+      plan,
+      planUpdatedAt: src.planUpdatedAt || null,
+      entries: Array.isArray(src.entries) ? src.entries : [],
+      materializedThrough: DateKey.isKey(src.materializedThrough) ? src.materializedThrough : null
     };
   },
 
@@ -1629,7 +1661,10 @@ const Models = {
       settings: Models.settings(),
       exercises: [],
       routines: [],
-      sessions: []   // COMPLETED workout sessions only (v2+)
+      sessions: [],                 // COMPLETED workout sessions only (v2+)
+      goals: Models.goals(),        // v3
+      schedule: Models.schedule(),  // v3
+      routineReviews: []            // v3: outcome of each post-workout routine review
     };
   }
 };
@@ -1696,6 +1731,17 @@ const Validate = {
       if (!Tax.has('units', d.settings.units)) e.push('Invalid units setting.');
       if (!Tax.has('themes', d.settings.theme)) e.push('Invalid theme setting.');
       if (!Tax.has('weekStarts', d.settings.weekStart)) e.push('Invalid week-start setting.');
+      if (d.schemaVersion >= 3) {
+        if (!Tax.has('rirDisplays', d.settings.rirDisplay)) e.push('Invalid RIR display setting.');
+        if (!Tax.has('restModes', d.settings.restMode)) e.push('Invalid rest behaviour setting.');
+        if (!Util.isIntIn(d.settings.defaultRestSec, [15, 600])) e.push('Invalid default rest setting.');
+        if (typeof d.settings.restAlerts !== 'boolean') e.push('Invalid rest alert setting.');
+      }
+    }
+    if (d.schemaVersion >= 3) {
+      Validate.goals(d.goals).forEach((m) => e.push(m));
+      Validate.schedule(d.schedule).forEach((m) => e.push(m));
+      if (!Array.isArray(d.routineReviews)) e.push('Missing routine review list.');
     }
     if (!Array.isArray(d.exercises)) e.push('Missing exercise list.');
     if (!Array.isArray(d.routines)) e.push('Missing routine list.');
@@ -1785,6 +1831,43 @@ const Validate = {
     return e;
   },
 
+  goals(g) {
+    const e = [];
+    if (!g || typeof g !== 'object') return ['Missing goals.'];
+    const num = (v) => v === null || (typeof v === 'number' && isFinite(v) && v >= 0);
+    if (!num(g.bodyweightKg) || (g.bodyweightKg != null && g.bodyweightKg > 500)) e.push('Invalid bodyweight goal.');
+    if (!num(g.bodyFatPct) || (g.bodyFatPct != null && g.bodyFatPct > 75)) e.push('Invalid body-fat goal.');
+    if (g.workoutsPerWeek !== null && !Util.isIntIn(g.workoutsPerWeek, [1, 7])) e.push('Invalid training-frequency goal.');
+    if (!Array.isArray(g.strength)) return e.concat('Invalid strength goal list.');
+    const ids = new Set();
+    g.strength.forEach((sg, i) => {
+      if (!sg || typeof sg.id !== 'string' || ids.has(sg.id)) e.push(`Strength goal ${i + 1} has a missing or duplicate id.`);
+      else ids.add(sg.id);
+      if (!sg || typeof sg.exerciseId !== 'string') e.push(`Strength goal ${i + 1} has no exercise.`);
+      if (!sg || !(typeof sg.targetWeightKg === 'number' && sg.targetWeightKg > 0 && sg.targetWeightKg <= CONFIG.LIMITS.weightKg[1])) e.push(`Strength goal ${i + 1} has an invalid weight.`);
+      if (sg && sg.targetReps !== null && !Util.isIntIn(sg.targetReps, [1, 100])) e.push(`Strength goal ${i + 1} has invalid reps.`);
+      if (sg && sg.targetDate !== null && !DateKey.isKey(sg.targetDate)) e.push(`Strength goal ${i + 1} has an invalid date.`);
+    });
+    return e;
+  },
+
+  schedule(sc) {
+    const e = [];
+    if (!sc || typeof sc !== 'object' || !sc.plan || typeof sc.plan !== 'object') return ['Missing schedule.'];
+    Tax.ids('weekdays').forEach((k) => { if (!Array.isArray(sc.plan[k]) || sc.plan[k].some((x) => typeof x !== 'string')) e.push(`Invalid weekly plan for ${k}.`); });
+    if (!Array.isArray(sc.entries)) return e.concat('Missing schedule entries.');
+    const ids = new Set();
+    const statuses = ['planned', 'completed', 'skipped', 'moved', 'removed'];
+    sc.entries.forEach((en, i) => {
+      if (!en || typeof en.id !== 'string' || ids.has(en.id)) { e.push(`Schedule entry ${i + 1} has a missing or duplicate id.`); return; }
+      ids.add(en.id);
+      if (!DateKey.isKey(en.date)) e.push(`Schedule entry ${i + 1} has an invalid date.`);
+      if (!statuses.includes(en.status)) e.push(`Schedule entry ${i + 1} has an invalid status.`);
+      if (typeof en.routineId !== 'string') e.push(`Schedule entry ${i + 1} has no routine.`);
+    });
+    return e;
+  },
+
   /** Checks the outer backup envelope before looking at the data inside. */
   backupEnvelope(obj) {
     if (!obj || typeof obj !== 'object' || Array.isArray(obj)) return ['The file does not contain a JSON object.'];
@@ -1804,9 +1887,11 @@ const Validate = {
    Each entry upgrades data FROM that version to version + 1.
    Never change stored shapes without adding a migration here.
 
-   v1 -> v2 (Alpha 2): adds `sessions: []` for completed workouts. Nothing
-   existing is renamed, moved or deleted. Before the first v2 write, the
-   untouched v1 JSON is kept under ironLedger.v2.premigration.schema1.
+   v1 -> v2 (Alpha 2): adds `sessions: []` for completed workouts.
+   v2 -> v3 (Alpha 3): adds `goals`, `schedule`, `routineReviews` and four
+   settings with defaults. Sessions, routines and exercises are untouched.
+   Before any upgrade write, the untouched JSON is kept under
+   ironLedger.v2.premigration.schema<N>.
    ======================================================================= */
 const Migrations = {
   steps: {
@@ -1814,6 +1899,15 @@ const Migrations = {
       d.sessions = Array.isArray(d.sessions) ? d.sessions : [];
       d.schemaVersion = 2;
       if (d.meta && typeof d.meta === 'object') d.meta.migratedToV2At = Util.now();
+      return d;
+    },
+    2: (d) => {
+      d.settings = Models.settings(d.settings || {});
+      d.goals = Models.goals(d.goals || {});
+      d.schedule = Models.schedule(d.schedule || {});
+      d.routineReviews = Array.isArray(d.routineReviews) ? d.routineReviews : [];
+      d.schemaVersion = 3;
+      if (d.meta && typeof d.meta === 'object') d.meta.migratedToV3At = Util.now();
       return d;
     }
   },
@@ -1880,7 +1974,7 @@ const StorageService = {
   },
   /** Preserves unreadable data instead of silently discarding it. */
   keepRecoveryCopy(raw) {
-    const key = CONFIG.KEYS.RECOVERY_PREFIX + new Date().toISOString().replace(/[:.]/g, '-');
+    const key = CONFIG.KEYS.RECOVERY_PREFIX + Clock.date().toISOString().replace(/[:.]/g, '-');
     try { localStorage.setItem(key, raw); return key; } catch (_) { return null; }
   },
   dataSize() {
@@ -2040,8 +2134,11 @@ const Store = (() => {
    *   2. only then remove the active workout.
    * A crash between 1 and 2 is repaired by initActive().
    */
-  function commitActive(completed) {
-    transact((d) => { if (!d.sessions.some((ws) => ws.id === completed.id)) d.sessions.push(completed); });
+  function commitActive(completed, alsoInSameTransaction) {
+    transact((d) => {
+      if (!d.sessions.some((ws) => ws.id === completed.id)) d.sessions.push(completed);
+      if (alsoInSameTransaction) alsoInSameTransaction(d); // e.g. mark the schedule entry completed
+    });
     if (persistent) StorageService.clearActive();
     active = null;
   }
@@ -2106,7 +2203,7 @@ const Calc = {
     return set.weightKg * set.reps;
   },
 
-  sessionDurationSec(session, now = Date.now()) {
+  sessionDurationSec(session, now = Clock.now()) {
     const start = Date.parse(session.startedAt);
     const end = session.completedAt ? Date.parse(session.completedAt) : now;
     return Math.max(0, Math.floor((end - start) / 1000));
@@ -2140,7 +2237,7 @@ const Calc = {
   /**
    * Most recent COMPLETED session (excluding `excludeId`) in which this exercise
    * id was actually performed, with its completed sets. Follows the exercise,
-   * not the routine. Active and preview data are never in this list.
+   * not the routine. Active sessions are never in this list.
    */
   previousPerformance(sessions, exerciseId, excludeId = null) {
     let best = null;
@@ -2164,7 +2261,7 @@ const Calc = {
     return same[ordinal] || null;
   },
 
-  restRemainingSec(timer, now = Date.now()) {
+  restRemainingSec(timer, now = Clock.now()) {
     if (!timer || !timer.endsAt) return 0;
     return Math.max(0, Math.ceil((Date.parse(timer.endsAt) - now) / 1000));
   },
@@ -2189,7 +2286,7 @@ const Calc = {
     return out;
   },
 
-  periodStart(period, now = new Date()) {
+  periodStart(period, now = Clock.date()) {
     const d = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const back = { '7d': 6, '30d': 29 }[period];
     if (back != null) { d.setDate(d.getDate() - back); return d; }
@@ -2198,20 +2295,123 @@ const Calc = {
     return null; // all time
   },
 
-  /** What differs from the source routine. Recorded for Alpha 3's review; never applied here. */
-  sessionChanges(session) {
+  /**
+   * Structural differences between a session and its source routine snapshot,
+   * identified by ids (routineItemId / session exercise id), never by names.
+   * Each change has: key, kind, label (as an action), desc (as a fact), checked (default).
+   * Only substitutions the user explicitly marked "Update routine" start checked.
+   */
+  routineChanges(session) {
     const out = [];
+    if (!session || !session.sourceRoutineId) return out;
     session.exercises.forEach((x) => {
-      if (x.addedDuringSession) { out.push({ kind: 'added', label: x.nameSnapshot }); return; }
+      if (x.addedDuringSession) {
+        out.push({ key: `add:${x.id}`, kind: 'add', seId: x.id, exerciseId: x.performedExerciseId,
+          label: `Add ${x.nameSnapshot}`, desc: `${x.nameSnapshot} added`, checked: false });
+        return;
+      }
+      if (x.substitution && x.performedExerciseId !== x.originalExerciseId) {
+        out.push({ key: `replace:${x.id}`, kind: 'replace', seId: x.id, routineItemId: x.routineItemId,
+          fromExerciseId: x.originalExerciseId, toExerciseId: x.performedExerciseId,
+          label: `Replace ${x.originalNameSnapshot} with ${x.nameSnapshot}`,
+          desc: `${x.originalNameSnapshot} → ${x.nameSnapshot}`, checked: !!x.proposeRoutineUpdate });
+      }
       const working = x.sets.filter((st) => Calc.isWorkingSet(st)).length;
-      if (working !== x.targetSets) out.push({ kind: 'sets', label: `${x.nameSnapshot}: ${x.targetSets} → ${working} working sets` });
+      if (working > 0 && working !== x.targetSets) {
+        out.push({ key: `sets:${x.id}`, kind: 'sets', seId: x.id, routineItemId: x.routineItemId, to: working,
+          label: `Change ${x.nameSnapshot} from ${x.targetSets} to ${working} sets`,
+          desc: `${x.nameSnapshot}: ${x.targetSets} → ${working} working sets`, checked: false });
+      }
     });
-    (session.removedExercises || []).forEach((r) => out.push({ kind: 'removed', label: r.nameSnapshot }));
-    const original = (session.routineOrderSnapshot || []);
+    (session.removedExercises || []).forEach((r) => {
+      if (!r.routineItemId) return;
+      out.push({ key: `remove:${r.routineItemId}`, kind: 'remove', routineItemId: r.routineItemId,
+        label: `Remove ${r.nameSnapshot}`, desc: `${r.nameSnapshot} removed`, checked: false });
+    });
+    const original = session.routineOrderSnapshot || [];
     const nowOrder = session.exercises.map((x) => x.routineItemId).filter((id) => id && original.includes(id));
     const expected = original.filter((id) => nowOrder.includes(id));
-    if (nowOrder.join() !== expected.join()) out.push({ kind: 'order', label: 'Exercise order changed' });
+    if (nowOrder.join() !== expected.join()) {
+      out.push({ key: 'order', kind: 'order', order: nowOrder, label: "Use today's exercise order", desc: 'Exercise order changed', checked: false });
+    }
     return out;
+  },
+
+  /** Exercises the user replaced because of pain (never suggested again as alternatives). */
+  painFlaggedExercises(sessions, active) {
+    const out = new Set();
+    [...sessions, ...(active ? [active] : [])].forEach((ws) => ws.exercises.forEach((x) => {
+      if (x.substitution && x.substitutionReason === 'pain') out.add(x.originalExerciseId);
+    }));
+    return out;
+  },
+
+  /**
+   * Deterministic substitution ranking. Candidates must share the primary
+   * muscle; then movement pattern, mechanic, secondary muscles, listed
+   * alternatives, equipment (relative to the reason) and preference add score.
+   * This ranks similarity only. It never judges whether an exercise is safe.
+   */
+  substitutionCandidates(original, reason, exercises, painFlagged = new Set(), limit = 5) {
+    if (!original) return [];
+    const wantsOtherEquipment = reason === 'equipmentUnavailable' || reason === 'location';
+    return exercises.map((ex) => {
+      if (ex.id === original.id || !ex.active || ex.preference === 'do-not-use' || painFlagged.has(ex.id)) return null;
+      if (ex.primaryMuscle !== original.primaryMuscle) return null;
+      let score = 40;
+      const why = [];
+      if (ex.movementPattern === original.movementPattern) { score += 30; why.push('same movement'); }
+      if (ex.mechanic === original.mechanic) score += 10;
+      score += Math.min(15, 5 * ex.secondaryMuscles.filter((m) => original.secondaryMuscles.includes(m)).length);
+      if (original.alternativeIds.includes(ex.id)) { score += 25; why.push('listed alternative'); }
+      if (wantsOtherEquipment) {
+        if (ex.equipment !== original.equipment) { score += 12; why.push(`uses ${Tax.label('equipment', ex.equipment).toLowerCase()}`); }
+        else score -= 30;
+      }
+      if (ex.preference === 'favourite') { score += 8; why.push('favourite'); }
+      if (ex.preference === 'avoid') score -= 15;
+      return { exercise: ex, score, why };
+    }).filter(Boolean).sort((a, b) => b.score - a.score || a.exercise.name.localeCompare(b.exercise.name)).slice(0, limit);
+  },
+
+  /**
+   * Heaviest completed working set for an exercise, optionally requiring at
+   * least `minReps` reps. Ties go to more reps, then the earlier date.
+   */
+  bestSet(sessions, exerciseId, minReps = null) {
+    let best = null;
+    sessions.forEach((ws) => ws.exercises.forEach((x) => {
+      if (x.performedExerciseId !== exerciseId) return;
+      x.sets.forEach((st) => {
+        if (!st.completed || !Calc.isWorkingSet(st) || typeof st.weightKg !== 'number' || !Number.isInteger(st.reps)) return;
+        if (minReps != null && st.reps < minReps) return;
+        if (!best || st.weightKg > best.weightKg || (st.weightKg === best.weightKg && st.reps > best.reps)) {
+          best = { weightKg: st.weightKg, reps: st.reps, date: ws.startedAt, sessionId: ws.id };
+        }
+      });
+    }));
+    return best;
+  },
+
+  /** Real per-exercise summary from completed sessions. */
+  exerciseSummary(sessions, exerciseId) {
+    let count = 0;
+    let last = null;
+    let bestVolume = null;
+    sessions.forEach((ws) => {
+      let did = false;
+      ws.exercises.forEach((x) => {
+        if (x.performedExerciseId !== exerciseId) return;
+        x.sets.forEach((st) => {
+          if (!st.completed) return;
+          did = true;
+          const v = Calc.setVolumeKg(st);
+          if (v > 0 && (!bestVolume || v > bestVolume.volumeKg)) bestVolume = { volumeKg: v, weightKg: st.weightKg, reps: st.reps };
+        });
+      });
+      if (did) { count++; if (!last || Date.parse(ws.startedAt) > Date.parse(last)) last = ws.startedAt; }
+    });
+    return { sessions: count, lastPerformed: last, heaviest: Calc.bestSet(sessions, exerciseId), bestVolume };
   },
 
   /** Calendar week containing `date`, honouring the week-start setting. */
@@ -2246,6 +2446,20 @@ const Fmt = {
   shortDate(d) { return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }); },
   weekdayInitial(d) { return d.toLocaleDateString(undefined, { weekday: 'short' }); },
   plural(n, one, many) { return `${n} ${n === 1 ? one : (many || one + 's')}`; },
+  /** RIR target text honouring the "Default RIR display" preference. Display only. */
+  rir(min, max) {
+    if (!Number.isInteger(min) || !Number.isInteger(max)) return '–';
+    return SettingsService.get().rirDisplay === 'single' ? String(max) : Fmt.range(min, max);
+  },
+  /** Today / Tomorrow / Yesterday / "Thu, Oct 8" for a date key. */
+  relDay(key) {
+    const diff = DateKey.diffDays(key, DateKey.today());
+    if (diff === 0) return 'Today';
+    if (diff === 1) return 'Tomorrow';
+    if (diff === -1) return 'Yesterday';
+    return DateKey.toDate(key).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+  },
+  dayLabel(key) { return DateKey.toDate(key).toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric' }); },
   /** Elapsed clock: 38:24 or 1:04:12 */
   clock(sec) {
     const h = Math.floor(sec / 3600);
@@ -2263,7 +2477,7 @@ const Fmt = {
   dayDate(iso) { return new Date(iso).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' }); },
   monthYear(iso) { return new Date(iso).toLocaleDateString(undefined, { month: 'long', year: 'numeric' }); },
   ago(iso) {
-    const min = Math.max(0, Math.round((Date.now() - Date.parse(iso)) / 60000));
+    const min = Math.max(0, Math.round((Clock.now() - Date.parse(iso)) / 60000));
     if (min < 1) return 'just now';
     if (min < 60) return `${min} minute${min === 1 ? '' : 's'} ago`;
     const h = Math.floor(min / 60);
@@ -2506,8 +2720,85 @@ const RoutineService = {
       const before = d.routines.length;
       d.routines = d.routines.filter((r) => r.id !== id);
       if (d.routines.length === before) throw new AppError('This routine no longer exists.');
+      // The plan stops scheduling it; future planned dates are removed. Past entries stay as history.
+      Tax.ids('weekdays').forEach((k) => { d.schedule.plan[k] = d.schedule.plan[k].filter((rid) => rid !== id); });
+      const today = DateKey.today();
+      d.schedule.entries.forEach((en) => {
+        if (en.routineId === id && en.status === 'planned' && en.date >= today) { en.status = 'removed'; en.updatedAt = Util.now(); }
+      });
     });
-  }
+  },
+
+  /**
+   * Applies the SELECTED review changes to the CURRENT routine template.
+   * The completed session is only read, never modified.
+   */
+  applySessionChanges(sessionId, keys) {
+    const ws = Store.get().sessions.find((x) => x.id === sessionId);
+    if (!ws) throw new AppError('That workout could not be found.');
+    const chosen = Calc.routineChanges(ws).filter((c) => keys.includes(c.key));
+    return Store.transact((d) => {
+      const r = d.routines.find((rt) => rt.id === ws.sourceRoutineId);
+      if (!r) throw new AppError(`${ws.sourceRoutineName} no longer exists, so no changes can be applied.`);
+      const applied = [];
+      const skipped = [];
+      const item = (id) => r.exercises.find((it) => it.id === id);
+      const exists = (exId) => d.exercises.some((e) => e.id === exId);
+      const byKind = (k) => chosen.filter((c) => c.kind === k);
+      byKind('replace').forEach((c) => {
+        const it = item(c.routineItemId);
+        if (!it || !exists(c.toExerciseId)) { skipped.push(c.key); return; }
+        it.exerciseId = c.toExerciseId; applied.push(c.key);
+      });
+      byKind('sets').forEach((c) => {
+        const it = item(c.routineItemId);
+        if (!it) { skipped.push(c.key); return; }
+        it.sets = Math.max(CONFIG.LIMITS.sets[0], Math.min(CONFIG.LIMITS.sets[1], c.to)); applied.push(c.key);
+      });
+      byKind('remove').forEach((c) => {
+        if (!item(c.routineItemId)) { skipped.push(c.key); return; }
+        r.exercises = r.exercises.filter((it) => it.id !== c.routineItemId); applied.push(c.key);
+      });
+      byKind('order').forEach((c) => {
+        const wanted = c.order.filter((id) => item(id));
+        const rest = r.exercises.filter((it) => !wanted.includes(it.id));
+        r.exercises = [...wanted.map((id) => item(id)), ...rest]; applied.push(c.key);
+      });
+      byKind('add').forEach((c) => {
+        const idx = ws.exercises.findIndex((x) => x.id === c.seId);
+        const x = ws.exercises[idx];
+        if (!x || !exists(x.performedExerciseId)) { skipped.push(c.key); return; }
+        const taken = new Set(r.exercises.map((it) => it.id));
+        const working = x.sets.filter((st) => Calc.isWorkingSet(st)).length || x.targetSets;
+        const newItem = Models.routineItem({
+          id: Id.unique('ri', taken), exerciseId: x.performedExerciseId,
+          sets: Math.max(1, Math.min(CONFIG.LIMITS.sets[1], working)),
+          repMin: x.targetRepMin, repMax: x.targetRepMax, rirMin: x.targetRirMin, rirMax: x.targetRirMax,
+          restSec: x.restSeconds, notes: ''
+        });
+        // Insert after the nearest earlier session exercise that exists in the routine.
+        let at = r.exercises.length;
+        for (let i = idx - 1; i >= 0; i--) {
+          const pos = r.exercises.findIndex((it) => it.id === ws.exercises[i].routineItemId);
+          if (pos >= 0) { at = pos + 1; break; }
+        }
+        r.exercises.splice(at, 0, newItem); applied.push(c.key);
+      });
+      r.updatedAt = Util.now();
+      d.routineReviews.push({ id: Id.unique('rv', new Set(d.routineReviews.map((v) => v.id))), sessionId, routineId: r.id, outcome: 'applied', appliedKeys: applied, skippedKeys: skipped, at: Util.now() });
+      return { applied, skipped };
+    });
+  },
+
+  keepOriginal(sessionId) {
+    const ws = Store.get().sessions.find((x) => x.id === sessionId);
+    if (!ws) throw new AppError('That workout could not be found.');
+    Store.transact((d) => {
+      d.routineReviews.push({ id: Id.unique('rv', new Set(d.routineReviews.map((v) => v.id))), sessionId, routineId: ws.sourceRoutineId, outcome: 'kept', appliedKeys: [], skippedKeys: [], at: Util.now() });
+    });
+  },
+
+  reviewFor(sessionId) { return Store.get().routineReviews.find((v) => v.sessionId === sessionId) || null; }
 };
 
 /** Pure operations on an UNSAVED routine draft held by the editor. */
@@ -2542,8 +2833,12 @@ const RoutineDraft = {
 const SettingsService = {
   get() { return Store.get().settings; },
   set(key, value) {
-    const lists = { units: 'units', theme: 'themes', weekStart: 'weekStarts' };
-    if (!lists[key] || !Tax.has(lists[key], value)) throw new AppError('Unknown setting.');
+    const lists = { units: 'units', theme: 'themes', weekStart: 'weekStarts', rirDisplay: 'rirDisplays', restMode: 'restModes' };
+    if (key === 'defaultRestSec') {
+      if (!Util.isIntIn(value, [15, 600])) throw new AppError('Default rest must be between 15 and 600 seconds.');
+    } else if (key === 'restAlerts') {
+      if (typeof value !== 'boolean') throw new AppError('Unknown setting.');
+    } else if (!lists[key] || !Tax.has(lists[key], value)) throw new AppError('Unknown setting.');
     Store.transact((d) => { d.settings[key] = value; });
   }
 };
@@ -2559,7 +2854,7 @@ const BackupService = {
       activeWorkout: Store.getActive() ? Util.clone(Store.getActive()) : null // in-progress workout, if any
     };
   },
-  filename(date = new Date()) {
+  filename(date = Clock.date()) {
     const p = (n) => String(n).padStart(2, '0');
     return `iron-ledger-backup-${date.getFullYear()}-${p(date.getMonth() + 1)}-${p(date.getDate())}-${p(date.getHours())}${p(date.getMinutes())}.json`;
   },
@@ -2658,8 +2953,8 @@ const WorkoutService = {
     };
   },
 
-  /** Starts a session from a DEEP SNAPSHOT of the routine. */
-  start(routineId) {
+  /** Starts a session from a DEEP SNAPSHOT of the routine (optionally for a schedule entry). */
+  start(routineId, { scheduleEntryId = null } = {}) {
     if (Store.getActive()) throw new AppError('A workout is already in progress.');
     const routine = RoutineService.get(routineId);
     if (!routine) throw new AppError('That routine no longer exists.');
@@ -2670,8 +2965,10 @@ const WorkoutService = {
     const session = {
       id,
       status: 'active',
+      kind: 'routine',
       sourceRoutineId: snap.id,
       sourceRoutineName: snap.name,
+      scheduleEntryId,
       startedAt: Util.now(),
       completedAt: null,
       durationSec: null,
@@ -2686,6 +2983,19 @@ const WorkoutService = {
       }, ids))
     };
     Store.beginActive(session);
+    return id;
+  },
+
+  /** A session with no source routine; exercises are added during the workout. */
+  startEmpty() {
+    if (Store.getActive()) throw new AppError('A workout is already in progress.');
+    const ids = new Set(Store.get().sessions.map((ws) => ws.id));
+    const id = Id.unique('ws', ids);
+    Store.beginActive({
+      id, status: 'active', kind: 'empty', sourceRoutineId: null, sourceRoutineName: 'Custom workout',
+      scheduleEntryId: null, startedAt: Util.now(), completedAt: null, durationSec: null, notes: '',
+      restTimer: null, routineOrderSnapshot: [], removedExercises: [], appVersion: CONFIG.APP_VERSION, exercises: []
+    });
     return id;
   },
 
@@ -2745,10 +3055,11 @@ const WorkoutService = {
       const i = x.sets.indexOf(st);
       const next = x.sets.slice(i + 1).find((n) => !n.completed && n.type === st.type);
       if (next && next.weightKg == null && st.weightKg != null) next.weightKg = st.weightKg;
-      // Rest starts after working and failure sets (not warm-ups, not mid-drop-set).
+      // Rest follows working and failure sets (not warm-ups, not mid-drop-set).
       if ((st.type === 'working' || st.type === 'failure') && x.restSeconds > 0) {
-        const now = Date.now();
-        d.restTimer = { sessionExerciseId: x.id, durationSec: x.restSeconds, startedAt: new Date(now).toISOString(), endsAt: new Date(now + x.restSeconds * 1000).toISOString() };
+        d.lastRestExerciseId = x.id;
+        if (SettingsService.get().restMode === 'auto') WorkoutService.armRest(d, x);
+        else d.restTimer = null;
       }
       return { completed: true };
     });
@@ -2837,13 +3148,59 @@ const WorkoutService = {
   adjustRest(deltaSec) {
     Store.activeTransact((d) => {
       if (!d.restTimer) return;
-      const now = Date.now();
+      const now = Clock.now();
       const ends = Math.max(now, Date.parse(d.restTimer.endsAt) + deltaSec * 1000);
       d.restTimer.endsAt = new Date(ends).toISOString();
     });
   },
 
-  skipRest() { Store.activeTransact((d) => { d.restTimer = null; }); },
+  skipRest() { Store.activeTransact((d) => { d.restTimer = null; d.lastRestExerciseId = null; }); },
+
+  armRest(d, x) {
+    const now = Clock.now();
+    d.restTimer = { sessionExerciseId: x.id, durationSec: x.restSeconds, startedAt: new Date(now).toISOString(), endsAt: new Date(now + x.restSeconds * 1000).toISOString() };
+  },
+
+  /** Manual rest mode: start the timer for the last completed exercise. */
+  startRest() {
+    Store.activeTransact((d) => {
+      const x = d.exercises.find((e) => e.id === d.lastRestExerciseId);
+      if (!x) throw new AppError('Complete a set first.');
+      WorkoutService.armRest(d, x);
+    });
+  },
+
+  /**
+   * Replaces an exercise in TODAY'S session only. The routine is never touched;
+   * scope 'routine' only flags the change for review after the workout.
+   * History follows performedExerciseId, so the new exercise gets the performance.
+   */
+  replaceExercise(seId, newExerciseId, { reason, painArea = null, note = '', scope = 'today' }) {
+    if (!Tax.has('substitutionReasons', reason)) throw new AppError('Choose why you are replacing the exercise.');
+    const ex = ExerciseService.get(newExerciseId);
+    if (!ex) throw new AppError('That exercise no longer exists.');
+    Store.activeTransact((d) => {
+      const { x } = WorkoutService.find(d, seId);
+      if (x.sets.some((st) => st.completed)) throw new AppError('Sets are already completed for this exercise. Undo them, or use Add exercise for the new movement.');
+      if (!x.substitution) x.originalNameSnapshot = x.nameSnapshot;
+      x.performedExerciseId = ex.id;
+      x.nameSnapshot = ex.name;
+      x.primaryMuscleSnapshot = ex.primaryMuscle;
+      x.equipmentSnapshot = ex.equipment;
+      if (ex.id === x.originalExerciseId) {
+        // Replaced back to the original: no substitution remains.
+        x.substitution = false; x.substitutionReason = null; x.substitutionDetail = null; x.proposeRoutineUpdate = false;
+      } else {
+        x.substitution = true;
+        x.substitutionReason = reason;
+        x.substitutionDetail = { painArea: reason === 'pain' ? painArea : null, note: String(note || '').trim(), at: Util.now() };
+        x.proposeRoutineUpdate = scope === 'routine' && !!x.routineItemId;
+      }
+      // Values typed for the old exercise do not belong to the new one.
+      x.sets.forEach((st) => { st.weightKg = null; st.reps = null; st.rir = null; });
+      if (d.restTimer && d.restTimer.sessionExerciseId === x.id) d.restTimer = null;
+    });
+  },
 
   incompleteCount() {
     const a = Store.getActive();
@@ -2861,12 +3218,254 @@ const WorkoutService = {
     done.restTimer = null;
     const errors = Validate.session(done, 'completed');
     if (errors.length) throw new AppError('The workout could not be saved.', errors);
-    Store.commitActive(done);
+    // Saved to history AND linked to its schedule entry in one transaction.
+    Store.commitActive(done, (d) => ScheduleService.markCompletedIn(d, done.scheduleEntryId, done.id));
     return done.id;
   },
 
   discard() { Store.discardActive(); }
 };
+
+
+/* =======================================================================
+   GOALS
+   ======================================================================= */
+const GoalService = {
+  get() { return Store.get().goals; },
+
+  /** field: bodyweightKg | bodyFatPct | workoutsPerWeek ; value null clears. */
+  set(field, value) {
+    if (!['bodyweightKg', 'bodyFatPct', 'workoutsPerWeek'].includes(field)) throw new AppError('Unknown goal.');
+    Store.transact((d) => { d.goals[field] = value; });
+  },
+
+  strength(id) { return GoalService.get().strength.find((g) => g.id === id) || null; },
+
+  saveStrength(draft) {
+    const ex = ExerciseService.get(draft.exerciseId);
+    if (!ex) throw new AppError('Choose an exercise.');
+    if (!(typeof draft.targetWeightKg === 'number' && draft.targetWeightKg > 0)) throw new AppError('Enter a target weight.');
+    return Store.transact((d) => {
+      const t = Util.now();
+      const rec = {
+        id: draft.id || Id.unique('gl', new Set(d.goals.strength.map((g) => g.id))),
+        exerciseId: ex.id, exerciseNameSnapshot: ex.name,
+        targetWeightKg: draft.targetWeightKg,
+        targetReps: Number.isInteger(draft.targetReps) ? draft.targetReps : null,
+        targetDate: DateKey.isKey(draft.targetDate) ? draft.targetDate : null,
+        createdAt: draft.createdAt || t, updatedAt: t
+      };
+      const i = d.goals.strength.findIndex((g) => g.id === rec.id);
+      if (i >= 0) d.goals.strength[i] = rec; else d.goals.strength.push(rec);
+      return rec.id;
+    });
+  },
+
+  removeStrength(id) {
+    Store.transact((d) => { d.goals.strength = d.goals.strength.filter((g) => g.id !== id); });
+  },
+
+  /** Real progress only: best logged set meeting the target reps, if any. */
+  strengthProgress(goal) {
+    const best = Calc.bestSet(Store.get().sessions, goal.exerciseId, goal.targetReps);
+    const reached = !!best && best.weightKg >= goal.targetWeightKg - 1e-9;
+    return { best, reached };
+  }
+};
+
+
+/* =======================================================================
+   SCHEDULE
+   The weekly plan generates DATED ENTRIES (stored records). Each entry has
+   its own status, so changing the plan never rewrites the past:
+     planned   -> scheduled, not yet done (MISSED once its date has passed)
+     completed -> linked to the session that fulfilled it (sessionId)
+     skipped   -> the user explicitly chose not to do it
+     moved     -> replaced by a new entry on another date (movedTo)
+     removed   -> taken off the schedule
+   The schedule is a plan only. It never blocks starting any workout.
+   ======================================================================= */
+const ScheduleService = {
+  sc() { return Store.get().schedule; },
+  hasPlan() { const p = ScheduleService.sc().plan; return Tax.ids('weekdays').some((k) => p[k].length > 0); },
+
+  routineName(en) {
+    const r = RoutineService.get(en.routineId);
+    return r ? r.name : en.routineName;
+  },
+
+  newEntry(d, date, routineId, source, extra = {}) {
+    const r = d.routines.find((x) => x.id === routineId);
+    const t = Util.now();
+    const en = {
+      id: Id.unique('sc', new Set(d.schedule.entries.map((e) => e.id))),
+      date, routineId, routineName: r ? r.name : (extra.routineName || 'Workout'), source,
+      status: 'planned', sessionId: null, movedTo: null, movedFrom: null, createdAt: t, updatedAt: t, ...extra
+    };
+    d.schedule.entries.push(en);
+    return en;
+  },
+
+  /** Creates plan entries for dates not yet generated (never backfills more than the window). */
+  materializeIn(d) {
+    const today = DateKey.today();
+    const last = DateKey.add(today, CONFIG.SCHEDULE_WINDOW_DAYS - 1);
+    let from = d.schedule.materializedThrough ? DateKey.add(d.schedule.materializedThrough, 1) : today;
+    const floor = DateKey.add(today, -CONFIG.SCHEDULE_WINDOW_DAYS);
+    if (from < floor) from = floor;
+    let changed = false;
+    for (let key = from; key <= last; key = DateKey.add(key, 1)) {
+      // A date already touched by the plan (e.g. completed or skipped) is not regenerated.
+      const touched = d.schedule.entries.some((en) => en.date === key && en.source === 'plan');
+      if (!touched) {
+        d.schedule.plan[DateKey.weekday(key)].forEach((rid) => {
+          if (d.routines.some((r) => r.id === rid)) { ScheduleService.newEntry(d, key, rid, 'plan'); changed = true; }
+        });
+      }
+    }
+    if (d.schedule.materializedThrough !== last) { d.schedule.materializedThrough = last; changed = true; }
+    return changed;
+  },
+
+  /** Called on start-up and when the day changes. Writes only if something new is generated. */
+  ensure() {
+    const sc = ScheduleService.sc();
+    const last = DateKey.add(DateKey.today(), CONFIG.SCHEDULE_WINDOW_DAYS - 1);
+    if (sc.materializedThrough === last) return false;
+    Store.transact((d) => { ScheduleService.materializeIn(d); });
+    return true;
+  },
+
+  /** Sets one weekday of the plan; untouched future plan dates are regenerated. Past stays as it was. */
+  setDay(weekday, routineIds) {
+    if (!Tax.has('weekdays', weekday)) throw new AppError('Unknown day.');
+    Store.transact((d) => {
+      d.schedule.plan[weekday] = routineIds.filter((id) => d.routines.some((r) => r.id === id));
+      d.schedule.planUpdatedAt = Util.now();
+      const today = DateKey.today();
+      d.schedule.entries = d.schedule.entries.filter((en) => !(en.source === 'plan' && en.status === 'planned' && en.date >= today));
+      d.schedule.materializedThrough = DateKey.add(today, -1);
+      ScheduleService.materializeIn(d);
+    });
+  },
+
+  visible() { return ScheduleService.sc().entries.filter((en) => en.status !== 'removed'); },
+  on(key) { return ScheduleService.visible().filter((en) => en.date === key).sort((a, b) => a.createdAt.localeCompare(b.createdAt)); },
+  get(id) { return ScheduleService.sc().entries.find((en) => en.id === id) || null; },
+  isMissed(en) { return en.status === 'planned' && en.date < DateKey.today(); },
+
+  /** Planned entries whose date has passed, newest first, within the look-back window. */
+  missed(lookbackDays = CONFIG.MISSED_LOOKBACK_DAYS) {
+    const today = DateKey.today();
+    const floor = DateKey.add(today, -lookbackDays);
+    return ScheduleService.visible().filter((en) => en.status === 'planned' && en.date < today && en.date >= floor)
+      .sort((a, b) => b.date.localeCompare(a.date));
+  },
+  todayPlanned() { return ScheduleService.on(DateKey.today()).filter((en) => en.status === 'planned'); },
+  next() {
+    const today = DateKey.today();
+    return ScheduleService.visible().filter((en) => en.status === 'planned' && en.date > today)
+      .sort((a, b) => a.date.localeCompare(b.date) || a.createdAt.localeCompare(b.createdAt))[0] || null;
+  },
+  conflicts(dateKey, excludeId) { return ScheduleService.on(dateKey).filter((en) => en.status === 'planned' && en.id !== excludeId); },
+
+  update(id, mutate) {
+    return Store.transact((d) => {
+      const en = d.schedule.entries.find((e) => e.id === id);
+      if (!en) throw new AppError('That scheduled workout no longer exists.');
+      const r = mutate(en, d);
+      en.updatedAt = Util.now();
+      return r;
+    });
+  },
+
+  skip(id) { ScheduleService.update(id, (en) => { en.status = 'skipped'; en.skippedAt = Util.now(); }); },
+  remove(id) { ScheduleService.update(id, (en) => { en.status = 'removed'; }); },
+  replace(id, routineId) {
+    const r = RoutineService.get(routineId);
+    if (!r) throw new AppError('That routine no longer exists.');
+    ScheduleService.update(id, (en) => { en.replacedRoutineId = en.routineId; en.routineId = r.id; en.routineName = r.name; });
+  },
+
+  /**
+   * Moves an entry: the original is kept as 'moved' (history of the decision)
+   * and a new planned entry is created on the target date.
+   * mode 'replace' removes the target date's planned entries; 'keep' keeps both.
+   */
+  move(id, toKey, mode = 'keep') {
+    if (!DateKey.isKey(toKey)) throw new AppError('Choose a valid date.');
+    if (toKey < DateKey.today()) throw new AppError('Choose today or a later date.');
+    return ScheduleService.update(id, (en, d) => {
+      if (en.date === toKey && en.status === 'planned') return en.id;
+      if (mode === 'replace') {
+        d.schedule.entries.forEach((o) => {
+          if (o.date === toKey && o.status === 'planned' && o.id !== en.id) { o.status = 'removed'; o.replacedBy = en.id; o.updatedAt = Util.now(); }
+        });
+      }
+      const created = ScheduleService.newEntry(d, toKey, en.routineId, 'moved', { movedFrom: en.id, routineName: en.routineName });
+      en.status = 'moved';
+      en.movedTo = toKey;
+      return created.id;
+    });
+  },
+
+  add(dateKey, routineId) {
+    if (!DateKey.isKey(dateKey)) throw new AppError('Choose a valid date.');
+    if (!RoutineService.get(routineId)) throw new AppError('That routine no longer exists.');
+    return Store.transact((d) => ScheduleService.newEntry(d, dateKey, routineId, 'manual').id);
+  },
+
+  /** Runs inside the finish transaction. Ignores entries that were removed meanwhile. */
+  markCompletedIn(d, entryId, sessionId) {
+    if (!entryId) return;
+    const en = d.schedule.entries.find((e) => e.id === entryId);
+    if (!en || en.status === 'removed') return;
+    en.status = 'completed';
+    en.sessionId = sessionId;
+    en.completedAt = Util.now();
+    en.updatedAt = Util.now();
+  }
+};
+
+
+/* =======================================================================
+   CSV EXPORT — one row per COMPLETED set, from session snapshots only.
+   ======================================================================= */
+const CsvService = {
+  cell(v) {
+    if (v == null) return '';
+    let s = String(v);
+    if (/^[=+\-@\t\r]/.test(s)) s = `'${s}`; // spreadsheet formula-injection guard
+    return /[",\r\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+  },
+  build(sessions = Store.get().sessions) {
+    const unit = Units.current();
+    const header = ['Date', 'Start time', 'Workout', 'Workout duration (min)', 'Exercise', 'Substituted for', 'Substitution reason',
+      'Set', 'Set type', 'Weight', 'Unit', 'Weight (kg)', 'Reps', 'RIR', 'Completed at', 'Workout ID'];
+    const rows = [header];
+    sessions.slice().sort((a, b) => Date.parse(a.startedAt) - Date.parse(b.startedAt)).forEach((ws) => {
+      const start = new Date(ws.startedAt);
+      const time = `${String(start.getHours()).padStart(2, '0')}:${String(start.getMinutes()).padStart(2, '0')}`;
+      const mins = Math.round(Calc.sessionDurationSec(ws) / 60);
+      ws.exercises.forEach((x) => {
+        const labels = Calc.setLabels(x.sets);
+        x.sets.forEach((st, i) => {
+          if (!st.completed) return;
+          rows.push([
+            DateKey.of(start), time, ws.sourceRoutineName, mins, x.nameSnapshot,
+            x.substitution ? x.originalNameSnapshot : '',
+            x.substitution ? Tax.label('substitutionReasons', x.substitutionReason) : '',
+            labels[i], SET_TYPE_NAMES[st.type], st.weightKg == null ? '' : Units.toDisplay(st.weightKg, unit), unit,
+            st.weightKg == null ? '' : st.weightKg, st.reps, st.rir == null ? '' : st.rir, st.completedAt || '', ws.id
+          ]);
+        });
+      });
+    });
+    return '\ufeff' + rows.map((r) => r.map((c) => CsvService.cell(c)).join(',')).join('\r\n') + '\r\n';
+  },
+  filename() { return `iron-ledger-workouts-${DateKey.today()}.csv`; }
+};
+const SET_TYPE_NAMES = Object.freeze({ warmup: 'Warm-up', working: 'Working', drop: 'Drop', failure: 'Failure' });
 
 
 /* =======================================================================
@@ -3060,13 +3659,13 @@ const Dialog = (() => {
           <div class="dlg__actions"><button type="button" class="btn btn-primary" data-dialog="ok">OK</button></div>
         </div>`);
     },
-    prompt({ title, label, value = '', message = '', confirmLabel = 'Save', danger = false, maxLength = 60, validate = null, placeholder = '' }) {
+    prompt({ title, label, value = '', message = '', confirmLabel = 'Save', danger = false, maxLength = 60, validate = null, placeholder = '', inputType = 'text', inputMode = '', min = '' }) {
       return open(`<div class="dlg" role="document">
           <h2>${esc(title)}</h2>
           ${message ? `<p>${esc(message)}</p>` : ''}
           <div class="field">
             <label for="dlg-input">${esc(label)}</label>
-            <input id="dlg-input" type="text" value="${esc(value)}" maxlength="${maxLength}" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="${esc(placeholder)}">
+            <input id="dlg-input" type="${esc(inputType)}" ${inputMode ? `inputmode="${esc(inputMode)}"` : ''} ${min ? `min="${esc(min)}"` : ''} value="${esc(value)}" maxlength="${maxLength}" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="${esc(placeholder)}">
             <p class="field-error" role="alert" hidden></p>
           </div>
           <div class="dlg__actions">
@@ -3080,7 +3679,7 @@ const Dialog = (() => {
       return open(`<div class="dlg" role="document">
           <h2>${esc(title)}</h2>
           ${message ? `<p class="dlg__msg">${esc(message)}</p>` : ''}
-          <div class="dlg__stack">
+          <div class="dlg__stack ${actions.length > 5 ? 'dlg__stack--scroll' : ''}">
             ${actions.map((a, i) => `<button type="button" class="btn btn-block ${cls[a.kind] || 'btn-secondary'}" data-dialog="${esc(a.id)}" ${i === 0 ? 'data-dialog-default' : ''}>${esc(a.label)}</button>`).join('')}
           </div></div>`);
     },
@@ -3106,13 +3705,12 @@ const UIState = {
   library: { q: '', muscle: 'all', equipment: 'all', favourites: false },
   picker: { q: '', muscle: 'all', equipment: 'all', favourites: false, selected: [] },
   ui: {
-    historyMode: 'list', progressPeriod: '30d', progressPreview: false,
+    historyMode: 'list', historyQuery: '', progressPeriod: '30d',
     strengthExercise: null, strengthMetric: 'weight', bodyPeriod: '3m',
     photoView: 'front', photoShirt: 'all', compareMode: 'side'
   },
-  sub: { reason: null, match: null, scope: 'today' },  // substitution preview
-  review: null,                                        // finish-review preview ticks
-  previewReturn: null                                  // where "close preview" goes
+  replace: null,  // substitution flow choices for the exercise being replaced
+  review: null    // ticked changes on the routine review screen
 };
 
 const Partials = {
@@ -3191,14 +3789,19 @@ const Partials = {
     return opts.map((s) => `<option value="${s}" ${s === selected ? 'selected' : ''}>${Fmt.rest(s)}</option>`).join('');
   },
 
-  /** The single, consistent marker for anything showing demo content. */
-  previewBanner(title, text) {
-    return `<div class="pv-banner" role="note">
-      <span class="tag tag--preview">${icon('eye')}UI preview</span>
-      <p><b>${esc(title)}</b> ${esc(text)}</p></div>`;
+  missedCard(en) {
+    const name = ScheduleService.routineName(en);
+    const exists = !!RoutineService.get(en.routineId);
+    const days = DateKey.diffDays(DateKey.today(), en.date);
+    return `<div class="missed">
+      <div><p class="missed__name">${esc(name)}</p>
+        <p class="missed__when">Scheduled ${days === 1 ? 'yesterday' : esc(Fmt.relDay(en.date))}${exists ? '' : '. The routine was deleted.'}</p></div>
+      <div class="missed__actions">
+        ${exists ? `<button type="button" class="btn btn-primary btn-sm" data-action="start-entry" data-entry="${esc(en.id)}">${icon('play')}Start now</button>` : ''}
+        ${exists ? `<button type="button" class="btn btn-secondary btn-sm" data-action="entry-move" data-entry="${esc(en.id)}">Reschedule</button>` : ''}
+        <button type="button" class="btn btn-ghost btn-sm" data-action="entry-skip" data-entry="${esc(en.id)}">Skip</button>
+      </div></div>`;
   },
-
-  laterTag(label = 'Later') { return `<span class="tag tag--later">${esc(label)}</span>`; },
 
   /** Sub-navigation rendered as links so Back and refresh keep the section. */
   tabs(label, items, current) {
@@ -3220,17 +3823,7 @@ const Partials = {
       <dt>${esc(label)}</dt><dd class="num">${esc(value)}</dd>${sub ? `<span class="tile__sub">${esc(sub)}</span>` : ''}</div>`).join('')}</dl>`;
   },
 
-  chartPlaceholder(text) {
-    return `<figure class="chart-ph">
-      <svg viewBox="0 0 320 140" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-        <g class="chart-ph__grid"><path d="M0 35H320M0 70H320M0 105H320"/></g>
-        <path class="chart-ph__axis" d="M0 139.5H320"/>
-        <path class="chart-ph__line" d="M0 112 C60 108 90 92 140 88 S230 60 320 46"/>
-      </svg>
-      <figcaption>${esc(text)}</figcaption></figure>`;
-  },
-
-  /** Row used for settings-style lists (goals, previews, future options). */
+  /** Row used for settings-style lists. */
   navRow({ href, action, msg, icon: ic, title, sub, tag = '', danger = false }) {
     const inner = `${icon(ic)}<span class="datarow__body"><span class="datarow__title">${esc(title)}</span>${sub ? `<span class="datarow__sub">${esc(sub)}</span>` : ''}</span>${tag}`;
     const cls = `datarow${danger ? ' datarow--danger' : ''}`;
@@ -3249,7 +3842,7 @@ const Partials = {
     </table>`;
   },
 
-  /** Real completed-workout card (no preview marker). */
+  /** Completed-workout card. */
   sessionCard(ws) {
     const st = Calc.sessionStats(ws);
     return `<a class="wcard wcard--real" href="#/history/${esc(ws.id)}">
@@ -3258,18 +3851,6 @@ const Partials = {
         <span class="fig"><b>${Fmt.duration(st.durationSec)}</b><span>duration</span></span>
         <span class="fig"><b>${st.workingSets}</b><span>working sets</span></span>
         <span class="fig"><b>${esc(Units.fmtVolume(st.volumeKg))}</b><span>volume</span></span>
-      </span></a>`;
-  },
-
-  workoutCard(w, href) {
-    return `<a class="wcard" href="${href}">
-      <span class="wcard__top"><span class="wcard__name">${esc(w.routine)}</span><span class="tag tag--preview">Preview</span></span>
-      <span class="wcard__date">${esc(w.date)}</span>
-      <span class="wcard__stats">
-        <span class="fig"><b>${esc(w.duration)}</b><span>duration</span></span>
-        <span class="fig"><b>${esc(String(w.workingSets))}</b><span>working sets</span></span>
-        <span class="fig"><b>${esc(w.volume)}</b><span>volume</span></span>
-        <span class="fig"><b>${esc(String(w.prs))}</b><span>PRs</span></span>
       </span></a>`;
   },
 
@@ -3284,27 +3865,52 @@ const Views = {
   /* ---------------- HOME ---------------- */
   home() {
     const routines = RoutineService.list();
-    const today = new Date();
+    const today = Clock.date();
     const days = Calc.weekDays(today, SettingsService.get().weekStart);
-    const rows = routines.map((r) => {
-      const n = Calc.routineExerciseCount(r);
-      const sets = Calc.routineWorkingSets(r);
-      return `
-      <li class="rrow">
-        <a class="rrow__main" href="#/routine/${esc(r.id)}">
-          <span class="rrow__name">${esc(r.name)}</span>
-          <span class="rrow__focus">${esc(Partials.focus(r))}</span>
-          <span class="rrow__count num">${Fmt.plural(n, 'exercise')}, ${Fmt.plural(sets, 'working set')}</span>
-        </a>
-        <button type="button" class="btn btn-secondary btn-sm" data-action="start-routine" data-id="${esc(r.id)}" aria-label="Start ${esc(r.name)}">${icon('play')}Start</button>
-      </li>`;
-    }).join('');
-
     const active = WorkoutService.active();
     const sessions = Store.get().sessions;
     const end = new Date(days[6]); end.setDate(end.getDate() + 1);
     const week = Calc.periodStats(sessions, days[0], end);
     const trainedDays = new Set(sessions.map((ws) => new Date(ws.startedAt).toDateString()));
+    const todays = ScheduleService.on(DateKey.today()).filter((en) => en.status !== 'moved');
+    const missed = ScheduleService.missed();
+    const next = ScheduleService.next();
+    const goal = GoalService.get().workoutsPerWeek;
+
+    const routineRows = routines.map((r) => `
+      <li class="rrow">
+        <a class="rrow__main" href="#/routine/${esc(r.id)}">
+          <span class="rrow__name">${esc(r.name)}</span>
+          <span class="rrow__focus">${esc(Partials.focus(r))}</span>
+          <span class="rrow__count num">${Fmt.plural(Calc.routineExerciseCount(r), 'exercise')}, ${Fmt.plural(Calc.routineWorkingSets(r), 'working set')}</span>
+        </a>
+        <button type="button" class="btn btn-secondary btn-sm" data-action="start-routine" data-id="${esc(r.id)}" aria-label="Start ${esc(r.name)}">${icon('play')}Start</button>
+      </li>`).join('');
+
+    const todayCard = (en) => {
+      const r = RoutineService.get(en.routineId);
+      const name = ScheduleService.routineName(en);
+      if (en.status === 'completed') {
+        return `<div class="today today--done"><p class="today__title">${esc(name)}</p>
+          <p class="today__sub">${icon('check')} Done${en.sessionId ? ` · <a href="#/history/${esc(en.sessionId)}">View workout</a>` : ''}</p></div>`;
+      }
+      if (en.status === 'skipped') return `<div class="today"><p class="today__title">${esc(name)}</p><p class="today__sub">Skipped</p></div>`;
+      return `<div class="today">
+        <p class="today__title">${esc(name)}</p>
+        ${r ? `<p class="today__sub">${esc(Partials.focus(r))}, ${Fmt.plural(Calc.routineWorkingSets(r), 'working set')}</p>` : '<p class="today__sub">This routine was deleted.</p>'}
+        <div class="today__actions">
+          ${r ? `<button type="button" class="btn btn-primary" data-action="start-entry" data-entry="${esc(en.id)}">${icon('play')}Start workout</button>` : ''}
+          <button type="button" class="icon-btn icon-btn--boxed" data-action="entry-menu" data-entry="${esc(en.id)}" aria-label="Schedule options for ${esc(name)}">${icon('dots')}</button>
+        </div></div>`;
+    };
+
+    let todaySection;
+    if (todays.length) todaySection = todays.map(todayCard).join('');
+    else if (ScheduleService.hasPlan()) todaySection = `<div class="today"><p class="today__title">Rest day</p><p class="today__sub">Nothing is scheduled today. You can still start any workout below.</p></div>`;
+    else todaySection = `<div class="today"><p class="today__title">No workout scheduled.</p>
+      <p class="today__sub">Plan your week to see today's workout here.</p>
+      <div class="today__actions"><a class="btn btn-secondary" href="#/workout/schedule">${icon('calendar')}Plan your week</a></div></div>`;
+
     return `
       <header class="home-head">
         <div class="wordmark"><span class="wordmark__rule" aria-hidden="true"></span><span>IRON LEDGER</span></div>
@@ -3319,27 +3925,20 @@ const Views = {
       </a>` : ''}
 
       <section class="section" aria-labelledby="today-h">
-        <div class="section-head"><h2 class="section-title" id="today-h">Today's workout</h2>${Partials.laterTag('Scheduling later')}</div>
-        <div class="today">
-          <p class="today__title">No workout scheduled yet.</p>
-          <p class="today__sub">Scheduling arrives in a later Alpha. You can start any routine below, on any day.</p>
-        </div>
+        <div class="section-head"><h2 class="section-title" id="today-h">Today's workout</h2></div>
+        ${todaySection}
       </section>
 
-      <section class="section" aria-labelledby="choose-h">
-        <h1 class="display" id="choose-h">Choose a routine</h1>
-        ${routines.length ? `<ul class="rlist">${rows}</ul>` : `
-          <div class="empty">
-            <div class="empty__mark">${icon('workout')}</div>
-            <h2>No routines yet</h2>
-            <p>Create a routine to plan the exercises, sets and reps you want to train.</p>
-            <a class="btn btn-primary" href="#/routine/new">${icon('plus')}Create routine</a>
-          </div>`}
-      </section>
+      ${missed.length ? `<section class="section" aria-labelledby="missed-h">
+        <div class="section-head"><h2 class="section-title" id="missed-h">Missed</h2>${missed.length > 2 ? `<a class="link" href="#/workout/schedule">All ${missed.length}${icon('chevron')}</a>` : ''}</div>
+        ${missed.slice(0, 2).map((en) => Partials.missedCard(en)).join('')}
+      </section>` : ''}
 
-      <section class="section" aria-labelledby="missed-h">
-        <div class="section-head"><h2 class="section-title" id="missed-h">Missed workout</h2></div>
-        <div class="empty-inline">${icon('calendar')}<p>No missed workouts.</p></div>
+      <section class="section" aria-labelledby="another-h">
+        <div class="section-head"><h2 class="section-title" id="another-h">Choose another workout</h2><a class="link" href="#/workout/routines">Routines${icon('chevron')}</a></div>
+        ${routines.length ? `<ul class="rlist">${routineRows}</ul>` : `
+          <div class="empty-inline">${icon('workout')}<p>No routines yet. <a href="#/routine/new">Create a routine</a>.</p></div>`}
+        <button type="button" class="btn btn-secondary btn-block start-empty" data-action="start-empty">${icon('plus')}Start empty workout</button>
       </section>
 
       <section class="section" aria-labelledby="week-h">
@@ -3354,16 +3953,17 @@ const Views = {
           }).join('')}
         </ol>
         ${week.workouts ? Partials.tiles([
-          ['Workouts', String(week.workouts)],
+          ['Workouts', goal ? `${week.workouts} of ${goal}` : String(week.workouts)],
           ['Working sets', String(week.workingSets)],
           ['Volume', Units.fmtVolume(week.volumeKg)],
           ['Training time', Fmt.duration(week.durationSec)]
-        ]) : `<div class="empty-inline">${icon('progress')}<p>${sessions.length ? 'No workouts logged this week yet.' : 'Complete your first workout to start building your training history.'}</p></div>`}
+        ]) : `<div class="empty-inline">${icon('progress')}<p>${sessions.length ? `No workouts logged this week yet.${goal ? ` Goal: ${goal} per week.` : ''}` : 'Complete your first workout to start building your training history.'}</p></div>`}
       </section>
 
       <section class="section" aria-labelledby="next-h">
         <div class="section-head"><h2 class="section-title" id="next-h">Next workout</h2></div>
-        <div class="empty-inline">${icon('clock')}<p>Nothing planned yet. Your next scheduled workout will appear here.</p></div>
+        ${next ? `<a class="next" href="#/workout/schedule"><span class="next__name">${esc(ScheduleService.routineName(next))}</span><span class="next__when">${esc(Fmt.relDay(next.date))}</span>${icon('chevron', 'xrow__chev')}</a>`
+          : `<div class="empty-inline">${icon('clock')}<p>${ScheduleService.hasPlan() ? 'Nothing else scheduled in the next two weeks.' : 'Nothing scheduled.'}</p></div>`}
       </section>`;
   },
 
@@ -3434,7 +4034,7 @@ const Views = {
           <a class="ledger__name" href="#/exercise/${esc(it.exerciseId)}">${esc(ex ? ex.name : 'Unknown exercise')}</a>
           <span class="c num" aria-label="${it.sets} sets">${it.sets}</span>
           <span class="c num" aria-label="${Fmt.range(it.repMin, it.repMax)} reps">${Fmt.range(it.repMin, it.repMax)}</span>
-          <span class="c num" aria-label="RIR ${Fmt.range(it.rirMin, it.rirMax)}">${Fmt.range(it.rirMin, it.rirMax)}</span>
+          <span class="c num" aria-label="RIR ${Fmt.rir(it.rirMin, it.rirMax)}">${Fmt.rir(it.rirMin, it.rirMax)}</span>
           <span class="c num" aria-label="Rest ${Fmt.rest(it.restSec)}">${Fmt.rest(it.restSec)}</span>
         </div>
         ${ex ? `<p class="ledger__sub">${i + 1}. ${esc(Fmt.exerciseMeta(ex))}</p>` : ''}
@@ -3503,6 +4103,7 @@ const Views = {
   editorItems(d, err) {
     if (!d.exercises.length) return '<li class="empty"><p>No exercises yet. Add the movements this routine should include.</p></li>';
     const last = d.exercises.length - 1;
+    const singleRir = SettingsService.get().rirDisplay === 'single';
     return d.exercises.map((it, i) => {
       const ex = ExerciseService.get(it.exerciseId);
       const name = ex ? ex.name : 'Unknown exercise';
@@ -3542,7 +4143,10 @@ const Views = {
               <input id="rmax-${iid}" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="3" data-item="${iid}" data-field="repMax" value="${v(it.repMax)}" ${bad('reps')}>
             </div>
           </div>
-          <div>
+          ${singleRir ? `<div>
+            <label class="cell__label" for="qone-${iid}">RIR</label>
+            <input id="qone-${iid}" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" data-item="${iid}" data-field="rirSingle" value="${v(it.rirMax)}" ${bad('rir')}>
+          </div>` : `<div>
             <span class="cell__label" aria-hidden="true">RIR</span>
             <div class="range">
               <label class="sr-only" for="qmin-${iid}">Minimum RIR for ${esc(name)}</label>
@@ -3551,7 +4155,7 @@ const Views = {
               <label class="sr-only" for="qmax-${iid}">Maximum RIR for ${esc(name)}</label>
               <input id="qmax-${iid}" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" data-item="${iid}" data-field="rirMax" value="${v(it.rirMax)}" ${bad('rir')}>
             </div>
-          </div>
+          </div>`}
           <div>
             <label class="cell__label" for="rest-${iid}">Rest</label>
             <select id="rest-${iid}" data-item="${iid}" data-field="restSec" ${bad('rest')}>${Partials.restOptions(it.restSec)}</select>
@@ -3632,10 +4236,21 @@ const Views = {
     </li>`).join('')}</ol>`;
   },
 
-  exerciseProgress() {
-    return `
-      ${Partials.tiles([['Current best', '—'], ['Est. 1RM', '—'], ['Best weight', '—'], ['Best set volume', '—']])}
-      ${Partials.chartPlaceholder('Complete workouts to start building your strength history.')}`;
+  exerciseProgress(ex) { return Views.strengthSummary(ex.id); },
+
+  /** Real per-exercise numbers from completed sessions (shared by Progress › Strength). */
+  strengthSummary(exerciseId) {
+    const sum = Calc.exerciseSummary(Store.get().sessions, exerciseId);
+    if (!sum.sessions) {
+      return `<div class="empty-inline">${icon('progress')}<p>Complete workouts with this exercise to see its numbers here.</p></div>`;
+    }
+    const set = (b) => (b ? `${b.weightKg == null ? 'BW' : Units.fmt(b.weightKg)} × ${b.reps}` : '—');
+    return Partials.tiles([
+      ['Heaviest set', sum.heaviest ? `${Units.fmt(sum.heaviest.weightKg)} ${Units.current()} × ${sum.heaviest.reps}` : '—'],
+      ['Best set volume', sum.bestVolume ? Units.fmtVolume(sum.bestVolume.volumeKg) : '—', sum.bestVolume ? set(sum.bestVolume) : ''],
+      ['Workouts', String(sum.sessions)],
+      ['Last performed', Fmt.dayDate(sum.lastPerformed)]
+    ]);
   },
 
   /* ---------------- EXERCISE FORM (create / edit) ---------------- */
@@ -3656,7 +4271,7 @@ const Views = {
       } else {
         draft = {
           name: '', primaryMuscle: 'chest', secondaryMuscles: [], equipment: 'machine',
-          movementPattern: 'horizontal-push', mechanic: 'compound', defaultRestSec: 90,
+          movementPattern: 'horizontal-push', mechanic: 'compound', defaultRestSec: SettingsService.get().defaultRestSec,
           instructions: '', notes: '', machineSettings: ''
         };
       }
@@ -3727,68 +4342,74 @@ const Views = {
 
 
 /* =======================================================================
-   14b. PLANNED-FEATURE VIEWS (Alpha 1.5)
-   Shells for Schedule, History, Progress, More and the workout previews.
-   Real values show "—" or an empty state. Demo content comes ONLY from the
-   frozen PREVIEW constant and is always wrapped in the UI-preview marker.
+   14b. PLANNING, PROGRESS AND SETTINGS VIEWS (Alpha 3)
+   Every value is real: schedule entries, completed sessions, goals and
+   settings. Nothing here renders demo data.
    ======================================================================= */
-const LATER = Object.freeze({
-  schedule: 'Scheduling arrives in a later Alpha.',
-  logging: 'Preview only. Workout logging arrives in Alpha 2.',
-  history: 'Filters arrive once workouts are logged.',
-  body: 'Body tracking arrives in a later Alpha. Nothing was saved.',
-  photos: 'Progress photos arrive in a later Alpha. Nothing was saved.',
-  goals: 'Goals arrive in a later Alpha.',
-  prefs: 'This preference arrives with workout logging.',
-  csv: 'CSV export arrives once workout history exists.'
-});
-
 Object.assign(Views, {
   /* ---------------- WORKOUT › SCHEDULE ---------------- */
   schedule() {
-    const today = new Date();
-    const days = Calc.weekDays(today, SettingsService.get().weekStart);
-    const keys = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+    const today = DateKey.today();
+    const missed = ScheduleService.missed(CONFIG.SCHEDULE_WINDOW_DAYS);
+    const weekStart = SettingsService.get().weekStart;
+    const thisWeek = Calc.weekDays(Clock.date(), weekStart).map((d) => DateKey.of(d));
+    const nextWeek = thisWeek.map((k) => DateKey.add(k, 7));
+    const plan = ScheduleService.sc().plan;
+    const order = weekStart === 'sunday' ? ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'] : ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+    const hasPlan = ScheduleService.hasPlan();
     return `
-      ${Partials.previewBanner('Sample week.', 'Shows the planned layout only. Nothing here is saved or counted.')}
-
-      <section class="section" aria-labelledby="sm-h">
-        <div class="section-head"><h2 class="section-title" id="sm-h">Missed workout</h2></div>
-        <div class="missed">
-          <div>
-            <p class="missed__name">${esc(PREVIEW.missed.routine)}</p>
-            <p class="missed__when">${esc(PREVIEW.missed.when)}</p>
-          </div>
-          <div class="missed__actions">
-            <button type="button" class="btn btn-primary btn-sm" data-action="later" data-msg="${LATER.schedule}">${icon('play')}Start now</button>
-            <button type="button" class="btn btn-secondary btn-sm" data-action="later" data-msg="${LATER.schedule}">Reschedule</button>
-            <button type="button" class="btn btn-ghost btn-sm" data-action="later" data-msg="${LATER.schedule}">Skip</button>
-          </div>
-        </div>
-      </section>
+      ${missed.length ? `<section class="section" aria-labelledby="sm-h">
+        <div class="section-head"><h2 class="section-title" id="sm-h">Missed</h2></div>
+        <div class="stack">${missed.map((en) => Partials.missedCard(en)).join('')}</div>
+      </section>` : ''}
 
       <section class="section" aria-labelledby="sw-h">
-        <div class="section-head">
-          <h2 class="section-title" id="sw-h">This week</h2>
-          <span class="meta num">${esc(Fmt.shortDate(days[0]))} – ${esc(Fmt.shortDate(days[6]))}</span>
-        </div>
-        <ol class="sched">
-          ${days.map((d) => {
-            const name = PREVIEW.schedule[keys[d.getDay()]];
-            const isToday = Fmt.sameDay(d, today);
-            return `<li class="sday ${isToday ? 'is-today' : ''}" ${isToday ? 'aria-current="date"' : ''}>
-              <span class="sday__date"><span>${esc(Fmt.weekdayInitial(d))}</span><b class="num">${d.getDate()}</b></span>
-              <span class="sday__body">
-                ${name ? `<span class="sday__name">${esc(name)}</span>` : '<span class="sday__rest">Rest</span>'}
-                ${isToday ? '<span class="sday__today">Today</span>' : ''}
-              </span>
-              ${name
-                ? `<button type="button" class="icon-btn" data-action="schedule-menu" data-name="${esc(name)}" aria-label="Actions for ${esc(name)}">${icon('dots')}</button>`
-                : `<button type="button" class="icon-btn" data-action="later" data-msg="${LATER.schedule}" aria-label="Add a workout to this day">${icon('plus')}</button>`}
-            </li>`;
-          }).join('')}
-        </ol>
+        <div class="section-head"><h2 class="section-title" id="sw-h">This week</h2>
+          <span class="meta num">${esc(Fmt.shortDate(DateKey.toDate(thisWeek[0])))} – ${esc(Fmt.shortDate(DateKey.toDate(thisWeek[6])))}</span></div>
+        <ol class="sched">${thisWeek.map((k) => Views.scheduleDay(k, today)).join('')}</ol>
+      </section>
+
+      <section class="section" aria-labelledby="sn-h">
+        <div class="section-head"><h2 class="section-title" id="sn-h">Next week</h2></div>
+        <ol class="sched">${nextWeek.map((k) => Views.scheduleDay(k, today)).join('')}</ol>
+      </section>
+
+      <section class="section" aria-labelledby="sp-h">
+        <div class="section-head"><h2 class="section-title" id="sp-h">Weekly plan</h2></div>
+        ${hasPlan ? '' : '<p class="desc">Assign routines to weekdays. Iron Ledger fills in your schedule from this plan.</p>'}
+        <ul class="plan">${order.map((k) => {
+          const names = plan[k].map((id) => (RoutineService.get(id) || {}).name).filter(Boolean);
+          return `<li><button type="button" class="plan__row" data-action="plan-day" data-day="${k}">
+            <span class="plan__day">${esc(Tax.label('weekdays', k))}</span>
+            <span class="plan__val ${names.length ? '' : 'is-rest'}">${names.length ? esc(names.join(' + ')) : 'Rest'}</span>
+            ${icon('chevron', 'xrow__chev')}</button></li>`;
+        }).join('')}</ul>
+        <p class="hint">Plan changes apply from today onward. Past days keep what happened.</p>
       </section>`;
+  },
+
+  scheduleDay(key, today) {
+    const entries = ScheduleService.on(key);
+    const isToday = key === today;
+    const d = DateKey.toDate(key);
+    const status = (en) => {
+      if (en.status === 'completed') return `<span class="tag tag--fav">${icon('check')}Done</span>`;
+      if (en.status === 'skipped') return '<span class="tag">Skipped</span>';
+      if (en.status === 'moved') return `<span class="tag">Moved to ${esc(Fmt.relDay(en.movedTo))}</span>`;
+      if (ScheduleService.isMissed(en)) return '<span class="tag tag--avoid">Missed</span>';
+      return '';
+    };
+    return `<li class="sday ${isToday ? 'is-today' : ''}" ${isToday ? 'aria-current="date"' : ''}>
+      <span class="sday__date"><span>${esc(Fmt.weekdayInitial(d))}</span><b class="num">${d.getDate()}</b></span>
+      <span class="sday__body">
+        ${entries.length ? entries.map((en) => `<span class="sday__entry ${en.status === 'moved' ? 'is-moved' : ''}">
+            <span class="sday__name">${esc(ScheduleService.routineName(en))}</span>${status(en)}
+            ${en.status === 'moved' ? '' : `<button type="button" class="icon-btn" data-action="entry-menu" data-entry="${esc(en.id)}" aria-label="Options for ${esc(ScheduleService.routineName(en))} on ${esc(Fmt.dayLabel(key))}">${icon('dots')}</button>`}
+          </span>`).join('') : '<span class="sday__rest">Rest</span>'}
+        ${isToday ? '<span class="sday__today">Today</span>' : ''}
+      </span>
+      ${key >= today ? `<button type="button" class="icon-btn" data-action="schedule-add" data-date="${key}" aria-label="Add a workout on ${esc(Fmt.dayLabel(key))}">${icon('plus')}</button>` : '<span class="sday__spacer"></span>'}
+    </li>`;
   },
 
   /* ---------------- WORKOUT › HISTORY (real, completed sessions only) ---------------- */
@@ -3801,7 +4422,6 @@ Object.assign(Views, {
           <label class="sr-only" for="hist-q">Search workouts</label>
           <input id="hist-q" type="search" placeholder="Search workouts or exercises" data-hist-search value="${esc(UIState.ui.historyQuery || '')}" ${all.length ? '' : 'disabled'}>
         </div>
-        <button type="button" class="icon-btn icon-btn--boxed" data-action="later" data-msg="${LATER.history}" aria-label="Filter workouts">${icon('filter')}</button>
       </div>
       <div class="hist-mode">${Partials.uiChoice({ label: 'History view', key: 'historyMode', options: [['list', 'List'], ['calendar', 'Calendar']] })}</div>
       ${mode === 'calendar' ? Views.calendar(all) : ''}
@@ -3829,7 +4449,7 @@ Object.assign(Views, {
   },
 
   calendar(sessions = []) {
-    const today = new Date();
+    const today = Clock.date();
     const trained = new Set(sessions.map((ws) => new Date(ws.startedAt).toDateString()));
     const weekStart = SettingsService.get().weekStart;
     const first = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -3851,46 +4471,15 @@ Object.assign(Views, {
     </div>`;
   },
 
-  /* Completed-workout layout, rendered from PREVIEW data only. */
-  previewCompleted() {
-    const w = PREVIEW.completed;
-    return `
-      ${Partials.subHead({ title: w.routine, back: '#/workout/history' })}
-      ${Partials.previewBanner('Example workout.', 'Not saved, not in your history, and never counted in statistics.')}
-      <p class="desc">${esc(w.date)}</p>
-      <div class="summary summary--4">
-        <span class="fig"><b>${esc(w.duration)}</b><span>duration</span></span>
-        <span class="fig"><b>${esc(String(w.workingSets))}</b><span>working sets</span></span>
-        <span class="fig"><b>${esc(w.volume)}</b><span>volume</span></span>
-        <span class="fig"><b>${esc(String(w.prs))}</b><span>PRs</span></span>
-      </div>
-      <ol class="cw">
-        ${w.exercises.map((ex) => `<li class="cw__ex">
-          <div class="cw__head">
-            <h2 class="cw__name">${esc(ex.name)}</h2>
-            ${ex.pr ? `<span class="tag tag--fav">${icon('trophy')}PR</span>` : ''}
-          </div>
-          ${ex.replaced ? `<p class="cw__sub">${icon('swap')}<span>Replaced ${esc(ex.replaced)}, ${esc(ex.reason.toLowerCase())}</span></p>` : ''}
-          <table class="mini">
-            <thead><tr><th>Set</th><th>kg × reps</th><th>RIR</th></tr></thead>
-            <tbody>${ex.sets.map(([kg, reps, rir], i) => `<tr><td class="num">${i + 1}</td><td class="num"><b>${esc(kg)} × ${esc(reps)}</b></td><td class="num">${esc(rir)}</td></tr>`).join('')}</tbody>
-          </table>
-        </li>`).join('')}
-      </ol>`;
-  },
-
   /* ---------------- PROGRESS ---------------- */
   progress(tab) {
-    const body = { overview: Views.progressOverview, strength: Views.progressStrength, body: Views.progressBody, photos: Views.progressPhotos }[tab];
     return `
       ${Partials.mainHead('Progress')}
       ${Partials.tabs('Progress sections', [
         ['overview', 'Overview', '#/progress/overview'],
-        ['strength', 'Strength', '#/progress/strength'],
-        ['body', 'Body', '#/progress/body'],
-        ['photos', 'Photos', '#/progress/photos']
+        ['strength', 'Strength', '#/progress/strength']
       ], tab)}
-      ${body()}`;
+      ${tab === 'strength' ? Views.progressStrength() : Views.progressOverview()}`;
   },
 
   progressOverview() {
@@ -3922,109 +4511,91 @@ Object.assign(Views, {
         ${has ? '<p class="hint">Working sets exclude warm-ups. Volume counts completed working sets only.</p>' : '<p class="hint">Values appear after you complete workouts in this period.</p>'}
       </section>
 
+      ${Views.goalsProgress()}
+
       <section class="section" aria-labelledby="ov-m">
         <div class="section-head"><h2 class="section-title" id="ov-m">Muscle groups</h2><span class="meta">Working sets, by primary muscle</span></div>
         <ul class="mbars">${muscles}</ul>
-      </section>
-
-      <section class="section" aria-labelledby="ov-p">
-        <div class="section-head"><h2 class="section-title" id="ov-p">Recent PRs</h2></div>
-        <div class="empty-inline">${icon('trophy')}<p>PR detection will be enabled in a later Alpha.</p></div>
-      </section>
-
-      <section class="section" aria-labelledby="ov-x">
-        <div class="section-head"><h2 class="section-title" id="ov-x">Transformation</h2>${Partials.laterTag()}</div>
-        <dl class="spec">
-          ${['Weight change', 'Body-fat change', 'Strength change', 'Measurements', 'Progress photos'].map((k) => `<div><dt>${k}</dt><dd class="muted">—</dd></div>`).join('')}
-        </dl>
-        <p class="hint">Builds automatically from your Body, Photos and Strength records.</p>
-      </section>
-
-      <section class="section coach" aria-labelledby="coach-h">
-        <div class="coach__head">${icon('spark')}<h2 id="coach-h">Iron Ledger Coach</h2>${Partials.laterTag('Coming later')}</div>
-        <ul class="coach__list">
-          <li>Progression recommendations</li><li>Training analysis</li><li>Plateau detection</li><li>Exercise insights</li><li>Recovery insights</li>
-        </ul>
       </section>`;
   },
 
+  /** Goals with REAL current values only (bodyweight/body-fat are not tracked yet, so they show only the goal). */
+  goalsProgress() {
+    const g = GoalService.get();
+    const any = g.bodyweightKg != null || g.bodyFatPct != null || g.workoutsPerWeek != null || g.strength.length;
+    if (!any) {
+      return `<section class="section" aria-labelledby="ov-g">
+        <div class="section-head"><h2 class="section-title" id="ov-g">Goals</h2></div>
+        <a class="next" href="#/more/goals"><span class="next__name">Set your goals</span><span class="next__when">Bodyweight, frequency, strength</span>${icon('chevron', 'xrow__chev')}</a>
+      </section>`;
+    }
+    const days = Calc.weekDays(Clock.date(), SettingsService.get().weekStart);
+    const end = new Date(days[6]); end.setDate(end.getDate() + 1);
+    const thisWeek = Calc.periodStats(Store.get().sessions, days[0], end).workouts;
+    const row = (k, cur, goal, tag = '') => `<div><dt>${esc(k)}</dt><dd><span class="goal-cur">Current: ${cur}</span><span class="goal-target">Goal: ${goal}</span>${tag}</dd></div>`;
+    const unit = Units.current();
+    return `<section class="section" aria-labelledby="ov-g">
+      <div class="section-head"><h2 class="section-title" id="ov-g">Goals</h2><a class="link" href="#/more/goals">Edit${icon('chevron')}</a></div>
+      <dl class="spec goals">
+        ${g.bodyweightKg != null ? row('Bodyweight', '—', `${esc(Units.fmt(g.bodyweightKg))} ${unit}`) : ''}
+        ${g.bodyFatPct != null ? row('Body fat', '—', `${g.bodyFatPct}%`) : ''}
+        ${g.workoutsPerWeek != null ? row('Workouts this week', String(thisWeek), `${g.workoutsPerWeek} per week`, thisWeek >= g.workoutsPerWeek ? '<span class="tag tag--fav">Reached</span>' : '') : ''}
+        ${g.strength.map((sg) => {
+          const p = GoalService.strengthProgress(sg);
+          const name = (ExerciseService.get(sg.exerciseId) || {}).name || sg.exerciseNameSnapshot;
+          const target = `${esc(Units.fmt(sg.targetWeightKg))} ${unit}${sg.targetReps ? ` × ${sg.targetReps}` : ''}${sg.targetDate ? ` by ${esc(Fmt.relDay(sg.targetDate))}` : ''}`;
+          const cur = p.best ? `${esc(Units.fmt(p.best.weightKg))} ${unit} × ${p.best.reps}` : '—';
+          return row(name, cur, target, p.reached ? '<span class="tag tag--fav">Reached</span>' : '');
+        }).join('')}
+      </dl>
+      ${g.bodyweightKg != null || g.bodyFatPct != null ? '<p class="hint">Body measurements are not tracked yet, so only the goal is shown.</p>' : ''}
+    </section>`;
+  },
+
   progressStrength() {
-    const list = ExerciseService.query({ sort: 'preference' });
+    const sessions = Store.get().sessions;
+    const performed = new Set();
+    SessionService.list().forEach((ws) => ws.exercises.forEach((x) => { if (x.sets.some((st) => st.completed)) performed.add(x.performedExerciseId); }));
+    const list = ExerciseService.query({ sort: 'name' });
     let id = UIState.ui.strengthExercise;
-    if (!id || !ExerciseService.get(id)) id = list[0] ? list[0].id : null;
+    if (!id || !ExerciseService.get(id)) id = [...performed][0] || (list[0] && list[0].id) || null;
     const ex = id ? ExerciseService.get(id) : null;
+    const opts = (arr) => arr.map((x) => `<option value="${esc(x.id)}" ${x.id === id ? 'selected' : ''}>${esc(x.name)}</option>`).join('');
+    const logged = list.filter((x) => performed.has(x.id));
+    const others = list.filter((x) => !performed.has(x.id));
     return `
       <div class="field">
         <label for="str-ex">Exercise</label>
         <select id="str-ex" data-ui="strengthExercise">
-          ${list.map((x) => `<option value="${esc(x.id)}" ${x.id === id ? 'selected' : ''}>${esc(x.name)}</option>`).join('')}
+          ${logged.length ? `<optgroup label="Logged">${opts(logged)}</optgroup><optgroup label="Not logged yet">${opts(others)}</optgroup>` : opts(list)}
         </select>
       </div>
-      ${ex ? `<h2 class="str-name">${esc(ex.name)}</h2><p class="meta">${esc(Fmt.exerciseMeta(ex))}</p>` : ''}
-      ${Partials.tiles([['Current best', '—'], ['Est. 1RM', '—'], ['Best weight', '—'], ['Best set volume', '—']])}
-      <div class="str-metric">${Partials.uiChoice({ label: 'Chart metric', key: 'strengthMetric', options: [['weight', 'Weight'], ['e1rm', 'Est. 1RM'], ['volume', 'Volume'], ['reps', 'Reps']] })}</div>
-      ${Partials.chartPlaceholder('Complete workouts to start building your strength history.')}
-      <section class="section" aria-labelledby="str-h">
-        <div class="section-head"><h2 class="section-title" id="str-h">History</h2></div>
-        <div class="empty-inline">${icon('list')}<p>Complete workouts to start building your strength history.</p></div>
-      </section>`;
-  },
-
-  progressBody() {
-    const units = SettingsService.get().units;
-    const len = units === 'lb' ? 'in' : 'cm';
-    const parts = ['Chest', 'Waist', 'Left arm', 'Right arm', 'Hips', 'Left thigh', 'Right thigh', 'Left calf', 'Right calf'];
-    return `
-      ${Partials.tiles([[`Weight (${units})`, '—', 'No entries'], ['Body fat', '—', 'No entries']])}
-      <button type="button" class="btn btn-primary btn-block" data-action="later" data-msg="${LATER.body}">${icon('plus')}Record measurement</button>
-      <div class="str-metric">${Partials.uiChoice({ label: 'Period', key: 'bodyPeriod', options: [['30d', '30D'], ['3m', '3M'], ['6m', '6M'], ['1y', '1Y'], ['all', 'All']] })}</div>
-      ${Partials.chartPlaceholder('Your weight and body-fat trend will appear here.')}
-      <section class="section" aria-labelledby="bm-h">
-        <div class="section-head"><h2 class="section-title" id="bm-h">Measurements</h2><span class="meta">${len}</span></div>
-        <dl class="spec">${parts.map((p) => `<div><dt>${p}</dt><dd class="muted num">—</dd></div>`).join('')}</dl>
-      </section>`;
-  },
-
-  progressPhotos() {
-    const ui = UIState.ui;
-    const chip = (key, value, label) =>
-      `<button type="button" class="chip" data-action="ui-set" data-key="${key}" data-value="${value}" aria-pressed="${ui[key] === value}">${label}</button>`;
-    const slot = (label) => `<button type="button" class="slot" data-action="later" data-msg="${LATER.photos}">${icon('camera')}<span>${label}</span></button>`;
-    return `
-      <button type="button" class="btn btn-primary btn-block" data-action="later" data-msg="${LATER.photos}">${icon('plus')}Add photo</button>
-      <div class="chips" role="group" aria-label="Pose">${chip('photoView', 'front', 'Front')}${chip('photoView', 'side', 'Side')}${chip('photoView', 'back', 'Back')}</div>
-      <div class="chips" role="group" aria-label="Category">${chip('photoShirt', 'all', 'All')}${chip('photoShirt', 'shirt', 'Shirt')}${chip('photoShirt', 'noshirt', 'No shirt')}</div>
-      <div class="empty">
-        <div class="empty__mark">${icon('camera')}</div>
-        <h2>No progress photos yet.</h2>
-        <p>Front, side and back photos taken in similar light make comparisons meaningful.</p>
-      </div>
-      <section class="section" aria-labelledby="cmp-h">
-        <div class="section-head"><h2 class="section-title" id="cmp-h">Compare</h2>${Partials.laterTag()}</div>
-        ${Partials.uiChoice({ label: 'Comparison mode', key: 'compareMode', options: [['side', 'Side by side'], ['slider', 'Slider']] })}
-        <div class="compare compare--${ui.compareMode}">
-          ${ui.compareMode === 'side' ? `${slot('Select earlier photo')}${slot('Select later photo')}`
-            : `<div class="compare__slider">${slot('Select earlier photo')}<span class="compare__handle" aria-hidden="true"></span>${slot('Select later photo')}</div>`}
-        </div>
-      </section>`;
+      ${ex ? `<h2 class="str-name">${esc(ex.name)}</h2><p class="meta">${esc(Fmt.exerciseMeta(ex))}</p>
+        ${Views.strengthSummary(ex.id)}
+        <section class="section" aria-labelledby="str-h">
+          <div class="section-head"><h2 class="section-title" id="str-h">History</h2></div>
+          ${Views.exerciseHistory(ex)}
+        </section>` : ''}`;
   },
 
   /* ---------------- MORE ---------------- */
   more() {
     const s = SettingsService.get();
+    const g = GoalService.get();
     const data = Store.get();
     const size = Store.isPersistent() ? Fmt.bytes(StorageService.dataSize()) : 'not saved';
-    const later = Partials.laterTag();
-    const pvTag = '<span class="tag tag--preview">Preview</span>';
+    const unit = s.units;
+    const alertsOk = RestAlert.supported();
+    const restOpts = TAXONOMY.restPresets.includes(s.defaultRestSec) ? TAXONOMY.restPresets : [...TAXONOMY.restPresets, s.defaultRestSec].sort((a, b) => a - b);
     return `
       ${Partials.mainHead('More')}
 
       <section class="section" aria-labelledby="goals-h">
-        <div class="section-head"><h2 class="section-title" id="goals-h">Goals</h2></div>
-        ${Partials.navRow({ action: 'later', msg: LATER.goals, icon: 'scale', title: 'Target bodyweight', sub: 'Not set', tag: later })}
-        ${Partials.navRow({ action: 'later', msg: LATER.goals, icon: 'target', title: 'Target body fat', sub: 'Not set', tag: later })}
-        ${Partials.navRow({ action: 'later', msg: LATER.goals, icon: 'calendar', title: 'Training frequency', sub: 'Not set', tag: later })}
-        ${Partials.navRow({ action: 'later', msg: LATER.goals, icon: 'trophy', title: 'Strength goals', sub: 'Not set', tag: later })}
+        <div class="section-head"><h2 class="section-title" id="goals-h">Goals</h2><a class="link" href="#/more/goals">Edit${icon('chevron')}</a></div>
+        ${Partials.navRow({ href: '#/more/goals', icon: 'scale', title: 'Target bodyweight', sub: g.bodyweightKg != null ? `${Units.fmt(g.bodyweightKg)} ${unit}` : 'Not set' })}
+        ${Partials.navRow({ href: '#/more/goals', icon: 'target', title: 'Target body fat', sub: g.bodyFatPct != null ? `${g.bodyFatPct}%` : 'Not set' })}
+        ${Partials.navRow({ href: '#/more/goals', icon: 'calendar', title: 'Training frequency', sub: g.workoutsPerWeek != null ? `${g.workoutsPerWeek} workouts per week` : 'Not set' })}
+        ${Partials.navRow({ href: '#/more/goals', icon: 'trophy', title: 'Strength goals', sub: g.strength.length ? Fmt.plural(g.strength.length, 'goal') : 'None yet' })}
       </section>
 
       <section class="section" aria-labelledby="pref-h">
@@ -4032,7 +4603,7 @@ Object.assign(Views, {
         <div class="setting">
           <span class="setting__label" id="set-units">Units</span>
           ${Partials.radioGroup({ id: 'set-units', options: TAXONOMY.units, value: s.units, action: 'set-setting', key: 'units' })}
-          <p class="setting__hint">Used for weights once workout logging is available.</p>
+          <p class="setting__hint">Weights are stored in kg and shown in your chosen unit.</p>
         </div>
         <div class="setting">
           <span class="setting__label" id="set-theme">Theme</span>
@@ -4042,27 +4613,43 @@ Object.assign(Views, {
           <span class="setting__label" id="set-week">Week starts on</span>
           ${Partials.radioGroup({ id: 'set-week', options: TAXONOMY.weekStarts, value: s.weekStart, action: 'set-setting', key: 'weekStart' })}
         </div>
-        ${Partials.navRow({ action: 'later', msg: LATER.prefs, icon: 'sliders', title: 'Default RIR display', sub: 'Range or single value', tag: later })}
-        ${Partials.navRow({ action: 'later', msg: LATER.prefs, icon: 'clock', title: 'Default rest behaviour', sub: 'Auto-start after each set', tag: later })}
-        ${Partials.navRow({ action: 'later', msg: LATER.prefs, icon: 'bell', title: 'Workout notifications', sub: 'Rest timer alerts', tag: later })}
+        <div class="setting">
+          <span class="setting__label" id="set-rir">RIR display</span>
+          ${Partials.radioGroup({ id: 'set-rir', options: TAXONOMY.rirDisplays, value: s.rirDisplay, action: 'set-setting', key: 'rirDisplay' })}
+          <p class="setting__hint">${s.rirDisplay === 'single' ? 'Targets show one value, for example RIR 2. Editing a routine sets a single target.' : 'Targets show a range, for example RIR 1–2.'} Logged workouts are not affected.</p>
+        </div>
+        <div class="setting">
+          <span class="setting__label" id="set-rest">Rest timer</span>
+          ${Partials.radioGroup({ id: 'set-rest', options: TAXONOMY.restModes, value: s.restMode, action: 'set-setting', key: 'restMode' })}
+          <p class="setting__hint">${s.restMode === 'auto' ? 'Completing a set starts that exercise\u2019s rest timer.' : 'After a set, tap Start rest when you are ready.'}</p>
+        </div>
+        <div class="setting">
+          <label class="setting__label" for="set-defrest">Default rest</label>
+          <select id="set-defrest" class="input" data-setting="defaultRestSec">
+            ${restOpts.map((v) => `<option value="${v}" ${v === s.defaultRestSec ? 'selected' : ''}>${Fmt.rest(v)}</option>`).join('')}
+            <option value="custom">Custom…</option>
+          </select>
+          <p class="setting__hint">Used for new exercises you create. Each exercise's own rest time takes priority.</p>
+        </div>
+        <div class="setting">
+          <button type="button" class="switch" role="switch" aria-checked="${s.restAlerts && alertsOk}" data-action="toggle-rest-alerts" ${alertsOk ? '' : 'disabled'}>
+            <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>Rest timer alert
+          </button>
+          <p class="setting__hint">${alertsOk
+            ? 'Vibrates and beeps when rest ends while Iron Ledger is open on screen. Phones do not let web apps alert reliably while locked.'
+            : 'This browser does not support vibration or sound alerts, so rest alerts are unavailable.'}</p>
+        </div>
       </section>
 
       <section class="section" aria-labelledby="data-h">
         <div class="section-head">
           <h2 class="section-title" id="data-h">Data</h2>
-          <span class="meta num">${Fmt.plural(data.routines.length, 'routine')}, ${Fmt.plural(data.exercises.length, 'exercise')}, ${size}</span>
+          <span class="meta num">${Fmt.plural(data.routines.length, 'routine')}, ${Fmt.plural(data.sessions.length, 'workout')}, ${size}</span>
         </div>
-        ${Partials.navRow({ action: 'export-backup', icon: 'download', title: 'Export JSON backup', sub: 'Save a complete copy of your data as a file.' })}
+        ${Partials.navRow({ action: 'export-backup', icon: 'download', title: 'Export JSON backup', sub: 'A complete copy of your data, including any workout in progress.' })}
         ${Partials.navRow({ action: 'import-backup', icon: 'upload', title: 'Import JSON backup', sub: 'Replace all current data with a backup file.' })}
-        ${Partials.navRow({ action: 'later', msg: LATER.csv, icon: 'csv', title: 'Export workout CSV', sub: 'Your workout history as a spreadsheet.', tag: later })}
+        ${data.sessions.length ? Partials.navRow({ action: 'export-csv', icon: 'csv', title: 'Export workout CSV', sub: `Every completed set from ${Fmt.plural(data.sessions.length, 'workout')}, for spreadsheets.` }) : ''}
         ${Partials.navRow({ action: 'reset-data', icon: 'reset', title: 'Reset Alpha data', sub: 'Erase everything and reload the sample routines.', danger: true })}
-      </section>
-
-      <section class="section" aria-labelledby="pv-h">
-        <div class="section-head"><h2 class="section-title" id="pv-h">Planned screens</h2></div>
-        ${Partials.navRow({ href: '#/preview/substitute', icon: 'swap', title: 'Exercise substitution', sub: 'Replacing an exercise mid-workout', tag: pvTag })}
-        ${Partials.navRow({ href: '#/preview/review', icon: 'check', title: 'Review routine changes', sub: 'Choosing which changes update the routine', tag: pvTag })}
-        ${Partials.navRow({ href: '#/workout/schedule', icon: 'calendar', title: 'Schedule', sub: 'Weekly plan and missed workouts', tag: pvTag })}
       </section>
 
       <section class="section" aria-labelledby="about-h">
@@ -4076,139 +4663,92 @@ Object.assign(Views, {
       </section>`;
   },
 
-  /* =====================================================================
-     WORKOUT PREVIEWS — read PREVIEW only; write nothing anywhere.
-     ===================================================================== */
-  previewWorkout() {
-    const w = PREVIEW.activeWorkout;
+  /* ---------------- GOALS ---------------- */
+  goals() {
+    const g = GoalService.get();
+    const unit = Units.current();
     return `
-      <header class="aw-head">
-        <button type="button" class="icon-btn" data-action="exit-preview" aria-label="Close preview">${icon('close')}</button>
-        <div class="aw-head__mid">
-          <span class="aw-head__name">${esc(w.routine)}</span>
-          <span class="aw-head__time num">${icon('clock')}${esc(w.elapsed)}</span>
+      ${Partials.subHead({ title: 'Goals', back: '#/more' })}
+      <section class="section" aria-labelledby="gb-h">
+        <div class="section-head"><h2 class="section-title" id="gb-h">Body</h2></div>
+        <div class="field">
+          <label for="goal-bw">Target bodyweight (${unit})</label>
+          <input id="goal-bw" type="text" inputmode="decimal" autocomplete="off" data-goal="bodyweightKg" value="${esc(Units.fmt(g.bodyweightKg))}" placeholder="Not set">
+          <p class="field-error" id="goal-bw-err" hidden></p>
         </div>
-        <a class="btn btn-primary btn-sm" href="#/preview/finish">Finish</a>
-      </header>
-      ${Partials.previewBanner('Active workout preview.', 'Explore the layout. Nothing you tap here is recorded.')}
-      ${w.exercises.map((ex, i) => Views.awExercise(ex, i)).join('')}
-      <button type="button" class="btn btn-add" data-action="later" data-msg="${LATER.logging}">${icon('plus')}Add exercise</button>
-      <div class="restbar" role="group" aria-label="Rest timer preview">
-        <span class="restbar__label">Rest</span>
-        <span class="restbar__time num">${esc(w.rest)}</span>
-        <button type="button" class="restbar__btn" data-action="later" data-msg="${LATER.logging}" aria-label="Subtract 15 seconds">−15</button>
-        <button type="button" class="restbar__btn restbar__btn--skip" data-action="later" data-msg="${LATER.logging}">Skip</button>
-        <button type="button" class="restbar__btn" data-action="later" data-msg="${LATER.logging}" aria-label="Add 15 seconds">+15</button>
-      </div>`;
-  },
-
-  awExercise(ex, i) {
-    const cell = (v) => (v == null ? '<span class="cellval is-empty">—</span>' : `<span class="cellval">${esc(v)}</span>`);
-    return `<section class="aw-ex" aria-labelledby="awx-${i}">
-      <div class="aw-ex__head">
-        <div><h2 class="aw-ex__name" id="awx-${i}">${esc(ex.name)}</h2><p class="aw-ex__muscle">${esc(ex.muscle)}</p></div>
-        <button type="button" class="icon-btn" data-action="preview-ex-menu" data-name="${esc(ex.name)}" aria-label="Options for ${esc(ex.name)}">${icon('dots')}</button>
-      </div>
-      <p class="aw-target">Target <b class="num">${ex.target.sets} × ${esc(ex.target.reps)}</b><span>RIR <b class="num">${esc(ex.target.rir)}</b></span></p>
-      <table class="settable">
-        <thead><tr><th scope="col">Set</th><th scope="col">Previous</th><th scope="col">kg</th><th scope="col">Reps</th><th scope="col">RIR</th><th scope="col"><span class="sr-only">Complete</span>${icon('check')}</th></tr></thead>
-        <tbody>${ex.rows.map((r) => `<tr class="${r.done ? 'is-done' : ''}">
-          <td class="num set-n">${r.set}</td>
-          <td class="num prev">${esc(r.prev)}</td>
-          <td>${cell(r.kg)}</td><td>${cell(r.reps)}</td><td>${cell(r.rir)}</td>
-          <td><button type="button" class="setcheck" aria-pressed="${r.done}" data-action="later" data-msg="${LATER.logging}" aria-label="Set ${r.set}, ${r.done ? 'completed' : 'not completed'}">${r.done ? icon('check') : ''}</button></td>
-        </tr>`).join('')}</tbody>
-      </table>
-      <button type="button" class="btn btn-ghost btn-sm aw-addset" data-action="later" data-msg="${LATER.logging}">${icon('plus')}Add set</button>
-    </section>`;
-  },
-
-  previewSubstitute() {
-    const S = PREVIEW.substitution;
-    const st = UIState.sub;
-    const match = S.matches.find((m) => m.id === st.match);
-    const choice = (key, value, title, sub = '', extra = '') =>
-      `<button type="button" class="choice" role="radio" aria-checked="${st[key] === value}" data-action="sub-set" data-key="${key}" data-value="${esc(value)}">
-        <span class="choice__dot" aria-hidden="true"></span>
-        <span class="choice__body"><span class="choice__title">${esc(title)}${extra}</span>${sub ? `<span class="choice__sub">${esc(sub)}</span>` : ''}</span>
-      </button>`;
-    return `
-      ${Partials.subHead({ title: 'Replace exercise', back: UIState.previewReturn || '#/more' })}
-      ${Partials.previewBanner('Substitution preview.', 'No routine or exercise is changed.')}
-      <p class="sub-lede">Replace <b>${esc(S.exercise)}</b></p>
-
-      <section class="section" aria-labelledby="why-h">
-        <h2 class="section-title" id="why-h">Why?</h2>
-        <div class="choices" role="radiogroup" aria-labelledby="why-h">${S.reasons.map((r) => choice('reason', r.id, r.label)).join('')}</div>
-        ${st.reason === 'pain' ? `<p class="note">Iron Ledger will remember this so it can stop suggesting ${esc(S.exercise)}. It can't tell whether another exercise is safe for you.</p>` : ''}
-      </section>
-
-      ${st.reason ? `<section class="section" aria-labelledby="bm-h">
-        <h2 class="section-title" id="bm-h">Best matches</h2>
-        <div class="choices" role="radiogroup" aria-labelledby="bm-h">${S.matches.map((m) => choice('match', m.id, m.name, `${m.meta}. ${m.why}.`)).join('')}</div>
-      </section>` : ''}
-
-      ${match ? `<section class="section" aria-labelledby="ap-h">
-        <h2 class="section-title" id="ap-h">Apply to</h2>
-        <div class="choices" role="radiogroup" aria-labelledby="ap-h">
-          ${choice('scope', 'today', 'Today only', `Push A keeps ${S.exercise}.`, ' <span class="tag tag--fav">Recommended</span>')}
-          ${choice('scope', 'routine', 'Update Push A', `Push A uses ${match.name} from now on.`)}
+        <div class="field">
+          <label for="goal-bf">Target body fat (%)</label>
+          <input id="goal-bf" type="text" inputmode="decimal" autocomplete="off" data-goal="bodyFatPct" value="${g.bodyFatPct == null ? '' : g.bodyFatPct}" placeholder="Not set">
+          <p class="field-error" id="goal-bf-err" hidden></p>
         </div>
-      </section>` : ''}
-
-      <div class="sticky-foot">
-        <button type="button" class="btn btn-primary btn-block" data-action="sub-confirm" ${match ? '' : 'disabled'}>${match ? `Replace with ${esc(match.name)}` : 'Choose a replacement'}</button>
-      </div>`;
+        <p class="hint">Saved when you leave a field. Clear a field to remove that goal.</p>
+      </section>
+      <section class="section" aria-labelledby="gf-h">
+        <div class="section-head"><h2 class="section-title" id="gf-h">Training frequency</h2></div>
+        <div class="field">
+          <label for="goal-freq">Workouts per week</label>
+          <select id="goal-freq" data-goal="workoutsPerWeek">
+            <option value="">Not set</option>
+            ${[1, 2, 3, 4, 5, 6, 7].map((n) => `<option value="${n}" ${g.workoutsPerWeek === n ? 'selected' : ''}>${n}</option>`).join('')}
+          </select>
+        </div>
+      </section>
+      <section class="section" aria-labelledby="gs-h">
+        <div class="section-head"><h2 class="section-title" id="gs-h">Strength goals</h2></div>
+        ${g.strength.length ? `<ul class="xlist">${g.strength.map((sg) => {
+          const name = (ExerciseService.get(sg.exerciseId) || {}).name || sg.exerciseNameSnapshot;
+          return `<li><a class="xrow" href="#/more/goals/strength/${esc(sg.id)}">
+            <span class="xrow__body"><span class="xrow__name">${esc(name)}</span>
+            <span class="xrow__meta num">Target: ${esc(Units.fmt(sg.targetWeightKg))} ${unit}${sg.targetReps ? ` × ${sg.targetReps}` : ''}${sg.targetDate ? `, by ${esc(Fmt.relDay(sg.targetDate))}` : ''}</span></span>
+            ${icon('chevron', 'xrow__chev')}</a></li>`;
+        }).join('')}</ul>` : '<p class="desc">No strength goals yet.</p>'}
+        <a class="btn btn-add" href="#/more/goals/strength/new">${icon('plus')}Add strength goal</a>
+      </section>`;
   },
 
-  previewFinish() {
-    const f = PREVIEW.finish;
+  strengthGoalForm(id) {
+    const key = id ? `goal:${id}` : 'goal:new';
+    let form = Forms.get(key);
+    if (!form) {
+      let draft;
+      if (id) {
+        const sg = GoalService.strength(id);
+        if (!sg) { Toast.show('That goal no longer exists.'); return Router.redirect('#/more/goals'); }
+        draft = { id: sg.id, exerciseId: sg.exerciseId, weight: Units.fmt(sg.targetWeightKg), reps: sg.targetReps == null ? '' : String(sg.targetReps), targetDate: sg.targetDate || '', createdAt: sg.createdAt };
+      } else {
+        const first = ExerciseService.query({ sort: 'preference' })[0];
+        draft = { id: null, exerciseId: first ? first.id : '', weight: '', reps: '', targetDate: '' };
+      }
+      form = Forms.open(key, 'goal', draft, '#/more/goals');
+    }
+    const d = form.draft;
+    const err = form.errors || {};
+    const list = ExerciseService.query({ sort: 'name' });
     return `
-      <header class="aw-head">
-        <button type="button" class="icon-btn" data-action="exit-preview" aria-label="Close preview">${icon('close')}</button>
-        <div class="aw-head__mid"><span class="aw-head__name">Workout summary</span></div>
-        <span style="width:44px"></span>
+      <header class="edit-head">
+        <button type="button" class="btn btn-ghost" data-action="form-cancel">Cancel</button>
+        <h1 class="edit-head__title">${id ? 'Edit goal' : 'New strength goal'}</h1>
+        <button type="button" class="btn btn-primary btn-sm" data-action="goal-save">Save</button>
       </header>
-      ${Partials.previewBanner('Finish preview.', 'Nothing is saved and Push A is not changed.')}
-      <div class="done-hero">
-        <span class="done-hero__mark">${icon('check')}</span>
-        <h1 class="display">${esc(f.routine)} complete</h1>
+      <div class="field">
+        <label for="sg-ex">Exercise</label>
+        <select id="sg-ex" data-bind="exerciseId">${list.map((x) => `<option value="${esc(x.id)}" ${x.id === d.exerciseId ? 'selected' : ''}>${esc(x.name)}</option>`).join('')}</select>
       </div>
-      <div class="summary">
-        <span class="fig"><b>${esc(f.duration)}</b><span>duration</span></span>
-        <span class="fig"><b>${f.workingSets}</b><span>working sets</span></span>
-        <span class="fig"><b>${esc(f.volume)}</b><span>volume</span></span>
+      <div class="field">
+        <label for="sg-w">Target weight (${Units.current()})</label>
+        <input id="sg-w" type="text" inputmode="decimal" autocomplete="off" data-bind="weight" value="${esc(d.weight)}" ${err.weight ? 'aria-invalid="true" aria-describedby="sg-w-err"' : ''}>
+        ${err.weight ? `<p class="field-error" id="sg-w-err">${esc(err.weight)}</p>` : ''}
       </div>
-      <section class="section" aria-labelledby="fp-h">
-        <div class="section-head"><h2 class="section-title" id="fp-h">Personal records</h2></div>
-        <ul class="prs">${f.prs.map((p) => `<li>${icon('trophy')}<span class="prs__name">${esc(p.exercise)}</span><span class="prs__val num">${esc(p.value)}</span></li>`).join('')}</ul>
-      </section>
-      <section class="section" aria-labelledby="fc-h">
-        <div class="section-head"><h2 class="section-title" id="fc-h">Changes today</h2></div>
-        <ul class="changes">${f.changes.map((c) => `<li>${icon(c.kind === 'added' ? 'plus' : 'swap')}
-          <span>${esc(c.label)}${c.kind === 'replaced' ? ` <span class="muted">→</span> ${esc(c.detail)}` : ` <span class="tag">${esc(c.detail)}</span>`}</span></li>`).join('')}</ul>
-        <p class="hint">${esc(f.routine)} stays as it is unless you choose to update it.</p>
-      </section>
-      <div class="finish-actions">
-        <button type="button" class="btn btn-primary btn-block" data-action="finish-keep">Keep original</button>
-        <a class="btn btn-secondary btn-block" href="#/preview/review">Review changes</a>
-      </div>`;
-  },
-
-  previewReview() {
-    if (!UIState.review) UIState.review = Object.fromEntries(PREVIEW.finish.review.map((r) => [r.id, r.checked]));
-    const n = Object.values(UIState.review).filter(Boolean).length;
-    return `
-      ${Partials.subHead({ title: 'Review changes', back: UIState.previewReturn || '#/more' })}
-      ${Partials.previewBanner('Review preview.', 'Applying here changes nothing.')}
-      <p class="desc">Tick the changes that should update Push A. Anything unticked stays as it is.</p>
-      <div class="checks">
-        ${PREVIEW.finish.review.map((r) => `<button type="button" class="check" role="checkbox" aria-checked="${UIState.review[r.id]}" data-action="review-toggle" data-id="${r.id}">
-          <span class="check__box" aria-hidden="true">${UIState.review[r.id] ? icon('check') : ''}</span><span>${esc(r.label)}</span></button>`).join('')}
+      <div class="field">
+        <label for="sg-r">Target reps <span class="optional">(optional)</span></label>
+        <input id="sg-r" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="3" autocomplete="off" data-bind="reps" value="${esc(d.reps)}" ${err.reps ? 'aria-invalid="true" aria-describedby="sg-r-err"' : ''}>
+        ${err.reps ? `<p class="field-error" id="sg-r-err">${esc(err.reps)}</p>` : ''}
       </div>
-      <div class="sticky-foot">
-        <button type="button" class="btn btn-primary btn-block" data-action="review-apply" ${n ? '' : 'disabled'}>${n ? `Apply selected changes (${n})` : "No changes selected"}</button>
-      </div>`;
+      <div class="field">
+        <label for="sg-d">Target date <span class="optional">(optional)</span></label>
+        <input id="sg-d" type="date" data-bind="targetDate" value="${esc(d.targetDate)}">
+      </div>
+      ${id ? `<div class="form-footer"><button type="button" class="btn btn-danger-text" data-action="goal-delete" data-id="${esc(id)}">${icon('trash')}Delete goal</button></div>` : ''}`;
   }
 });
 
@@ -4242,7 +4782,7 @@ Object.assign(Views, {
       </header>
       ${a.notes ? `<p class="aw-note aw-note--today"><span class="note-label">Workout note</span>${esc(a.notes)}</p>` : ''}
       ${a.exercises.length ? a.exercises.map((x, i) => Views.awCard(a, x, i, unit, history)).join('') : `
-        <div class="empty"><div class="empty__mark">${icon('workout')}</div><h2>No exercises</h2><p>Add an exercise to keep logging.</p></div>`}
+        <div class="empty"><div class="empty__mark">${icon('workout')}</div><h2>${a.kind === 'empty' ? 'Add your first exercise' : 'No exercises'}</h2><p>Add exercises to start logging sets.</p></div>`}
       <button type="button" class="btn btn-add" data-action="aw-add-exercise">${icon('plus')}Add exercise</button>
       <div id="restbar-slot">${Views.restBar(a)}</div>`;
   },
@@ -4251,7 +4791,7 @@ Object.assign(Views, {
     const prev = Calc.previousPerformance(history, x.performedExerciseId, a.id);
     const labels = Calc.setLabels(x.sets);
     const reps = Fmt.range(x.targetRepMin, x.targetRepMax);
-    const rir = Fmt.range(x.targetRirMin, x.targetRirMax);
+    const rir = Fmt.rir(x.targetRirMin, x.targetRirMax);
     const muscle = x.primaryMuscleSnapshot ? Tax.label('muscles', x.primaryMuscleSnapshot) : '';
     const last = a.exercises.length - 1;
     return `<section class="aw-ex" id="se-${esc(x.id)}" aria-labelledby="sen-${esc(x.id)}">
@@ -4259,6 +4799,7 @@ Object.assign(Views, {
         <div>
           <h2 class="aw-ex__name" id="sen-${esc(x.id)}">${esc(x.nameSnapshot)}</h2>
           <p class="aw-ex__muscle">${esc(muscle)}${x.addedDuringSession ? ' <span class="tag">Added today</span>' : ''}</p>
+          ${x.substitution ? `<p class="aw-sub">${icon('swap')}Replacing ${esc(x.originalNameSnapshot)}${x.proposeRoutineUpdate ? ' · routine update suggested' : ' · today only'}</p>` : ''}
         </div>
         <button type="button" class="icon-btn" data-action="aw-ex-menu" data-se="${esc(x.id)}" data-first="${i === 0}" data-last="${i === last}" aria-label="Options for ${esc(x.nameSnapshot)}">${icon('dots')}</button>
       </div>
@@ -4303,7 +4844,16 @@ Object.assign(Views, {
 
   restBar(a) {
     const t = a && a.restTimer;
-    if (!t) return '';
+    if (!t) {
+      const x = a && a.lastRestExerciseId && a.exercises.find((e) => e.id === a.lastRestExerciseId);
+      if (!x || SettingsService.get().restMode !== 'manual') return '';
+      return `<div class="restbar restbar--idle" role="group" aria-label="Rest timer">
+        <span class="restbar__label">Rest</span>
+        <span class="restbar__time num">${Fmt.clock(x.restSeconds)}</span>
+        <button type="button" class="restbar__btn restbar__btn--skip restbar__btn--wide" data-action="aw-rest-start">${icon('play')}Start rest</button>
+        <button type="button" class="restbar__btn" data-action="aw-rest-skip" aria-label="Dismiss">${icon('close')}</button>
+      </div>`;
+    }
     const rem = Calc.restRemainingSec(t);
     const done = rem <= 0;
     return `<div class="restbar ${done ? 'is-done' : ''}" role="group" aria-label="Rest timer">
@@ -4320,8 +4870,17 @@ Object.assign(Views, {
     const ws = SessionService.get(id);
     if (!ws) { Toast.show('That workout could not be found.'); return Router.redirect('#/workout/history'); }
     const st = Calc.sessionStats(ws);
-    const changes = Calc.sessionChanges(ws);
-    const icons = { added: 'plus', removed: 'trash', sets: 'list', order: 'swap' };
+    const changes = Calc.routineChanges(ws);
+    const review = RoutineService.reviewFor(ws.id);
+    const routine = ws.sourceRoutineId ? RoutineService.get(ws.sourceRoutineId) : null;
+    const icons = { add: 'plus', remove: 'trash', sets: 'list', order: 'swap', replace: 'swap' };
+    let reviewLine = '';
+    if (ws.sourceRoutineId && changes.length) {
+      if (review) reviewLine = review.outcome === 'applied'
+        ? `${Fmt.plural(review.appliedKeys.length, 'change')} applied to ${esc(ws.sourceRoutineName)}.${review.skippedKeys.length ? ` ${review.skippedKeys.length} could not be applied because the routine had changed.` : ''}`
+        : `${esc(ws.sourceRoutineName)} was kept as it was.`;
+      else if (!routine) reviewLine = `${esc(ws.sourceRoutineName)} no longer exists, so these changes cannot be applied to it.`;
+    }
     return `
       <header class="aw-head">
         <a class="icon-btn" href="#/home" aria-label="Close summary">${icon('close')}</a>
@@ -4339,19 +4898,106 @@ Object.assign(Views, {
         <span class="fig"><b>${esc(Units.fmtVolume(st.volumeKg))}</b><span>volume</span></span>
       </div>
       <p class="hint">Working sets and volume count completed non-warm-up sets only.${st.incompleteSets ? ` ${Fmt.plural(st.incompleteSets, 'set')} not completed.` : ''}</p>
-      <section class="section" aria-labelledby="sp-h">
-        <div class="section-head"><h2 class="section-title" id="sp-h">Personal records</h2></div>
-        <div class="empty-inline">${icon('trophy')}<p>PR detection will be enabled in a later Alpha.</p></div>
-      </section>
-      <section class="section" aria-labelledby="sc-h">
+      ${ws.sourceRoutineId ? `<section class="section" aria-labelledby="sc-h">
         <div class="section-head"><h2 class="section-title" id="sc-h">Changes today</h2></div>
-        ${changes.length ? `<ul class="changes">${changes.map((c) => `<li>${icon(icons[c.kind])}<span>${c.kind === 'added' ? `${esc(c.label)} <span class="tag">Added</span>` : c.kind === 'removed' ? `${esc(c.label)} <span class="tag">Removed</span>` : esc(c.label)}</span></li>`).join('')}</ul>`
+        ${changes.length ? `<ul class="changes">${changes.map((c) => `<li>${icon(icons[c.kind])}<span>${esc(c.desc)}</span></li>`).join('')}</ul>`
           : `<div class="empty-inline">${icon('check')}<p>Workout matched the routine.</p></div>`}
-        <p class="hint">${esc(ws.sourceRoutineName)} was not changed. Routine update review is coming in Alpha 3.</p>
-      </section>
+        ${reviewLine ? `<p class="hint">${reviewLine}</p>` : ''}
+        ${changes.length && !review && routine ? `<a class="btn btn-secondary btn-block" href="#/workout/review/${esc(ws.id)}">Review routine changes</a>` : ''}
+      </section>` : ''}
       <div class="finish-actions">
         <a class="btn btn-primary btn-block" href="#/home">Done</a>
         <a class="btn btn-secondary btn-block" href="#/history/${esc(ws.id)}">View workout</a>
+      </div>`;
+  },
+
+  /* ---------------- REVIEW ROUTINE CHANGES ---------------- */
+  routineReview(id) {
+    const ws = SessionService.get(id);
+    if (!ws) { Toast.show('That workout could not be found.'); return Router.redirect('#/workout/history'); }
+    if (RoutineService.reviewFor(ws.id)) return Router.redirect(`#/workout/summary/${ws.id}`);
+    const routine = RoutineService.get(ws.sourceRoutineId);
+    const changes = Calc.routineChanges(ws);
+    if (!UIState.review || UIState.review.sessionId !== ws.id) {
+      UIState.review = { sessionId: ws.id, checked: Object.fromEntries(changes.map((c) => [c.key, c.checked])) };
+    }
+    const n = changes.filter((c) => UIState.review.checked[c.key]).length;
+    return `
+      <header class="aw-head">
+        <a class="icon-btn" href="#/workout/summary/${esc(ws.id)}" aria-label="Skip review">${icon('close')}</a>
+        <div class="aw-head__mid"><span class="aw-head__name">Review routine changes</span></div>
+        <span style="width:44px"></span>
+      </header>
+      ${routine ? `<p class="desc">Today's workout differed from <b>${esc(routine.name)}</b>. Tick the changes to keep in the routine. Unticked changes stay in today's workout only.</p>
+        <div class="checks">${changes.map((c) => `<button type="button" class="check" role="checkbox" aria-checked="${!!UIState.review.checked[c.key]}" data-action="review-toggle" data-key="${esc(c.key)}">
+          <span class="check__box" aria-hidden="true">${UIState.review.checked[c.key] ? icon('check') : ''}</span><span>${esc(c.label)}</span></button>`).join('')}</div>
+        <p class="hint">Your completed workout is saved as it happened and never changes.</p>
+        <div class="sticky-foot review-foot">
+          <button type="button" class="btn btn-secondary btn-block" data-action="review-keep" data-id="${esc(ws.id)}">Keep original routine</button>
+          <button type="button" class="btn btn-primary btn-block" data-action="review-apply" data-id="${esc(ws.id)}" ${n ? '' : 'disabled'}>${n ? `Apply selected changes (${n})` : 'Apply selected changes'}</button>
+        </div>`
+      : `<p class="desc">${esc(ws.sourceRoutineName)} no longer exists, so nothing can be applied. Your workout is saved.</p>
+        <a class="btn btn-primary btn-block" href="#/workout/summary/${esc(ws.id)}">Continue</a>`}`;
+  },
+
+  /* ---------------- REPLACE EXERCISE (real substitution) ---------------- */
+  replaceExercise(seId) {
+    const a = WorkoutService.active();
+    if (!a) { Toast.show('No workout in progress.'); return Router.redirect('#/home'); }
+    const x = a.exercises.find((e) => e.id === seId);
+    if (!x) { Toast.show('That exercise is no longer in this workout.'); return Router.redirect('#/workout/active'); }
+    if (!UIState.replace || UIState.replace.seId !== seId) UIState.replace = { seId, reason: null, area: null, note: '', matchId: null, browsedId: null, scope: 'today' };
+    const st = UIState.replace;
+    const header = `<header class="aw-head">
+        <a class="icon-btn" href="#/workout/active" aria-label="Back to workout">${icon('back')}</a>
+        <div class="aw-head__mid"><span class="aw-head__name">Replace exercise</span></div>
+        <span style="width:44px"></span>
+      </header>`;
+    if (x.sets.some((set) => set.completed)) {
+      return `${header}<p class="sub-lede">Replace <b>${esc(x.nameSnapshot)}</b></p>
+        <p class="desc">Sets are already completed for this exercise, so it can't be replaced without mixing two exercises in one record. Undo those sets, or add the new exercise separately.</p>
+        <button type="button" class="btn btn-primary btn-block" data-action="aw-add-exercise">${icon('plus')}Add exercise instead</button>`;
+    }
+    const original = ExerciseService.get(x.performedExerciseId);
+    const painFlagged = Calc.painFlaggedExercises(Store.get().sessions, a);
+    const ranked = st.reason ? Calc.substitutionCandidates(original, st.reason, ExerciseService.list(), painFlagged) : [];
+    const browsed = st.browsedId && !ranked.some((c) => c.exercise.id === st.browsedId) ? ExerciseService.get(st.browsedId) : null;
+    const match = ExerciseService.get(st.matchId);
+    const choice = (key, value, title, sub = '', extra = '') =>
+      `<button type="button" class="choice" role="radio" aria-checked="${st[key] === value}" data-action="replace-set" data-key="${key}" data-value="${esc(value)}">
+        <span class="choice__dot" aria-hidden="true"></span>
+        <span class="choice__body"><span class="choice__title">${esc(title)}${extra}</span>${sub ? `<span class="choice__sub">${esc(sub)}</span>` : ''}</span>
+      </button>`;
+    return `${header}
+      <p class="sub-lede">Replace <b>${esc(x.nameSnapshot)}</b></p>
+      <section class="section" aria-labelledby="why-h">
+        <h2 class="section-title" id="why-h">Why are you replacing it?</h2>
+        <div class="choices" role="radiogroup" aria-labelledby="why-h">${TAXONOMY.substitutionReasons.map((r) => choice('reason', r.id, r.label)).join('')}</div>
+      </section>
+      ${st.reason === 'pain' ? `<section class="section" aria-labelledby="where-h">
+        <h2 class="section-title" id="where-h">Where?</h2>
+        <div class="chips chips--wrap" role="radiogroup" aria-labelledby="where-h">${TAXONOMY.painAreas.map((p) => `<button type="button" class="chip" role="radio" aria-checked="${st.area === p.id}" aria-pressed="${st.area === p.id}" data-action="replace-set" data-key="area" data-value="${p.id}">${esc(p.label)}</button>`).join('')}</div>
+        <div class="field"><label for="rep-note">Note <span class="optional">(optional)</span></label>
+          <input id="rep-note" type="text" maxlength="200" data-replace-note value="${esc(st.note)}" placeholder="What did you notice?"></div>
+        <p class="note">This is saved with today's workout, and Iron Ledger will stop suggesting ${esc(x.nameSnapshot)} as an alternative. It can't tell whether another exercise is right for you.</p>
+      </section>` : ''}
+      ${st.reason ? `<section class="section" aria-labelledby="bm-h">
+        <h2 class="section-title" id="bm-h">${ranked.length ? 'Best matches' : 'Choose an exercise'}</h2>
+        ${ranked.length || browsed ? `<div class="choices" role="radiogroup" aria-labelledby="bm-h">
+          ${ranked.map((c) => choice('matchId', c.exercise.id, c.exercise.name, `${Fmt.exerciseMeta(c.exercise)}${c.why.length ? `. ${c.why.join(', ')}` : ''}.`)).join('')}
+          ${browsed ? choice('matchId', browsed.id, browsed.name, `${Fmt.exerciseMeta(browsed)}. Chosen from the library.`) : ''}
+        </div>` : '<p class="desc">No close matches in your library. Browse all exercises to choose one.</p>'}
+        <button type="button" class="btn btn-ghost btn-sm browse-all" data-action="replace-browse">${icon('search')}Browse all exercises</button>
+      </section>` : ''}
+      ${match ? `<section class="section" aria-labelledby="ap-h">
+        <h2 class="section-title" id="ap-h">Replace ${esc(x.nameSnapshot)} with ${esc(match.name)}</h2>
+        <div class="choices" role="radiogroup" aria-labelledby="ap-h">
+          ${choice('scope', 'today', 'Today only', `${a.sourceRoutineName} stays as it is.`, ' <span class="tag tag--fav">Recommended</span>')}
+          ${x.routineItemId ? choice('scope', 'routine', `Update ${a.sourceRoutineName}`, 'Nothing changes now. You will be asked to confirm after the workout.') : ''}
+        </div>
+      </section>` : ''}
+      <div class="sticky-foot">
+        <button type="button" class="btn btn-primary btn-block" data-action="replace-confirm" data-se="${esc(x.id)}" ${match && (st.reason !== 'pain' || st.area) ? '' : 'disabled'}>${match ? `Replace with ${esc(match.name)}` : 'Choose a replacement'}</button>
       </div>`;
   },
 
@@ -4380,12 +5026,13 @@ Object.assign(Views, {
               <h2 class="cw__name">${esc(x.nameSnapshot)}</h2>
               ${x.addedDuringSession ? '<span class="tag">Added</span>' : ''}
             </div>
+            ${x.substitution ? `<p class="cw__sub">${icon('swap')}<span>Substituted for ${esc(x.originalNameSnapshot)}, ${esc(Tax.label('substitutionReasons', x.substitutionReason).toLowerCase())}${x.substitutionDetail && x.substitutionDetail.painArea ? ` (${esc(Tax.label('painAreas', x.substitutionDetail.painArea).toLowerCase())})` : ''}${x.substitutionDetail && x.substitutionDetail.note ? `: ${esc(x.substitutionDetail.note)}` : ''}</span></p>` : ''}
             ${x.sessionNote ? `<p class="cw__sub"><span class="note-label">Today's note</span>${esc(x.sessionNote)}</p>` : ''}
             ${x.sets.length ? Partials.setLines(x.sets.map((set, i) => ({ set, label: labels[i] }))) : '<p class="hint">No sets.</p>'}
           </li>`;
         }).join('')}
       </ol>
-      <p class="hint">Completed workouts are read-only in Alpha 2.</p>`;
+      <p class="hint">Completed workouts are read-only.</p>`;
   },
 
   /** Compact "workout in progress" strip shown on other screens. */
@@ -4428,6 +5075,8 @@ const Forms = {
     if ((m = hash.match(/^#\/routine\/([\w-]+)\/edit$/))) return `routine:${m[1]}`;
     if (hash === '#/exercise/new') return 'exercise:new';
     if ((m = hash.match(/^#\/exercise\/([\w-]+)\/edit$/))) return `exercise:${m[1]}`;
+    if (hash === '#/more/goals/strength/new') return 'goal:new';
+    if ((m = hash.match(/^#\/more\/goals\/strength\/([\w-]+)$/))) return `goal:${m[1]}`;
     return null;
   },
   /** Generic text/select binding: <input data-bind="field">. */
@@ -4474,6 +5123,7 @@ const Editor = {
     const field = el.dataset.field;
     if (field === 'notes') it.notes = el.value;
     else if (field === 'restSec') it.restSec = parseInt(el.value, 10);
+    else if (field === 'rirSingle') { const v = Util.parseIntOrNull(el.value); it.rirMin = v; it.rirMax = v; }
     else it[field] = Util.parseIntOrNull(el.value); // blank/invalid stays null -> caught on save
   }
 };
@@ -4522,13 +5172,16 @@ const Picker = {
     $('#pick-count').textContent = `${n} selected`;
     const btn = $('#pick-add');
     btn.disabled = n === 0;
-    btn.textContent = n === 0 ? 'Select exercises to add' : `Add ${Fmt.plural(n, 'exercise')}`;
+    if (this.ctx && this.ctx.single) btn.textContent = n === 0 ? 'Select an exercise' : 'Use this exercise';
+    else btn.textContent = n === 0 ? 'Select exercises to add' : `Add ${Fmt.plural(n, 'exercise')}`;
   },
 
   toggle(id) {
     const sel = UIState.picker.selected;
     const i = sel.indexOf(id);
-    if (i >= 0) sel.splice(i, 1); else sel.push(id);
+    if (i >= 0) sel.splice(i, 1);
+    else if (this.ctx && this.ctx.single) sel.splice(0, sel.length, id);
+    else sel.push(id);
     // Update in place so the list does not jump while scrolling.
     $$('#pick-results [data-action="pick-toggle"]').forEach((b) => {
       const pos = sel.indexOf(b.dataset.id);
@@ -4543,7 +5196,7 @@ const Picker = {
     if (!sel.length || !this.ctx) return;
     this.close();
     this.ctx.onAdd(sel); // added in the order they were selected
-    Toast.show(`Added ${Fmt.plural(sel.length, 'exercise')}`);
+    if (!this.ctx.single) Toast.show(`Added ${Fmt.plural(sel.length, 'exercise')}`);
   }
 };
 
@@ -4589,11 +5242,7 @@ const Router = (() => {
   const routes = [
     { re: /^#\/home$/, tab: 'home', view: () => Views.home() },
     { re: /^#\/workout\/(routines|schedule|history|exercises)$/, tab: 'workout', view: (m) => Views.workout(m[1]) },
-    { re: /^#\/history\/preview$/, tab: 'workout', preview: true, view: () => Views.previewCompleted() },
     { re: /^#\/history\/([\w-]+)$/, tab: 'workout', view: (m) => Views.historyDetail(m[1]) },
-    // Real workout engine (full screen, no bottom nav)
-    { re: /^#\/workout\/active$/, tab: 'workout', editing: true, view: () => Views.activeWorkout() },
-    { re: /^#\/workout\/summary\/([\w-]+)$/, tab: 'workout', editing: true, view: (m) => Views.workoutSummary(m[1]) },
     { re: /^#\/routine\/new$/, tab: 'workout', editing: true, view: () => Views.routineEditor(null) },
     { re: /^#\/routine\/([\w-]+)\/edit$/, tab: 'workout', editing: true, view: (m) => Views.routineEditor(m[1]) },
     { re: /^#\/routine\/([\w-]+)$/, tab: 'workout', view: (m) => Views.routineDetail(m[1]) },
@@ -4601,20 +5250,23 @@ const Router = (() => {
     { re: /^#\/exercise\/([\w-]+)\/edit$/, tab: 'workout', editing: true, view: (m) => Views.exerciseForm(m[1]) },
     { re: /^#\/exercise\/([\w-]+)\/(history|progress)$/, tab: 'workout', view: (m) => Views.exerciseDetail(m[1], m[2]) },
     { re: /^#\/exercise\/([\w-]+)$/, tab: 'workout', view: (m) => Views.exerciseDetail(m[1], 'overview') },
-    { re: /^#\/progress\/(overview|strength|body|photos)$/, tab: 'progress', view: (m) => Views.progress(m[1]) },
+    { re: /^#\/progress\/(overview|strength)$/, tab: 'progress', view: (m) => Views.progress(m[1]) },
     { re: /^#\/more$/, tab: 'more', view: () => Views.more() },
-    // Full-screen UI previews: no bottom nav, read PREVIEW only, write nothing.
-    { re: /^#\/preview\/workout$/, tab: 'workout', editing: true, preview: true, view: () => Views.previewWorkout() },
-    { re: /^#\/preview\/substitute$/, tab: 'workout', editing: true, preview: true, view: () => Views.previewSubstitute() },
-    { re: /^#\/preview\/finish$/, tab: 'workout', editing: true, preview: true, view: () => Views.previewFinish() },
-    { re: /^#\/preview\/review$/, tab: 'workout', editing: true, preview: true, view: () => Views.previewReview() }
+    { re: /^#\/more\/goals$/, tab: 'more', view: () => Views.goals() },
+    { re: /^#\/more\/goals\/strength\/new$/, tab: 'more', editing: true, view: () => Views.strengthGoalForm(null) },
+    { re: /^#\/more\/goals\/strength\/([\w-]+)$/, tab: 'more', editing: true, view: (m) => Views.strengthGoalForm(m[1]) },
+    // Workout engine (full screen, no bottom nav)
+    { re: /^#\/workout\/active$/, tab: 'workout', editing: true, view: () => Views.activeWorkout() },
+    { re: /^#\/workout\/replace\/([\w-]+)$/, tab: 'workout', editing: true, view: (m) => Views.replaceExercise(m[1]) },
+    { re: /^#\/workout\/review\/([\w-]+)$/, tab: 'workout', editing: true, view: (m) => Views.routineReview(m[1]) },
+    { re: /^#\/workout\/summary\/([\w-]+)$/, tab: 'workout', editing: true, view: (m) => Views.workoutSummary(m[1]) }
   ];
   const aliases = { '': '#/home', '#': '#/home', '#/': '#/home', '#/workout': '#/workout/routines', '#/progress': '#/progress/overview' };
   let current = null;
   let bypassGuard = false;
 
   function normalize(hash) { return aliases[hash] || hash; }
-  function isPreviewHash(h) { return !!h && (h.startsWith('#/preview/') || h === '#/history/preview'); }
+
 
   /*
    * Hash links are resolved by the app itself, against THIS document's URL.
@@ -4635,9 +5287,6 @@ const Router = (() => {
     // Drop a draft that belongs to a route we are no longer on.
     if (Forms.currentKey() && Forms.keyFor(hash) !== Forms.currentKey()) Forms.clear();
     const routeChanged = hash !== current;
-    // Remember where a preview was opened from, so "close" returns there.
-    if (match.r.preview && !isPreviewHash(current)) UIState.previewReturn = current;
-    if (!match.r.preview && isPreviewHash(current)) resetPreviewState();
     current = hash;
     const html = match.r.view(match.m);
     if (html == null) return null; // the view redirected
@@ -4711,48 +5360,8 @@ const Router = (() => {
    One delegated listener per event type. Elements declare intent with
    data-action; handlers live in Actions.
    ======================================================================= */
-/** Clears in-memory preview selections. Previews never touch stored data. */
-function resetPreviewState() {
-  UIState.sub = { reason: null, match: null, scope: 'today' };
-  UIState.review = null;
-}
-
 const Actions = {
-  /** Starts a REAL session. Guards against double taps and a second active workout. */
-  async 'start-routine'(el) {
-    const id = el.dataset.id;
-    const a = WorkoutService.active();
-    if (a) {
-      // A fast second tap on the same routine just opens the workout it created.
-      if (a.sourceRoutineId === id && Date.now() - Date.parse(a.startedAt) < 5000) { Router.go('#/workout/active'); return; }
-      const choice = await Dialog.choose({
-        title: 'Workout already in progress',
-        message: `${a.sourceRoutineName}, started ${Fmt.ago(a.startedAt)}.`,
-        actions: [
-          { id: 'resume', label: `Resume ${a.sourceRoutineName}`, kind: 'primary' },
-          { id: 'discard', label: 'Discard & start new', kind: 'secondary' },
-          { id: 'cancel', label: 'Cancel', kind: 'ghost' }
-        ]
-      });
-      if (choice === 'resume') { Router.go('#/workout/active'); return; }
-      if (choice !== 'discard') return;
-      const sure = await Dialog.confirm({
-        title: `Discard ${a.sourceRoutineName}?`,
-        message: 'Every set logged in this workout will be deleted. This cannot be undone.',
-        confirmLabel: 'Discard workout', danger: true
-      });
-      if (!sure) return;
-      WorkoutService.discard();
-    }
-    if (Actions._starting) return;
-    Actions._starting = true;
-    try {
-      WorkoutService.start(id);
-      Router.go('#/workout/active', { force: true });
-    } finally {
-      setTimeout(() => { Actions._starting = false; }, CONFIG.DOUBLE_TAP_MS);
-    }
-  },
+  async 'start-routine'(el) { await startWorkout({ routineId: el.dataset.id }); },
 
   /* ----- active workout ----- */
   'aw-toggle'(el) {
@@ -4761,6 +5370,7 @@ const Actions = {
     const last = Actions._lastToggle;
     if (last && last.set === set && now - last.t < CONFIG.DOUBLE_TAP_MS) return; // ignore accidental double tap
     Actions._lastToggle = { set, t: now };
+    RestAlert.unlock(); // a user tap: browsers only allow sound after one
     try {
       WorkoutService.toggleSet(se, set);
     } catch (err) {
@@ -4837,7 +5447,7 @@ const Actions = {
     });
     if (!choice) return;
     if (choice === 'set' || choice === 'warmup') { WorkoutService.addSet(x.id, choice === 'set' ? 'working' : 'warmup'); Router.refresh(); }
-    if (choice === 'replace') Toast.show('Exercise substitution arrives in a later Alpha.');
+    if (choice === 'replace') Router.go(`#/workout/replace/${x.id}`);
     if (choice === 'history') {
       if (ExerciseService.get(x.performedExerciseId)) Router.go(`#/exercise/${x.performedExerciseId}/history`);
       else Toast.show('This exercise is no longer in your library.');
@@ -4936,7 +5546,9 @@ const Actions = {
     }
     if (!go) return;
     const id = WorkoutService.finish();
-    Router.go(`#/workout/summary/${id}`, { force: true });
+    const ws = SessionService.get(id);
+    const reviewable = ws.sourceRoutineId && RoutineService.get(ws.sourceRoutineId) && Calc.routineChanges(ws).length;
+    Router.go(reviewable ? `#/workout/review/${id}` : `#/workout/summary/${id}`, { force: true });
   },
 
   'aw-rest-adjust'(el) {
@@ -4947,6 +5559,11 @@ const Actions = {
   'aw-rest-skip'() {
     WorkoutService.skipRest();
     $('#restbar-slot').innerHTML = '';
+  },
+
+  'export-csv'() {
+    if (!Store.get().sessions.length) { Toast.show('No completed workouts to export yet.'); return; }
+    Download.save(CsvService.filename(), CsvService.build(), 'text/csv', 'Workout CSV exported');
   },
 
   async 'history-menu'(el) {
@@ -4965,78 +5582,190 @@ const Actions = {
     Router.go('#/workout/history', { force: true });
   },
 
-  /* ----- planned features: explain, never fake ----- */
-  later(el) { Toast.show(el.dataset.msg || 'Coming in a later Alpha.'); },
-
+  /* ----- screen state (memory only) ----- */
   'ui-set'(el) {
     UIState.ui[el.dataset.key] = el.dataset.value;
     Router.refresh();
   },
 
-  'toggle-progress-preview'() {
-    UIState.ui.progressPreview = !UIState.ui.progressPreview;
+  /* ----- schedule ----- */
+  async 'start-entry'(el) {
+    const en = ScheduleService.get(el.dataset.entry);
+    if (!en) return;
+    if (!RoutineService.get(en.routineId)) { Toast.show('That routine no longer exists.', 'error'); return; }
+    await startWorkout({ routineId: en.routineId, entryId: en.id });
+  },
+
+  async 'start-empty'() { await startWorkout({ empty: true }); },
+
+  async 'entry-menu'(el) {
+    const en = ScheduleService.get(el.dataset.entry);
+    if (!en) return;
+    const name = ScheduleService.routineName(en);
+    if (en.status === 'completed') { if (en.sessionId) Router.go(`#/history/${en.sessionId}`); return; }
+    const exists = !!RoutineService.get(en.routineId);
+    const missed = ScheduleService.isMissed(en);
+    const actions = [
+      ...(exists ? [{ id: 'start', label: 'Start now', icon: 'play' }] : []),
+      ...(exists ? [{ id: 'move', label: missed || en.status === 'skipped' ? 'Reschedule' : 'Move', icon: 'calendar' }] : []),
+      { id: 'replace', label: 'Replace with another routine', icon: 'swap' },
+      ...(en.status === 'planned' ? [{ id: 'skip', label: 'Skip', icon: 'open' }] : []),
+      { id: 'remove', label: 'Remove from schedule', icon: 'trash', danger: true }
+    ];
+    const choice = await Dialog.sheet({ title: `${name}, ${Fmt.relDay(en.date)}`, actions });
+    if (choice === 'start') await startWorkout({ routineId: en.routineId, entryId: en.id });
+    if (choice === 'move') await moveEntryFlow(en.id);
+    if (choice === 'skip') { ScheduleService.skip(en.id); Toast.show(`${name} skipped`); Router.refresh(); }
+    if (choice === 'remove') {
+      const ok = await Dialog.confirm({ title: `Remove ${name}?`, message: `It will be taken off ${Fmt.relDay(en.date)}. Your weekly plan is not changed.`, confirmLabel: 'Remove', danger: true });
+      if (!ok) return;
+      ScheduleService.remove(en.id); Toast.show('Removed from schedule'); Router.refresh();
+    }
+    if (choice === 'replace') {
+      const rid = await chooseRoutine(`Replace ${name} with`, en.routineId);
+      if (!rid) return;
+      ScheduleService.replace(en.id, rid); Toast.show('Schedule updated'); Router.refresh();
+    }
+  },
+
+  async 'entry-move'(el) { await moveEntryFlow(el.dataset.entry); },
+
+  'entry-skip'(el) {
+    const en = ScheduleService.get(el.dataset.entry);
+    if (!en) return;
+    ScheduleService.skip(en.id);
+    Toast.show(`${ScheduleService.routineName(en)} skipped`);
     Router.refresh();
   },
 
-  async 'schedule-menu'(el) {
-    const choice = await Dialog.sheet({
-      title: `${el.dataset.name} (preview)`,
-      actions: [
-        { id: 'start', label: 'Start now', icon: 'play' },
-        { id: 'move', label: 'Move', icon: 'calendar' },
-        { id: 'replace', label: 'Replace', icon: 'swap' },
-        { id: 'skip', label: 'Skip', icon: 'open' },
-        { id: 'delete', label: 'Delete from schedule', icon: 'trash', danger: true }
-      ]
-    });
-    if (choice) Toast.show(LATER.schedule);
-  },
-
-  'exit-preview'() {
-    const back = UIState.previewReturn || '#/home';
-    resetPreviewState();
-    Router.go(back);
-  },
-
-  async 'preview-ex-menu'(el) {
-    const ids = ['replace', 'set', 'warmup', 'drop', 'history', 'note', 'remove'];
-    const icons = ['swap', 'plus', 'plus', 'plus', 'list', 'edit', 'trash'];
-    const choice = await Dialog.sheet({
-      title: `${el.dataset.name} (preview)`,
-      actions: PREVIEW.activeWorkout.menu.map((label, i) => ({ id: ids[i], label, icon: icons[i], danger: ids[i] === 'remove' }))
-    });
-    if (choice === 'replace') { UIState.sub = { reason: null, match: null, scope: 'today' }; Router.go('#/preview/substitute'); }
-    else if (choice) Toast.show(LATER.logging);
-  },
-
-  'sub-set'(el) {
-    UIState.sub[el.dataset.key] = el.dataset.value;
+  async 'schedule-add'(el) {
+    const rid = await chooseRoutine(`Add a workout on ${Fmt.dayLabel(el.dataset.date)}`);
+    if (!rid) return;
+    const conflicts = ScheduleService.conflicts(el.dataset.date, null);
+    if (conflicts.length) {
+      const ok = await Dialog.confirm({ title: 'Add a second workout?', message: `${conflicts.map((c) => ScheduleService.routineName(c)).join(' and ')} is already scheduled that day. Both will be kept.`, confirmLabel: 'Keep both' });
+      if (!ok) return;
+    }
+    ScheduleService.add(el.dataset.date, rid);
+    Toast.show('Added to schedule');
     Router.refresh();
   },
 
-  'sub-confirm'() {
-    Toast.show(UIState.sub.scope === 'routine'
-      ? 'Preview only. Push A was not changed.'
-      : 'Preview only. Nothing was replaced.');
-    UIState.sub = { reason: null, match: null, scope: 'today' };
-    Router.go('#/preview/workout');
+  async 'plan-day'(el) {
+    const day = el.dataset.day;
+    const ids = ScheduleService.sc().plan[day].slice();
+    const dayName = Tax.label('weekdays', day);
+    const actions = [];
+    ids.forEach((id, i) => {
+      const r = RoutineService.get(id);
+      if (!r) return;
+      actions.push({ id: `change:${i}`, label: `Change ${r.name}`, icon: 'swap' });
+      actions.push({ id: `remove:${i}`, label: `Remove ${r.name}`, icon: 'trash', danger: true });
+    });
+    actions.push({ id: 'add', label: ids.length ? 'Add another workout' : 'Assign a routine', icon: 'plus' });
+    if (ids.length) actions.push({ id: 'rest', label: 'Make it a rest day', icon: 'clock' });
+    const choice = await Dialog.sheet({ title: `${dayName}s`, actions });
+    if (!choice) return;
+    if (choice === 'rest') ids.length = 0;
+    else if (choice.startsWith('remove:')) ids.splice(Number(choice.slice(7)), 1);
+    else {
+      const idx = choice.startsWith('change:') ? Number(choice.slice(7)) : ids.length;
+      const rid = await chooseRoutine(`${dayName}s`, ids[idx]);
+      if (!rid) return;
+      ids[idx] = rid;
+    }
+    ScheduleService.setDay(day, ids);
+    Toast.show('Weekly plan updated');
+    Router.refresh();
   },
 
-  'finish-keep'() {
-    Toast.show('Preview only. Push A stays as it is.');
-    Actions['exit-preview']();
+  /* ----- substitution ----- */
+  'replace-set'(el) {
+    const st = UIState.replace;
+    st[el.dataset.key] = el.dataset.value;
+    if (el.dataset.key === 'reason') { st.matchId = null; st.scope = 'today'; if (st.reason !== 'pain') st.area = null; }
+    Router.refresh();
   },
 
+  'replace-browse'() {
+    const st = UIState.replace;
+    Picker.open({
+      title: 'Choose replacement', single: true, existingLabel: 'already in workout',
+      existingIds: () => (WorkoutService.active() ? WorkoutService.active().exercises.map((x) => x.performedExerciseId) : []),
+      onAdd: (ids) => { st.browsedId = ids[0]; st.matchId = ids[0]; Router.refresh(); }
+    });
+  },
+
+  'replace-confirm'(el) {
+    const st = UIState.replace;
+    const before = WorkoutService.find(WorkoutService.active(), el.dataset.se).x.nameSnapshot;
+    WorkoutService.replaceExercise(el.dataset.se, st.matchId, { reason: st.reason, painArea: st.area, note: st.note, scope: st.scope });
+    const now = ExerciseService.get(st.matchId).name;
+    UIState.replace = null;
+    Toast.show(st.scope === 'routine' ? `${now} replaces ${before} today. You'll review the routine after the workout.` : `${now} replaces ${before} for today`);
+    Router.go('#/workout/active', { force: true });
+  },
+
+  /* ----- routine review (after finishing) ----- */
   'review-toggle'(el) {
-    UIState.review[el.dataset.id] = !UIState.review[el.dataset.id];
+    UIState.review.checked[el.dataset.key] = !UIState.review.checked[el.dataset.key];
     Router.refresh();
   },
 
-  'review-apply'() {
-    Toast.show('Preview only. Push A was not changed.');
-    Actions['exit-preview']();
+  'review-keep'(el) {
+    RoutineService.keepOriginal(el.dataset.id);
+    UIState.review = null;
+    Toast.show('Routine kept as it was');
+    Router.go(`#/workout/summary/${el.dataset.id}`, { force: true });
   },
 
+  'review-apply'(el) {
+    const keys = Object.entries(UIState.review.checked).filter(([, v]) => v).map(([k]) => k);
+    const res = RoutineService.applySessionChanges(el.dataset.id, keys);
+    UIState.review = null;
+    Toast.show(res.skipped.length ? `${Fmt.plural(res.applied.length, 'change')} applied, ${res.skipped.length} skipped` : `${Fmt.plural(res.applied.length, 'change')} applied to the routine`);
+    Router.go(`#/workout/summary/${el.dataset.id}`, { force: true });
+  },
+
+  /* ----- goals ----- */
+  'goal-save'() {
+    const f = Forms.state;
+    if (!f || f.kind !== 'goal') return;
+    const d = f.draft;
+    const errors = {};
+    const w = Units.parse(d.weight);
+    if (w.empty || w.invalid || !(w.value > 0)) errors.weight = 'Enter a target weight greater than 0.';
+    const reps = String(d.reps).trim() ? Util.parseIntOrNull(d.reps) : null;
+    if (String(d.reps).trim() && !Util.isIntIn(reps, [1, 100])) errors.reps = 'Reps must be a whole number from 1 to 100.';
+    if (Object.keys(errors).length) { f.errors = errors; Router.refresh(); Toast.show(Object.values(errors)[0], 'error'); return; }
+    GoalService.saveStrength({ id: d.id, exerciseId: d.exerciseId, targetWeightKg: Units.fromDisplay(w.value), targetReps: reps, targetDate: d.targetDate || null, createdAt: d.createdAt });
+    Forms.clear();
+    Toast.show('Goal saved');
+    Router.go('#/more/goals', { force: true });
+  },
+
+  async 'goal-delete'(el) {
+    const ok = await Dialog.confirm({ title: 'Delete this goal?', confirmLabel: 'Delete goal', danger: true });
+    if (!ok) return;
+    GoalService.removeStrength(el.dataset.id);
+    Forms.clear();
+    Toast.show('Goal deleted');
+    Router.go('#/more/goals', { force: true });
+  },
+
+  /* ----- preferences ----- */
+  'toggle-rest-alerts'() {
+    const on = !SettingsService.get().restAlerts;
+    SettingsService.set('restAlerts', on);
+    if (on) { RestAlert.unlock(); RestAlert.fire(); }
+    Toast.show(on ? 'Rest alert on' : 'Rest alert off');
+    Router.refresh();
+  },
+
+  'aw-rest-start'() {
+    WorkoutService.startRest();
+    $('#restbar-slot').innerHTML = Views.restBar(WorkoutService.active());
+  },
 
   async 'routine-menu'(el) {
     const r = RoutineService.get(el.dataset.id);
@@ -5077,7 +5806,7 @@ const Actions = {
   async deleteRoutine(r, leaveDetail) {
     const ok = await Dialog.confirm({
       title: `Delete ${r.name}?`,
-      message: 'This removes the routine template. Exercises stay in your library. This cannot be undone.',
+      message: 'This removes the routine template and its future scheduled days. Exercises and workout history stay. This cannot be undone.',
       confirmLabel: 'Delete routine', danger: true
     });
     if (!ok) return;
@@ -5237,33 +5966,7 @@ const Actions = {
   },
 
   async 'export-backup'() {
-    const json = JSON.stringify(BackupService.build(), null, 2);
-    // When hosted as a claude.ai artifact, plain download links are inert,
-    // so the file is handed over through the viewer's downloads capability.
-    if (window.claude && typeof window.claude.use === 'function') {
-      const downloads = await window.claude.use('downloads');
-      if (downloads) {
-        try {
-          await downloads.save({ filename: BackupService.filename(), data: json });
-          Toast.show('Backup exported');
-        } catch (err) {
-          if (err && err.code === 'declined') Toast.show('Export cancelled');
-          else if (err && err.code === 'rate_limited') Toast.show('An export prompt is already open.', 'error');
-          else Toast.show('Export is not available in this view.', 'error');
-        }
-        return;
-      }
-    }
-    const blob = new Blob([json], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = BackupService.filename();
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 2000);
-    Toast.show('Backup exported');
+    await Download.save(BackupService.filename(), JSON.stringify(BackupService.build(), null, 2), 'application/json', 'Backup exported');
   },
 
   'import-backup'() {
@@ -5283,6 +5986,7 @@ const Actions = {
     BackupService.reset();
     Forms.clear();
     UIState.library = { q: '', muscle: 'all', equipment: 'all', favourites: false };
+    ScheduleService.ensure();
     Theme.apply(SettingsService.get().theme);
     Toast.show('Data reset to sample routines');
     Router.go('#/home', { force: true });
@@ -5315,11 +6019,211 @@ async function handleImportFile(file) {
   });
   if (!ok) return;
   BackupService.apply(res.data, res.active);
+  ScheduleService.ensure();
   Forms.clear();
   Theme.apply(SettingsService.get().theme);
   Toast.show('Backup imported');
   Router.go('#/home', { force: true });
 }
+
+/**
+ * The ONE way a workout starts (routine, scheduled entry or empty).
+ * Handles an existing active workout, double taps, and the "missed workout
+ * started on a day with its own plan" question. Never blocked by the schedule.
+ */
+async function startWorkout({ routineId = null, entryId = null, empty = false }) {
+  const a = WorkoutService.active();
+  if (a) {
+    if (!empty && a.sourceRoutineId === routineId && Clock.now() - Date.parse(a.startedAt) < 5000) { Router.go('#/workout/active'); return; }
+    const choice = await Dialog.choose({
+      title: 'Workout already in progress',
+      message: `${a.sourceRoutineName}, started ${Fmt.ago(a.startedAt)}.`,
+      actions: [
+        { id: 'resume', label: `Resume ${a.sourceRoutineName}`, kind: 'primary' },
+        { id: 'discard', label: 'Discard & start new', kind: 'secondary' },
+        { id: 'cancel', label: 'Cancel', kind: 'ghost' }
+      ]
+    });
+    if (choice === 'resume') { Router.go('#/workout/active'); return; }
+    if (choice !== 'discard') return;
+    const sure = await Dialog.confirm({
+      title: `Discard ${a.sourceRoutineName}?`,
+      message: 'Every set logged in this workout will be deleted. This cannot be undone.',
+      confirmLabel: 'Discard workout', danger: true
+    });
+    if (!sure) return;
+    WorkoutService.discard();
+  }
+  if (startWorkout.busy) return;
+  startWorkout.busy = true;
+  try {
+    if (empty) WorkoutService.startEmpty();
+    else WorkoutService.start(routineId, { scheduleEntryId: entryId });
+  } finally {
+    setTimeout(() => { startWorkout.busy = false; }, CONFIG.DOUBLE_TAP_MS);
+  }
+  // A missed workout started today: ask what happens to today's own plan. Never decided silently.
+  const en = entryId ? ScheduleService.get(entryId) : null;
+  if (en && en.date < DateKey.today()) {
+    const todays = ScheduleService.todayPlanned().filter((t) => t.id !== en.id);
+    for (const t of todays) {
+      const name = ScheduleService.routineName(t);
+      const c = await Dialog.choose({
+        title: `What should happen to today's ${name} workout?`,
+        actions: [
+          { id: 'keep', label: 'Keep scheduled', kind: 'primary' },
+          { id: 'tomorrow', label: 'Move to tomorrow', kind: 'secondary' },
+          { id: 'date', label: 'Choose date', kind: 'secondary' },
+          { id: 'skip', label: 'Skip', kind: 'ghost' }
+        ]
+      });
+      if (c === 'tomorrow') await moveEntryTo(t.id, DateKey.add(DateKey.today(), 1));
+      if (c === 'date') await moveEntryFlow(t.id, { askWhen: false });
+      if (c === 'skip') ScheduleService.skip(t.id);
+    }
+  }
+  Router.go('#/workout/active', { force: true });
+}
+
+/** Today / Tomorrow / Choose date, then conflict handling. */
+async function moveEntryFlow(entryId, { askWhen = true } = {}) {
+  const en = ScheduleService.get(entryId);
+  if (!en) return;
+  const today = DateKey.today();
+  let target = null;
+  if (askWhen) {
+    const c = await Dialog.choose({
+      title: `Move ${ScheduleService.routineName(en)}`,
+      actions: [
+        ...(en.date !== today || en.status !== 'planned' ? [{ id: 'today', label: 'Today', kind: 'secondary' }] : []),
+        { id: 'tomorrow', label: 'Tomorrow', kind: 'secondary' },
+        { id: 'date', label: 'Choose date', kind: 'secondary' },
+        { id: 'cancel', label: 'Cancel', kind: 'ghost' }
+      ]
+    });
+    if (c === 'today') target = today;
+    else if (c === 'tomorrow') target = DateKey.add(today, 1);
+    else if (c !== 'date') return;
+  }
+  if (!target) {
+    target = await pickDate(`Move ${ScheduleService.routineName(en)} to`);
+    if (!target) return;
+  }
+  await moveEntryTo(entryId, target);
+}
+
+async function moveEntryTo(entryId, target) {
+  for (;;) {
+    const conflicts = ScheduleService.conflicts(target, entryId);
+    let mode = 'keep';
+    if (conflicts.length) {
+      const c = await Dialog.choose({
+        title: 'A workout is already scheduled for this date.',
+        message: `${conflicts.map((x) => ScheduleService.routineName(x)).join(' and ')}, ${Fmt.relDay(target)}.`,
+        actions: [
+          { id: 'keep', label: 'Keep both', kind: 'primary' },
+          { id: 'replace', label: 'Replace existing', kind: 'secondary' },
+          { id: 'other', label: 'Choose another date', kind: 'secondary' },
+          { id: 'cancel', label: 'Cancel', kind: 'ghost' }
+        ]
+      });
+      if (c === 'other') { target = await pickDate('Choose another date'); if (!target) return; continue; }
+      if (c !== 'keep' && c !== 'replace') return;
+      mode = c;
+    }
+    ScheduleService.move(entryId, target, mode);
+    Toast.show(`Moved to ${Fmt.relDay(target)}`);
+    Router.refresh();
+    return;
+  }
+}
+
+async function pickDate(title) {
+  const today = DateKey.today();
+  const v = await Dialog.prompt({
+    title, label: 'Date', inputType: 'date', min: today, value: DateKey.add(today, 1), confirmLabel: 'Choose',
+    validate: (x) => (!DateKey.isKey(x) ? 'Choose a date.' : x < today ? 'Choose today or a later date.' : null)
+  });
+  return v || null;
+}
+
+async function chooseRoutine(title, currentId = null) {
+  const routines = RoutineService.list();
+  if (!routines.length) { Toast.show('Create a routine first.'); return null; }
+  const c = await Dialog.choose({
+    title,
+    actions: [...routines.map((r) => ({ id: r.id, label: r.id === currentId ? `${r.name} (current)` : r.name, kind: 'secondary' })), { id: '__cancel', label: 'Cancel', kind: 'ghost' }]
+  });
+  return c && c !== '__cancel' ? c : null;
+}
+
+/** File downloads: the artifact host's downloads capability, else a normal browser download. */
+const Download = {
+  async save(filename, text, mime, doneMessage) {
+    if (window.claude && typeof window.claude.use === 'function') {
+      const downloads = await window.claude.use('downloads');
+      if (downloads) {
+        try { await downloads.save({ filename, data: text }); Toast.show(doneMessage); }
+        catch (err) {
+          if (err && err.code === 'declined') Toast.show('Export cancelled');
+          else if (err && err.code === 'rate_limited') Toast.show('An export prompt is already open.', 'error');
+          else Toast.show('Export is not available in this view.', 'error');
+        }
+        return;
+      }
+    }
+    const blob = new Blob([text], { type: mime });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+    Toast.show(doneMessage);
+  }
+};
+
+/**
+ * Rest-end alert while Iron Ledger is on screen: vibration (where supported)
+ * and a short beep. No notification permission is requested: web pages
+ * cannot alert reliably while the phone is locked, so we do not pretend to.
+ * Every call is guarded so alerts can never disturb the timer.
+ */
+const RestAlert = {
+  ctx: null,
+  supported() {
+    return typeof navigator !== 'undefined' && (typeof navigator.vibrate === 'function' || !!(window.AudioContext || window.webkitAudioContext));
+  },
+  unlock() {
+    try {
+      if (!SettingsService.get().restAlerts) return;
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+      if (!RestAlert.ctx) RestAlert.ctx = new AC();
+      if (RestAlert.ctx.state === 'suspended') RestAlert.ctx.resume();
+    } catch (_) { /* sound unavailable */ }
+  },
+  fire() {
+    if (!SettingsService.get().restAlerts || document.hidden) return;
+    try { if (typeof navigator.vibrate === 'function') navigator.vibrate([180, 90, 180]); } catch (_) { /* ignore */ }
+    try {
+      const ctx = RestAlert.ctx;
+      if (!ctx || ctx.state !== 'running') return;
+      [0, 0.22].forEach((t) => {
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.frequency.value = 880;
+        g.gain.setValueAtTime(0.0001, ctx.currentTime + t);
+        g.gain.exponentialRampToValueAtTime(0.25, ctx.currentTime + t + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + t + 0.16);
+        o.connect(g); g.connect(ctx.destination);
+        o.start(ctx.currentTime + t); o.stop(ctx.currentTime + t + 0.18);
+      });
+    } catch (_) { /* ignore */ }
+  }
+};
 
 function bindEvents() {
   document.addEventListener('click', async (e) => {
@@ -5341,7 +6245,8 @@ function bindEvents() {
   const onEdit = (e) => {
     const el = e.target;
     try {
-      if (el.dataset.aw) {
+      if (el.dataset.replaceNote !== undefined) { if (UIState.replace) UIState.replace.note = el.value; }
+      else if (el.dataset.aw) {
         // Saved on every keystroke: nothing is lost if the page closes mid-entry.
         const r = WorkoutService.updateSetField(el.dataset.se, el.dataset.set, el.dataset.aw, el.value);
         el.setAttribute('aria-invalid', String(r.invalid));
@@ -5356,7 +6261,28 @@ function bindEvents() {
     } catch (err) { handleError(err); }
   };
   document.addEventListener('input', (e) => { if (!e.target.dataset.ui) onEdit(e); });
-  document.addEventListener('change', (e) => { if (e.target.tagName === 'SELECT') onEdit(e); });
+  document.addEventListener('change', async (e) => {
+    const el = e.target;
+    try {
+      if (el.dataset.goal) { saveGoalField(el); return; }
+      if (el.dataset.setting === 'defaultRestSec') {
+        let v = el.value;
+        if (v === 'custom') {
+          const typed = await Dialog.prompt({
+            title: 'Default rest', label: 'Seconds (15–600)', inputMode: 'numeric', value: String(SettingsService.get().defaultRestSec), confirmLabel: 'Save',
+            validate: (x) => (Util.isIntIn(Util.parseIntOrNull(x), [15, 600]) ? null : 'Enter a whole number from 15 to 600.')
+          });
+          if (typed == null) { Router.refresh(); return; }
+          v = typed;
+        }
+        SettingsService.set('defaultRestSec', Util.parseIntOrNull(v));
+        Toast.show(`Default rest ${Fmt.rest(SettingsService.get().defaultRestSec)}`);
+        Router.refresh();
+        return;
+      }
+      if (el.tagName === 'SELECT') onEdit(e);
+    } catch (err) { handleError(err); }
+  });
 
   // Enter moves weight -> reps -> RIR within a set row, then closes the keyboard.
   document.addEventListener('keydown', (e) => {
@@ -5399,7 +6325,12 @@ const Ticker = {
     const a = WorkoutService.active();
     if (a && a.restTimer && Calc.restRemainingSec(a.restTimer) <= 0) Ticker.restDoneKey = a.restTimer.endsAt;
     setInterval(() => Ticker.tick(), 1000);
-    document.addEventListener('visibilitychange', () => { if (!document.hidden) Ticker.tick(); });
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) return;
+      Ticker.tick();
+      // Back after midnight: generate new schedule days and refresh what depends on "today".
+      try { if (ScheduleService.ensure() && !document.body.classList.contains('is-editing')) Router.refresh(); } catch (err) { handleError(err); }
+    });
     window.addEventListener('pageshow', () => Ticker.tick());
   },
   tick() {
@@ -5419,9 +6350,34 @@ const Ticker = {
       const label = $('[data-rest-label]', bar); if (label) label.textContent = 'Rest complete';
       const skip = $('[data-rest-skip]', bar); if (skip) skip.textContent = 'Dismiss';
     }
-    if (Ticker.restDoneKey !== t.endsAt) { Ticker.restDoneKey = t.endsAt; Toast.show('Rest complete'); }
+    if (Ticker.restDoneKey !== t.endsAt) { Ticker.restDoneKey = t.endsAt; Toast.show('Rest complete'); RestAlert.fire(); }
   }
 };
+
+/** Goals screen fields save when you leave them (blank clears the goal). */
+function saveGoalField(el) {
+  const field = el.dataset.goal;
+  const err = el.id ? document.getElementById(`${el.id}-err`) : null;
+  const fail = (msg) => { el.setAttribute('aria-invalid', 'true'); if (err) { err.textContent = msg; err.hidden = false; } Toast.show(msg, 'error'); };
+  if (err) err.hidden = true;
+  el.setAttribute('aria-invalid', 'false');
+  const raw = String(el.value).trim();
+  let value = null;
+  if (field === 'workoutsPerWeek') value = raw ? Util.parseIntOrNull(raw) : null;
+  else if (raw) {
+    const p = Units.parse(raw);
+    if (p.invalid || p.empty) { fail('Enter a number, or clear the field.'); return; }
+    if (field === 'bodyweightKg') {
+      value = Units.fromDisplay(p.value);
+      if (!(value > 0 && value <= 500)) { fail('Enter a realistic bodyweight.'); return; }
+    } else {
+      value = Math.round(p.value * 10) / 10;
+      if (!(value > 0 && value <= 75)) { fail('Body fat must be between 0 and 75%.'); return; }
+    }
+  }
+  GoalService.set(field, value);
+  Toast.show(value == null ? 'Goal cleared' : 'Goal saved');
+}
 
 function showBanner(messages) {
   if (!messages.length) return;
@@ -5439,6 +6395,7 @@ function boot() {
     return;
   }
   Theme.apply(SettingsService.get().theme);
+  try { ScheduleService.ensure(); } catch (err) { console.error(err); }
   bindEvents();
   showBanner(Store.takeNotices());
   Router.start();
