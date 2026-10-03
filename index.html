@@ -1120,6 +1120,142 @@ button.srow__prev span:last-child { color: var(--text-3); }
   -webkit-appearance: none; appearance: none;
   background-image: linear-gradient(45deg, transparent 50%, var(--text-3) 50%), linear-gradient(135deg, var(--text-3) 50%, transparent 50%);
   background-position: calc(100% - 19px) 21px, calc(100% - 14px) 21px; background-size: 5px 5px; background-repeat: no-repeat; }
+
+/* =====================================================================
+   2.0 — BODY, PHOTOS, COMPARISON, CHARTS, PROGRESSION, CALENDAR
+   ===================================================================== */
+/* charts */
+.ch { margin: 8px 0 0; padding: 12px 12px 10px; background: var(--surface); border-radius: var(--r-md); }
+.ch svg { width: 100%; height: auto; display: block; overflow: visible; }
+.ch__grid path { stroke: var(--line); stroke-width: 1; fill: none; }
+.ch__line { fill: none; stroke: var(--accent); stroke-width: 2.4; stroke-linejoin: round; stroke-linecap: round; }
+.ch__line--2 { stroke: var(--text-2); }
+.ch__dot { fill: var(--accent); }
+.ch__dot--2 { fill: var(--surface); stroke: var(--text-2); stroke-width: 2; }
+.ch__lab { font-size: 10px; fill: var(--text-3); font-family: var(--font); font-variant-numeric: tabular-nums; }
+.ch__legend { display: flex; gap: 16px; margin-top: 6px; font-size: 13px; color: var(--text-2); }
+.ch__key { display: inline-block; width: 18px; height: 0; border-top: 2.4px solid var(--accent); margin-right: 6px; vertical-align: middle; }
+.ch__key--2 { border-top: 2.4px dashed var(--text-2); }
+.chart-empty { display: flex; gap: 12px; align-items: center; padding: 18px 14px; background: var(--surface); border-radius: var(--r-md); color: var(--text-2); margin-top: 8px; }
+.chart-empty svg { width: 22px; height: 22px; color: var(--text-3); flex: none; }
+.tiles + .btn-block { margin-top: 4px; }
+
+/* body form */
+.bgrid { display: grid; gap: 10px 12px; margin-top: 14px; }
+.bgrid--2 { grid-template-columns: 1fr 1fr; }
+.bgrid--3 { grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); }
+.bfield label { display: block; font-size: 14px; font-weight: 600; color: var(--text-2); margin-bottom: 6px; }
+.bfield input { width: 100%; min-height: 48px; padding: 0 12px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--r-md); font-size: 17px; font-variant-numeric: tabular-nums; }
+.bfield input:focus { outline: none; border-color: var(--focus); box-shadow: 0 0 0 1px var(--focus); }
+.bm-head { margin-top: 22px; }
+
+/* photos */
+.ph-add { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 4px; }
+.ph-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 8px; margin-top: 10px; }
+.ph { display: block; text-decoration: none; border: 0; padding: 0; background: transparent; text-align: left; border-radius: var(--r-md); }
+.ph__img { display: block; aspect-ratio: 3 / 4; background: var(--surface-2); border-radius: var(--r-md); overflow: hidden; }
+.ph__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ph__img.is-missing { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 8px; font-size: 12px; color: var(--text-3); text-align: center; border: 1.5px dashed var(--line-strong); }
+.ph__img.is-missing svg { width: 20px; height: 20px; }
+.ph__cap { display: block; font-size: 12px; color: var(--text-3); margin-top: 4px; line-height: 1.3; }
+.ph__cap b { display: block; color: var(--text); font-size: 13px; }
+.ph-full { margin: 0 calc(var(--pad) * -1) 14px; background: #000; display: flex; justify-content: center; }
+.ph-full img { max-width: 100%; max-height: 72vh; display: block; }
+.ph-full .ph__img { width: 100%; aspect-ratio: 3 / 4; border-radius: 0; }
+.ph-full--preview { margin-top: 4px; }
+.ph-full--preview img { max-height: 46vh; }
+
+/* camera */
+body.is-camera #view { padding: 0; max-width: none; }
+body.is-camera .toast { bottom: 120px; }
+.cam { position: fixed; inset: 0; background: #000; color: #fff; z-index: 30; }
+.cam__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.cam__video.is-mirrored { transform: scaleX(-1); }
+.cam__guide { position: absolute; left: 50%; top: 50%; height: 78%; width: auto; aspect-ratio: 1; transform: translate(-50%, -50%); pointer-events: none; }
+.cam__guide path, .cam__guide ellipse { fill: none; stroke: rgba(255, 255, 255, .55); stroke-width: .6; vector-effect: non-scaling-stroke; }
+.cam__guide .cam__axis { stroke: rgba(255, 255, 255, .28); stroke-dasharray: 2 2; }
+.cam__guide .cam__body * { stroke-width: 1.6; stroke-dasharray: 4 3; }
+.cam__top { position: absolute; top: 0; left: 0; right: 0; display: flex; align-items: center; gap: 8px; padding: calc(env(safe-area-inset-top, 0px) + 10px) 12px 10px; background: linear-gradient(rgba(0,0,0,.55), transparent); }
+.cam__poses { flex: 1; background: rgba(255,255,255,.14); }
+.cam__poses > button { color: #fff; }
+.cam__poses > [aria-checked="true"] { background: #fff; color: #000; box-shadow: none; }
+.cam__btn { color: #fff; background: rgba(0,0,0,.35); }
+.cam__guide-toggle { min-height: 40px; padding: 0 12px; border-radius: 10px; border: 1.5px solid rgba(255,255,255,.6); background: transparent; color: #fff; font-weight: 650; font-size: 14px; }
+.cam__guide-toggle[aria-checked="true"] { background: #fff; color: #000; }
+.cam__msg { position: absolute; left: 20px; right: 20px; top: 45%; text-align: center; font-weight: 600; text-shadow: 0 1px 3px #000; }
+.cam__bottom { position: absolute; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-around; align-items: center; padding: 16px 20px calc(env(safe-area-inset-bottom, 0px) + 22px); background: linear-gradient(transparent, rgba(0,0,0,.6)); }
+.cam__shutter { width: 74px; height: 74px; border-radius: 50%; border: 4px solid #fff; background: transparent; display: grid; place-items: center; padding: 0; }
+.cam__shutter span { width: 58px; height: 58px; border-radius: 50%; background: #fff; display: block; }
+.cam__shutter:active span { transform: scale(.92); }
+
+/* compare */
+.cmp-picks { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.cmp-pick { display: flex; gap: 10px; align-items: center; min-height: 64px; padding: 8px; border-radius: var(--r-md); border: 1.5px solid var(--line-strong); background: var(--surface); text-align: left; font-size: 13px; color: var(--text-3); }
+.cmp-pick b { display: block; color: var(--text); font-size: 14px; }
+.cmp-pick img { width: 40px; height: 54px; object-fit: cover; border-radius: 6px; flex: none; background: var(--surface-2); }
+.cmp-pick svg { width: 20px; height: 20px; flex: none; }
+.cmp-pick.is-active { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.cmp-mode { margin: 14px 0 10px; }
+.cmp-side { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin: 0 calc(var(--pad) * -1); }
+.cmp-frame { position: relative; aspect-ratio: 3 / 4; overflow: hidden; background: #000; touch-action: none; cursor: grab; }
+.cmp-frame img { width: 100%; height: 100%; object-fit: cover; display: block; transform-origin: center; user-select: none; -webkit-user-drag: none; }
+.cmp-slider { position: relative; aspect-ratio: 3 / 4; margin: 0 calc(var(--pad) * -1); overflow: hidden; background: #000; }
+.cmp-slider .cmp-frame { position: absolute; inset: 0; aspect-ratio: auto; }
+.cmp-frame--top { clip-path: inset(0 0 0 var(--cut)); }
+.cmp-slider__line { position: absolute; top: 0; bottom: 0; left: var(--cut); width: 3px; margin-left: -1.5px; background: #fff; box-shadow: 0 0 4px rgba(0,0,0,.6); pointer-events: none; }
+.cmp-range, .cmp-adjust input[type="range"] { width: 100%; min-height: 44px; accent-color: var(--accent); }
+.cmp-meta { display: flex; justify-content: space-between; font-size: 14px; color: var(--text-2); margin-top: 8px; }
+.cmp-meta .num { font-weight: 700; color: var(--text); }
+.cmp-adjust { display: grid; gap: 4px; margin-top: 10px; font-size: 14px; color: var(--text-2); }
+.cmp-chooser .ph-grid { grid-template-columns: repeat(auto-fill, minmax(88px, 1fr)); }
+
+/* transformation */
+.tr dd b { color: var(--text); }
+.delta { margin-left: 6px; font-size: 13px; color: var(--text-3); font-weight: 600; }
+.tr-photos { display: grid; grid-template-columns: 4.5em 1fr 1fr auto; gap: 8px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--line); }
+.tr-photos img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 8px; background: var(--surface-2); }
+.tr-photos__label { font-weight: 650; }
+
+/* progression suggestion */
+.reco { margin: 8px 0 2px; border-radius: var(--r-sm); background: var(--surface-2); }
+.reco summary { list-style: none; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; min-height: 40px; padding: 8px 10px; cursor: pointer; }
+.reco summary::-webkit-details-marker { display: none; }
+.reco summary::after { content: "Why?"; margin-left: auto; font-size: 13px; color: var(--accent); font-weight: 650; }
+.reco[open] summary::after { content: "Hide"; }
+.reco__label { font-size: 12px; font-weight: 700; color: var(--text-3); }
+.reco b { font-size: 16px; }
+.reco__target { color: var(--text-3); font-size: 14px; }
+.reco__why { padding: 0 10px 10px; font-size: 14px; color: var(--text-2); }
+.reco--increase { box-shadow: inset 3px 0 0 var(--accent); }
+.reco--reduce { box-shadow: inset 3px 0 0 var(--danger); }
+.aw-note--ex { background: transparent; border: 1px solid var(--line); }
+
+/* PRs + insights */
+.prs li > a { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 52px; text-decoration: none; }
+.prs__name { flex: 1; font-weight: 600; }
+.prs__kind { display: block; font-weight: 400; font-size: 14px; color: var(--text-3); }
+.insight { display: flex; gap: 12px; align-items: center; padding: 12px 14px; border-radius: var(--r-md); background: var(--surface); text-decoration: none; }
+.insight + .insight { margin-top: 8px; }
+.insight > svg { width: 22px; height: 22px; color: var(--accent); flex: none; }
+.insight b { display: block; }
+.insight span span { display: block; font-size: 14px; color: var(--text-3); }
+
+/* calendar */
+.cal__nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+.cal__nav .cal__month { margin: 0; }
+.cal__cell { border: 0; background: transparent; padding: 2px 0; flex-direction: column; gap: 0; min-height: 44px; font: inherit; color: var(--text-2); display: flex; align-items: center; justify-content: center; }
+.cal__mark { font-size: 11px; line-height: 1; height: 11px; font-weight: 700; }
+.cal__cell--done { color: var(--text); font-weight: 700; }
+.cal__cell--done .cal__mark { color: var(--accent); }
+.cal__cell--missed .cal__mark { color: var(--danger); }
+.cal__cell--planned .cal__mark, .cal__cell--skipped .cal__mark { color: var(--text-3); }
+.cal__cell.is-selected { box-shadow: inset 0 0 0 1.5px var(--accent); }
+.cal__cell.has-workout::after { display: none; }
+.cal__legend { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12px; color: var(--text-3); margin-top: 8px; }
+.cal__legend b { color: var(--text-2); }
+.cal__day { margin-top: 12px; display: grid; gap: 8px; }
+.cal__dayhead { font-weight: 700; }
+.cal__entry { font-size: 15px; color: var(--text-2); }
 </style>
 </head>
 <body>
@@ -1141,6 +1277,9 @@ button.srow__prev span:last-child { color: var(--text-3); }
 <dialog id="dialog" aria-modal="true"></dialog>
 <dialog id="picker" class="picker" aria-labelledby="picker-title" aria-modal="true"></dialog>
 <input type="file" id="import-file" accept="application/json,.json" hidden>
+<input type="file" id="photo-file" accept="image/*" hidden>
+<input type="file" id="photo-camera" accept="image/*" capture="environment" hidden>
+<input type="file" id="photo-import-file" accept="application/json,.json" hidden>
 
 <script>
 'use strict';
@@ -1177,16 +1316,17 @@ button.srow__prev span:last-child { color: var(--text-3); }
    ======================================================================= */
 const CONFIG = Object.freeze({
   APP_NAME: 'Iron Ledger',
-  APP_VERSION: '2.0.0-alpha.3',
-  APP_STAGE: 'Alpha 3',
-  SCHEMA_VERSION: 3,   // v2 (Alpha 2): sessions. v3 (Alpha 3): goals, schedule, routine reviews, new settings
+  APP_VERSION: '2.0.0',
+  APP_DISPLAY_VERSION: '2.0',
+  SCHEMA_VERSION: 4,   // v2 sessions · v3 goals/schedule/reviews · v4 body entries, photo metadata, weight increments
   BACKUP_KIND: 'iron-ledger-backup',
   MAX_IMPORT_BYTES: 5 * 1024 * 1024,
   KEYS: Object.freeze({
     DATA: 'ironLedger.v2.data',                  // all persistent app data
     ACTIVE_WORKOUT: 'ironLedger.v2.activeWorkout', // the ONE in-progress session (saved on every edit)
     RECOVERY_PREFIX: 'ironLedger.v2.recovery.',  // copies of unreadable data
-    PREMIGRATION_PREFIX: 'ironLedger.v2.premigration.schema' // untouched copy kept before each schema upgrade
+    PREMIGRATION_PREFIX: 'ironLedger.v2.premigration.schema', // untouched copy kept before each schema upgrade
+    PHOTO_DB: 'ironLedger.v2.photos'               // IndexedDB database holding photo image files
   }),
   LIMITS: Object.freeze({
     sets: [1, 10],
@@ -1205,7 +1345,12 @@ const CONFIG = Object.freeze({
   REST_STEP_SEC: 15,
   DOUBLE_TAP_MS: 600,
   SCHEDULE_WINDOW_DAYS: 14,   // how far ahead the weekly plan is turned into dated entries
-  MISSED_LOOKBACK_DAYS: 7     // missed workouts older than this are not surfaced on Home
+  MISSED_LOOKBACK_DAYS: 7,    // missed workouts older than this are not surfaced on Home
+  E1RM_MAX_REPS: 12,          // Epley estimate is only computed for sets of 1–12 reps
+  PHOTO_THUMB_PX: 480,
+  MAX_PHOTO_BYTES: 30 * 1024 * 1024,
+  /* Default load increments (kg) by equipment; an exercise's own increment overrides these. */
+  DEFAULT_INCREMENT_KG: Object.freeze({ dumbbell: 2.5, barbell: 2.5, smith: 2.5, machine: 5, cable: 5, bodyweight: null })
 });
 
 
@@ -1286,6 +1431,16 @@ const TAXONOMY = Object.freeze({
     { id: 'location', label: 'Different equipment or location' },
     { id: 'other', label: 'Other' }
   ],
+  bodyMetrics: [
+    { id: 'weightKg', label: 'Weight', kind: 'weight' },
+    { id: 'bodyFatPct', label: 'Body fat', kind: 'pct' },
+    { id: 'chest', label: 'Chest', kind: 'len' }, { id: 'waist', label: 'Waist', kind: 'len' }, { id: 'hips', label: 'Hips', kind: 'len' },
+    { id: 'armL', label: 'Left arm', kind: 'len' }, { id: 'armR', label: 'Right arm', kind: 'len' },
+    { id: 'thighL', label: 'Left thigh', kind: 'len' }, { id: 'thighR', label: 'Right thigh', kind: 'len' },
+    { id: 'calfL', label: 'Left calf', kind: 'len' }, { id: 'calfR', label: 'Right calf', kind: 'len' }
+  ],
+  poses: [{ id: 'front', label: 'Front' }, { id: 'side', label: 'Side' }, { id: 'back', label: 'Back' }],
+  clothing: [{ id: 'shirt', label: 'Shirt' }, { id: 'noshirt', label: 'No shirt' }],
   painAreas: [
     { id: 'shoulder', label: 'Shoulder' }, { id: 'elbow', label: 'Elbow' }, { id: 'wrist', label: 'Wrist' },
     { id: 'lowerBack', label: 'Lower back' }, { id: 'hip', label: 'Hip' }, { id: 'knee', label: 'Knee' }, { id: 'other', label: 'Other' }
@@ -1584,6 +1739,7 @@ const Models = {
       preference: Tax.has('preferences', src.preference) ? src.preference : 'neutral',
       alternativeIds: Array.isArray(src.alternativeIds) ? [...new Set(src.alternativeIds.filter((x) => typeof x === 'string'))] : [],
       machineSettings: String(src.machineSettings || '').trim(),
+      weightIncrementKg: typeof src.weightIncrementKg === 'number' && src.weightIncrementKg > 0 ? src.weightIncrementKg : null, // null = equipment default
       active: src.active !== false,
       isCustom: !!src.isCustom,
       createdAt: src.createdAt || t,
@@ -1627,7 +1783,8 @@ const Models = {
       rirDisplay: Tax.has('rirDisplays', src.rirDisplay) ? src.rirDisplay : 'range',
       restMode: Tax.has('restModes', src.restMode) ? src.restMode : 'auto',
       defaultRestSec: Util.isIntIn(src.defaultRestSec, [15, 600]) ? src.defaultRestSec : 90,
-      restAlerts: src.restAlerts === true
+      restAlerts: src.restAlerts === true,
+      photoGuide: src.photoGuide !== false
     };
   },
 
@@ -1664,7 +1821,9 @@ const Models = {
       sessions: [],                 // COMPLETED workout sessions only (v2+)
       goals: Models.goals(),        // v3
       schedule: Models.schedule(),  // v3
-      routineReviews: []            // v3: outcome of each post-workout routine review
+      routineReviews: [],           // v3: outcome of each post-workout routine review
+      body: { entries: [] },        // v4: body measurements (kg, %, cm)
+      photos: []                    // v4: progress-photo METADATA (image files live in IndexedDB)
     };
   }
 };
@@ -1737,6 +1896,10 @@ const Validate = {
         if (!Util.isIntIn(d.settings.defaultRestSec, [15, 600])) e.push('Invalid default rest setting.');
         if (typeof d.settings.restAlerts !== 'boolean') e.push('Invalid rest alert setting.');
       }
+    }
+    if (d.schemaVersion >= 4) {
+      Validate.body(d.body).forEach((m) => e.push(m));
+      Validate.photos(d.photos).forEach((m) => e.push(m));
     }
     if (d.schemaVersion >= 3) {
       Validate.goals(d.goals).forEach((m) => e.push(m));
@@ -1831,6 +1994,40 @@ const Validate = {
     return e;
   },
 
+  body(b) {
+    const e = [];
+    if (!b || !Array.isArray(b.entries)) return ['Missing body measurements.'];
+    const ids = new Set();
+    const keys = Tax.ids('bodyMetrics');
+    b.entries.forEach((en, i) => {
+      if (!en || typeof en.id !== 'string' || ids.has(en.id)) { e.push(`Body entry ${i + 1} has a missing or duplicate id.`); return; }
+      ids.add(en.id);
+      if (!DateKey.isKey(en.date)) e.push(`Body entry ${i + 1} has an invalid date.`);
+      if (!en.values || typeof en.values !== 'object') { e.push(`Body entry ${i + 1} has no values.`); return; }
+      const vals = Object.entries(en.values);
+      if (!vals.length) e.push(`Body entry ${i + 1} is empty.`);
+      vals.forEach(([k, v]) => {
+        if (!keys.includes(k)) e.push(`Body entry ${i + 1} has an unknown measurement.`);
+        else if (!(typeof v === 'number' && isFinite(v) && v > 0 && v <= 500)) e.push(`Body entry ${i + 1} has an invalid ${k}.`);
+      });
+    });
+    return e;
+  },
+
+  photos(list) {
+    const e = [];
+    if (!Array.isArray(list)) return ['Missing photo list.'];
+    const ids = new Set();
+    list.forEach((ph, i) => {
+      if (!ph || typeof ph.id !== 'string' || ids.has(ph.id)) { e.push(`Photo ${i + 1} has a missing or duplicate id.`); return; }
+      ids.add(ph.id);
+      if (!DateKey.isKey(ph.date)) e.push(`Photo ${i + 1} has an invalid date.`);
+      if (!Tax.has('poses', ph.pose)) e.push(`Photo ${i + 1} has an invalid pose.`);
+      if (!Tax.has('clothing', ph.clothing)) e.push(`Photo ${i + 1} has an invalid clothing category.`);
+    });
+    return e;
+  },
+
   goals(g) {
     const e = [];
     if (!g || typeof g !== 'object') return ['Missing goals.'];
@@ -1890,6 +2087,8 @@ const Validate = {
    v1 -> v2 (Alpha 2): adds `sessions: []` for completed workouts.
    v2 -> v3 (Alpha 3): adds `goals`, `schedule`, `routineReviews` and four
    settings with defaults. Sessions, routines and exercises are untouched.
+   v3 -> v4 (2.0): adds `body.entries`, `photos` (metadata only), the
+   `photoGuide` setting and `weightIncrementKg: null` on every exercise.
    Before any upgrade write, the untouched JSON is kept under
    ironLedger.v2.premigration.schema<N>.
    ======================================================================= */
@@ -1908,6 +2107,15 @@ const Migrations = {
       d.routineReviews = Array.isArray(d.routineReviews) ? d.routineReviews : [];
       d.schemaVersion = 3;
       if (d.meta && typeof d.meta === 'object') d.meta.migratedToV3At = Util.now();
+      return d;
+    },
+    3: (d) => {
+      d.exercises = d.exercises.map((x) => ({ ...x, weightIncrementKg: typeof x.weightIncrementKg === 'number' ? x.weightIncrementKg : null }));
+      d.settings = Models.settings(d.settings || {});
+      d.body = d.body && Array.isArray(d.body.entries) ? d.body : { entries: [] };
+      d.photos = Array.isArray(d.photos) ? d.photos : [];
+      d.schemaVersion = 4;
+      if (d.meta && typeof d.meta === 'object') d.meta.migratedToV4At = Util.now();
       return d;
     }
   },
@@ -2268,7 +2476,7 @@ const Calc = {
 
   /** Totals for completed sessions whose start falls in [from, to). */
   periodStats(sessions, from, to) {
-    const out = { workouts: 0, workingSets: 0, volumeKg: 0, durationSec: 0, muscles: {} };
+    const out = { workouts: 0, workingSets: 0, volumeKg: 0, durationSec: 0, muscles: {}, prs: 0, avgDurationSec: 0 };
     sessions.forEach((ws) => {
       if (ws.status !== 'completed') return;
       const t = Date.parse(ws.startedAt);
@@ -2283,7 +2491,204 @@ const Calc = {
         if (n && x.primaryMuscleSnapshot) out.muscles[x.primaryMuscleSnapshot] = (out.muscles[x.primaryMuscleSnapshot] || 0) + n;
       });
     });
+    const ids = new Set(sessions.filter((ws) => {
+      const t = Date.parse(ws.startedAt);
+      return ws.status === 'completed' && !((from && t < from.getTime()) || (to && t >= to.getTime()));
+    }).map((ws) => ws.id));
+    out.prs = Calc.prTimeline(sessions).filter((p) => ids.has(p.sessionId)).length;
+    out.avgDurationSec = out.workouts ? Math.round(out.durationSec / out.workouts) : 0;
     return out;
+  },
+
+  /* ---------- strength: ONE estimated-1RM formula (Epley) ----------
+     e1RM = weight × (1 + reps / 30), only for weighted sets of 1–12 reps. */
+  e1rm(weightKg, reps) {
+    if (typeof weightKg !== 'number' || weightKg <= 0 || !Number.isInteger(reps) || reps < 1 || reps > CONFIG.E1RM_MAX_REPS) return null;
+    return reps === 1 ? weightKg : weightKg * (1 + reps / 30);
+  },
+
+  /** Completed working sets of one exercise in one session (substitutions count for the PERFORMED exercise). */
+  workingSetsOf(ws, exerciseId) {
+    const out = [];
+    ws.exercises.forEach((x) => {
+      if (x.performedExerciseId === exerciseId) x.sets.forEach((st) => { if (st.completed && Calc.isWorkingSet(st) && Number.isInteger(st.reps)) out.push(st); });
+    });
+    return out;
+  },
+
+  /**
+   * THE PR engine. Walks completed sessions in order and records when a set
+   * beats the exercise's previous best. Categories:
+   *   weight -> heaviest weight lifted
+   *   reps   -> more reps than ever at that weight or heavier
+   *   e1rm   -> best estimated 1RM (Epley)
+   *   volume -> best single-set weight × reps
+   * Warm-ups and incomplete sets never count. A first-ever performance sets
+   * the baseline and is not a PR. Each exercise yields at most ONE PR per
+   * session (lead category: weight > e1RM > reps > volume; others in `kinds`).
+   */
+  prTimeline(sessions) {
+    if (Calc._prCache && Calc._prCache.src === sessions) return Calc._prCache.out;
+    const out = [];
+    const best = new Map(); // exerciseId -> { weight, e1rm, volume, sets: [{w, r}] }
+    sessions.filter((ws) => ws.status === 'completed').slice().sort((a, b) => Date.parse(a.startedAt) - Date.parse(b.startedAt)).forEach((ws) => {
+      const perEx = new Map();
+      ws.exercises.forEach((x) => {
+        const list = perEx.get(x.performedExerciseId) || { name: x.nameSnapshot, sets: [] };
+        x.sets.forEach((st) => { if (st.completed && Calc.isWorkingSet(st) && Number.isInteger(st.reps) && st.reps > 0) list.sets.push(st); });
+        perEx.set(x.performedExerciseId, list);
+      });
+      perEx.forEach(({ name, sets }, exId) => {
+        if (!sets.length) return;
+        const prev = best.get(exId);
+        const w = (st) => (typeof st.weightKg === 'number' ? st.weightKg : 0);
+        if (prev) {
+          const found = {};
+          const consider = (kind, value, st, previous) => { if (!found[kind] || value > found[kind].value) found[kind] = { value, st, previous }; };
+          sets.forEach((st) => {
+            if (w(st) > 0 && w(st) > prev.weight + 1e-9) consider('weight', w(st), st, prev.weight);
+            const e = Calc.e1rm(st.weightKg, st.reps);
+            if (e && e > prev.e1rm + 1e-9) consider('e1rm', e, st, prev.e1rm);
+            const v = w(st) * st.reps;
+            if (v > 0 && v > prev.volume + 1e-9) consider('volume', v, st, prev.volume);
+            const repsBefore = Math.max(0, ...prev.sets.filter((p) => p.w >= w(st) - 1e-9).map((p) => p.r));
+            if (repsBefore > 0 && st.reps > repsBefore) consider('reps', st.reps, st, repsBefore);
+          });
+          // One PR per exercise per session: the most meaningful category leads, the rest are listed.
+          const kinds = ['weight', 'e1rm', 'reps', 'volume'].filter((k) => found[k]);
+          if (kinds.length) {
+            const f = found[kinds[0]];
+            out.push({
+              sessionId: ws.id, date: ws.startedAt, exerciseId: exId, exerciseName: name, kind: kinds[0], kinds,
+              value: f.value, previous: f.previous, weightKg: f.st.weightKg, reps: f.st.reps
+            });
+          }
+        }
+        const rec = prev || { weight: 0, e1rm: 0, volume: 0, sets: [] };
+        sets.forEach((st) => {
+          rec.weight = Math.max(rec.weight, w(st));
+          rec.e1rm = Math.max(rec.e1rm, Calc.e1rm(st.weightKg, st.reps) || 0);
+          rec.volume = Math.max(rec.volume, w(st) * st.reps);
+          rec.sets.push({ w: w(st), r: st.reps });
+        });
+        best.set(exId, rec);
+      });
+    });
+    Calc._prCache = { src: sessions, out };
+    return out;
+  },
+
+  sessionPRs(sessions, sessionId) { return Calc.prTimeline(sessions).filter((p) => p.sessionId === sessionId); },
+
+  /** Per-session points for one exercise: top weight, best e1RM, volume. */
+  exerciseSeries(sessions, exerciseId) {
+    return sessions.filter((ws) => ws.status === 'completed').slice().sort((a, b) => Date.parse(a.startedAt) - Date.parse(b.startedAt)).map((ws) => {
+      const sets = Calc.workingSetsOf(ws, exerciseId);
+      if (!sets.length) return null;
+      const weights = sets.map((st) => st.weightKg).filter((x) => typeof x === 'number');
+      const e = sets.map((st) => Calc.e1rm(st.weightKg, st.reps)).filter(Boolean);
+      const top = sets.slice().sort((p, q) => ((q.weightKg || 0) - (p.weightKg || 0)) || q.reps - p.reps)[0];
+      return {
+        t: Date.parse(ws.startedAt), sessionId: ws.id, topSet: { weightKg: top.weightKg, reps: top.reps },
+        weight: weights.length ? Math.max(...weights) : null,
+        e1rm: e.length ? Math.max(...e) : null,
+        volume: sets.reduce((v, st) => v + Calc.setVolumeKg(st), 0) || null,
+        reps: Math.max(...sets.map((st) => st.reps))
+      };
+    }).filter(Boolean);
+  },
+
+  /** All-time records for one exercise (null fields when not applicable). */
+  exerciseRecords(sessions, exerciseId) {
+    let heaviest = null; let mostReps = null; let bestVolume = null; let bestE1rm = null;
+    sessions.forEach((ws) => {
+      if (ws.status !== 'completed') return;
+      Calc.workingSetsOf(ws, exerciseId).forEach((st) => {
+        const w = typeof st.weightKg === 'number' ? st.weightKg : null;
+        if (w != null && (!heaviest || w > heaviest.weightKg || (w === heaviest.weightKg && st.reps > heaviest.reps))) heaviest = { weightKg: w, reps: st.reps, date: ws.startedAt };
+        if (!mostReps || st.reps > mostReps.reps || (st.reps === mostReps.reps && (w || 0) > (mostReps.weightKg || 0))) mostReps = { weightKg: w, reps: st.reps, date: ws.startedAt };
+        const v = Calc.setVolumeKg(st);
+        if (v > 0 && (!bestVolume || v > bestVolume.volumeKg)) bestVolume = { volumeKg: v, weightKg: w, reps: st.reps, date: ws.startedAt };
+        const e = Calc.e1rm(w, st.reps);
+        if (e && (!bestE1rm || e > bestE1rm.value)) bestE1rm = { value: e, weightKg: w, reps: st.reps, date: ws.startedAt };
+      });
+    });
+    return { heaviest, mostReps, bestVolume, bestE1rm };
+  },
+
+  /* ---------- progression: deterministic double progression ----------
+     Looks at the most recent completed session of the PERFORMED exercise.
+       INCREASE  every target working set reached the top of the rep range at
+                 the top weight, without going below the target RIR.
+       REDUCE    most sets fell below the rep range in the last TWO sessions
+                 at the same or a heavier weight (one bad day never reduces).
+       STAY      everything else; the reason names what to improve.
+     The suggestion never changes logged values. */
+  incrementFor(exercise) {
+    if (!exercise) return null;
+    if (typeof exercise.weightIncrementKg === 'number' && exercise.weightIncrementKg > 0) return exercise.weightIncrementKg;
+    return CONFIG.DEFAULT_INCREMENT_KG[exercise.equipment] || null;
+  },
+
+  recommendation(sessions, sx, increment, excludeId = null) {
+    const done = sessions.filter((ws) => ws.status === 'completed' && ws.id !== excludeId)
+      .filter((ws) => Calc.workingSetsOf(ws, sx.performedExerciseId).length)
+      .sort((a, b) => Date.parse(b.startedAt) - Date.parse(a.startedAt));
+    if (!done.length) return null;
+    const lo = sx.targetRepMin; const hi = sx.targetRepMax;
+    const rirLo = sx.targetRirMin;
+    const sets = Calc.workingSetsOf(done[0], sx.performedExerciseId).filter((st) => st.type !== 'drop');
+    const weighted = sets.every((st) => typeof st.weightKg === 'number' && st.weightKg > 0);
+    const top = weighted ? Math.max(...sets.map((st) => st.weightKg)) : null;
+    const atTop = weighted ? sets.filter((st) => Math.abs(st.weightKg - top) < 1e-9) : sets;
+    const reps = atTop.map((st) => st.reps);
+    const repText = reps.join(', ');
+    const fmtW = (kg) => `${Units.fmt(kg)} ${Units.current()}`;
+    const tooHard = atTop.filter((st) => st.rir != null && st.rir < rirLo).length;
+    const below = atTop.filter((st) => st.reps < lo).length;
+    const enoughSets = atTop.length >= Math.max(1, sx.targetSets);
+    const allTop = atTop.every((st) => st.reps >= hi);
+    if (!weighted) {
+      if (enoughSets && allTop) return { action: 'reps', weightKg: null, reason: `You reached ${hi}+ reps on every set (${repText}). Add reps or add load.` };
+      return { action: 'stay', weightKg: null, reason: `Last time: ${repText} reps. Aim for ${hi} on every set.` };
+    }
+    if (enoughSets && allTop && tooHard === 0) {
+      if (!increment) return { action: 'stay', weightKg: top, reason: `You reached ${hi} reps on all ${atTop.length} sets (${repText}). Set a weight increment for this exercise to get a load suggestion.` };
+      return { action: 'increase', weightKg: top + increment, reason: `You reached ${hi} reps on all ${atTop.length} sets at ${fmtW(top)} (${repText}) within your target RIR.` };
+    }
+    if (below * 2 > atTop.length) {
+      const before = done[1] ? Calc.workingSetsOf(done[1], sx.performedExerciseId).filter((st) => typeof st.weightKg === 'number' && st.weightKg >= top - 1e-9) : [];
+      const belowBefore = before.length && before.filter((st) => st.reps < lo).length * 2 > before.length;
+      if (belowBefore && increment && top - increment > 0) {
+        return { action: 'reduce', weightKg: top - increment, reason: `Most sets fell below ${lo} reps in your last two sessions (last time: ${repText}). A lighter load should bring you back into ${lo}–${hi}.` };
+      }
+      return { action: 'stay', weightKg: top, reason: `Last time most sets were below ${lo} reps (${repText}). Stay at ${fmtW(top)} and aim for ${lo}–${hi}.` };
+    }
+    if (enoughSets && allTop && tooHard) {
+      return { action: 'stay', weightKg: top, reason: `You reached ${hi} reps (${repText}), but ${Fmt.plural(tooHard, 'set was', 'sets were')} harder than your target RIR. Repeat ${fmtW(top)} before increasing.` };
+    }
+    if (!enoughSets && allTop) {
+      return { action: 'stay', weightKg: top, reason: `You reached ${hi} reps on ${Fmt.plural(atTop.length, 'set')} of ${sx.targetSets}. Complete all ${sx.targetSets} sets at the top of the range before increasing.` };
+    }
+    return { action: 'stay', weightKg: top, reason: `You reached ${repText} reps last time. Reach ${hi} on all ${sx.targetSets} sets before increasing.` };
+  },
+
+  /* ---------- body ---------- */
+  bodySeries(entries, metric) {
+    return entries.filter((en) => typeof en.values[metric] === 'number')
+      .map((en) => ({ t: Calc.bodyTime(en), v: en.values[metric], id: en.id }))
+      .sort((a, b) => a.t - b.t);
+  },
+  bodyTime(en) { return DateKey.toDate(en.date).getTime() + (en.time ? (parseInt(en.time.slice(0, 2), 10) * 60 + parseInt(en.time.slice(3, 5), 10)) * 60000 : 0); },
+  latestBody(entries, metric) {
+    const s = Calc.bodySeries(entries, metric);
+    return s.length ? s[s.length - 1] : null;
+  },
+  /** First value on/after `from` and last value on/before `to` (keys). Never interpolates. */
+  bodyChange(entries, metric, fromKey, toKey) {
+    const s = Calc.bodySeries(entries, metric).filter((p) => { const k = DateKey.of(new Date(p.t)); return k >= fromKey && k <= toKey; });
+    if (s.length < 2) return null;
+    return { from: s[0], to: s[s.length - 1], delta: s[s.length - 1].v - s[0].v };
   },
 
   periodStart(period, now = Clock.date()) {
@@ -2371,7 +2776,10 @@ const Calc = {
       if (ex.preference === 'favourite') { score += 8; why.push('favourite'); }
       if (ex.preference === 'avoid') score -= 15;
       return { exercise: ex, score, why };
-    }).filter(Boolean).sort((a, b) => b.score - a.score || a.exercise.name.localeCompare(b.exercise.name)).slice(0, limit);
+    }).filter(Boolean).sort((a, b) => b.score - a.score || a.exercise.name.localeCompare(b.exercise.name))
+      // "Avoid" exercises are only offered when there are fewer than three other options.
+      .filter((c, _i, all) => c.exercise.preference !== 'avoid' || all.filter((o) => o.exercise.preference !== 'avoid').length < 3)
+      .slice(0, limit);
   },
 
   /**
@@ -2524,6 +2932,26 @@ const Units = {
     const v = Units.toDisplay(kg, unit);
     return v == null ? '' : String(v);
   },
+  /* Lengths are stored in cm; the kg/lb preference shows cm or inches. */
+  lenUnit(unit = Units.current()) { return unit === 'lb' ? 'in' : 'cm'; },
+  lenToDisplay(cm, unit = Units.current()) { return typeof cm === 'number' ? Math.round((unit === 'lb' ? cm / 2.54 : cm) * 10) / 10 : null; },
+  lenFromDisplay(v, unit = Units.current()) { return Math.round((unit === 'lb' ? v * 2.54 : v) * 1e4) / 1e4; },
+  /** Display any body metric in the user's units. */
+  metric(metric, value, unit = Units.current()) {
+    if (typeof value !== 'number') return '—';
+    const kind = TAXONOMY.bodyMetrics.find((m) => m.id === metric).kind;
+    if (kind === 'weight') return `${Math.round(Units.toDisplay(value, unit) * 10) / 10} ${unit}`;
+    if (kind === 'pct') return `${Math.round(value * 10) / 10}%`;
+    return `${Units.lenToDisplay(value, unit)} ${Units.lenUnit(unit)}`;
+  },
+  metricDelta(metric, delta, unit = Units.current()) {
+    const kind = TAXONOMY.bodyMetrics.find((m) => m.id === metric).kind;
+    const sign = delta > 0 ? '+' : delta < 0 ? '−' : '±';
+    const a = Math.abs(delta);
+    if (kind === 'weight') return `${sign}${Math.round(Units.toDisplay(a, unit) * 10) / 10} ${unit}`;
+    if (kind === 'pct') return `${sign}${Math.round(a * 10) / 10} pts`;
+    return `${sign}${Units.lenToDisplay(a, unit)} ${Units.lenUnit(unit)}`;
+  },
   fmtVolume(kg, unit = Units.current()) {
     const v = unit === 'lb' ? kg / CONFIG.KG_PER_LB : kg;
     return `${Math.round(v).toLocaleString()} ${unit}`;
@@ -2605,9 +3033,21 @@ const ExerciseService = {
         equipment: draft.equipment, movementPattern: draft.movementPattern, mechanic: draft.mechanic,
         defaultRestSec: draft.defaultRestSec, instructions: draft.instructions, notes: draft.notes,
         machineSettings: draft.machineSettings,
+        weightIncrementKg: draft.weightIncrementKg,
         updatedAt: Util.now()
       });
       return id;
+    });
+  },
+
+  /** Quick edit during a workout (machine settings / personal note). */
+  setField(id, field, value) {
+    if (!['machineSettings', 'notes'].includes(field)) throw new AppError('Unknown field.');
+    Store.transact((d) => {
+      const ex = d.exercises.find((x) => x.id === id);
+      if (!ex) throw new AppError('This exercise no longer exists.');
+      ex[field] = String(value || '').trim();
+      ex.updatedAt = Util.now();
     });
   },
 
@@ -2836,7 +3276,7 @@ const SettingsService = {
     const lists = { units: 'units', theme: 'themes', weekStart: 'weekStarts', rirDisplay: 'rirDisplays', restMode: 'restModes' };
     if (key === 'defaultRestSec') {
       if (!Util.isIntIn(value, [15, 600])) throw new AppError('Default rest must be between 15 and 600 seconds.');
-    } else if (key === 'restAlerts') {
+    } else if (key === 'restAlerts' || key === 'photoGuide') {
       if (typeof value !== 'boolean') throw new AppError('Unknown setting.');
     } else if (!lists[key] || !Tax.has(lists[key], value)) throw new AppError('Unknown setting.');
     Store.transact((d) => { d.settings[key] = value; });
@@ -3469,6 +3909,303 @@ const SET_TYPE_NAMES = Object.freeze({ warmup: 'Warm-up', working: 'Working', dr
 
 
 /* =======================================================================
+   BODY MEASUREMENTS (stored as kg, %, cm). Partial entries are valid.
+   ======================================================================= */
+const BodyService = {
+  entries() { return Store.get().body.entries.slice().sort((a, b) => Calc.bodyTime(b) - Calc.bodyTime(a)); },
+  get(id) { return Store.get().body.entries.find((e) => e.id === id) || null; },
+  save(draft) {
+    const values = {};
+    Object.entries(draft.values || {}).forEach(([k, v]) => { if (typeof v === 'number' && isFinite(v)) values[k] = v; });
+    if (!Object.keys(values).length) throw new AppError('Enter at least one measurement.');
+    if (!DateKey.isKey(draft.date)) throw new AppError('Choose a valid date.');
+    return Store.transact((d) => {
+      const t = Util.now();
+      const rec = {
+        id: draft.id || Id.unique('bm', new Set(d.body.entries.map((e) => e.id))),
+        date: draft.date, time: /^\d{2}:\d{2}$/.test(draft.time || '') ? draft.time : null,
+        values, note: String(draft.note || '').trim(), createdAt: draft.createdAt || t, updatedAt: t
+      };
+      const i = d.body.entries.findIndex((e) => e.id === rec.id);
+      if (i >= 0) d.body.entries[i] = rec; else d.body.entries.push(rec);
+      return rec.id;
+    });
+  },
+  remove(id) {
+    Store.transact((d) => {
+      const before = d.body.entries.length;
+      d.body.entries = d.body.entries.filter((e) => e.id !== id);
+      if (d.body.entries.length === before) throw new AppError('That entry no longer exists.');
+    });
+  }
+};
+
+/* =======================================================================
+   PROGRESS-PHOTO METADATA (in the main data). Image files are in IndexedDB
+   via PhotoStore; the two are linked by the photo id.
+   ======================================================================= */
+const PhotoMeta = {
+  list() { return Store.get().photos.slice().sort((a, b) => b.date.localeCompare(a.date) || (b.takenAt || '').localeCompare(a.takenAt || '')); },
+  get(id) { return Store.get().photos.find((p) => p.id === id) || null; },
+  newId() { return Id.unique('ph', new Set(Store.get().photos.map((p) => p.id))); },
+  add(meta) {
+    Store.transact((d) => {
+      if (d.photos.some((p) => p.id === meta.id)) throw new AppError('That photo already exists.');
+      d.photos.push(meta);
+    });
+  },
+  update(id, patch) {
+    if (patch.date !== undefined && !DateKey.isKey(patch.date)) throw new AppError('Choose a valid date.');
+    Store.transact((d) => {
+      const p = d.photos.find((x) => x.id === id);
+      if (!p) throw new AppError('That photo no longer exists.');
+      ['date', 'pose', 'clothing', 'note'].forEach((k) => { if (patch[k] !== undefined) p[k] = k === 'note' ? String(patch[k]).trim() : patch[k]; });
+      p.updatedAt = Util.now();
+    });
+  },
+  remove(id) { Store.transact((d) => { d.photos = d.photos.filter((p) => p.id !== id); }); }
+};
+
+
+/* =======================================================================
+   12b. PHOTO STORAGE (IndexedDB)
+   Image files never go into localStorage. They live in an IndexedDB
+   database with two object stores keyed by photo id:
+     images -> original image Blob
+     thumbs -> small JPEG Blob for the gallery
+   Photo METADATA lives in the main data (PhotoMeta). A failure here can
+   only fail the photo operation; it never touches workout data.
+   ======================================================================= */
+const IdbPhotoBackend = {
+  db: null,
+  open() {
+    if (IdbPhotoBackend.db) return Promise.resolve(IdbPhotoBackend.db);
+    return new Promise((resolve, reject) => {
+      let req;
+      try { req = indexedDB.open(CONFIG.KEYS.PHOTO_DB, 1); } catch (err) { reject(err); return; }
+      req.onupgradeneeded = () => {
+        const db = req.result;
+        if (!db.objectStoreNames.contains('images')) db.createObjectStore('images');
+        if (!db.objectStoreNames.contains('thumbs')) db.createObjectStore('thumbs');
+      };
+      req.onsuccess = () => { IdbPhotoBackend.db = req.result; resolve(req.result); };
+      req.onerror = () => reject(req.error || new Error('IndexedDB open failed'));
+      req.onblocked = () => reject(new Error('IndexedDB is blocked by another tab'));
+    });
+  },
+  async tx(stores, mode, fn) {
+    const db = await IdbPhotoBackend.open();
+    return new Promise((resolve, reject) => {
+      const t = db.transaction(stores, mode);
+      let result;
+      t.oncomplete = () => resolve(result);
+      t.onerror = () => reject(t.error || new Error('IndexedDB transaction failed'));
+      t.onabort = () => reject(t.error || new Error('IndexedDB transaction aborted'));
+      result = fn(t);
+    });
+  },
+  reqValue(req) { return new Promise((res, rej) => { req.onsuccess = () => res(req.result); req.onerror = () => rej(req.error); }); },
+  async put(id, image, thumb) {
+    await IdbPhotoBackend.tx(['images', 'thumbs'], 'readwrite', (t) => {
+      t.objectStore('images').put(image, id);
+      if (thumb) t.objectStore('thumbs').put(thumb, id); else t.objectStore('thumbs').delete(id);
+    });
+  },
+  async get(store, id) {
+    const db = await IdbPhotoBackend.open();
+    return IdbPhotoBackend.reqValue(db.transaction(store, 'readonly').objectStore(store).get(id)).then((v) => v || null);
+  },
+  async delete(id) { await IdbPhotoBackend.tx(['images', 'thumbs'], 'readwrite', (t) => { t.objectStore('images').delete(id); t.objectStore('thumbs').delete(id); }); },
+  async keys() {
+    const db = await IdbPhotoBackend.open();
+    return IdbPhotoBackend.reqValue(db.transaction('images', 'readonly').objectStore('images').getAllKeys());
+  },
+  async clear() { await IdbPhotoBackend.tx(['images', 'thumbs'], 'readwrite', (t) => { t.objectStore('images').clear(); t.objectStore('thumbs').clear(); }); }
+};
+
+/** In-memory backend: used only when explicitly selected (automated tests). */
+const MemoryPhotoBackend = {
+  images: new Map(), thumbs: new Map(),
+  async put(id, image, thumb) { this.images.set(id, image); if (thumb) this.thumbs.set(id, thumb); else this.thumbs.delete(id); },
+  async get(store, id) { return (store === 'images' ? this.images : this.thumbs).get(id) || null; },
+  async delete(id) { this.images.delete(id); this.thumbs.delete(id); },
+  async keys() { return [...this.images.keys()]; },
+  async clear() { this.images.clear(); this.thumbs.clear(); }
+};
+
+const PhotoStore = {
+  backend: null,
+  available() {
+    if (PhotoStore.backend) return true;
+    try { return typeof indexedDB !== 'undefined' && indexedDB !== null; } catch (_) { return false; }
+  },
+  be() {
+    if (!PhotoStore.backend) {
+      if (!PhotoStore.available()) throw new AppError('Photo storage is not available in this browser.');
+      PhotoStore.backend = IdbPhotoBackend;
+    }
+    return PhotoStore.backend;
+  },
+  async put(id, image, thumb) {
+    try { await PhotoStore.be().put(id, image, thumb); }
+    catch (err) {
+      if (err instanceof AppError) throw err;
+      console.error(err);
+      throw new AppError(/quota/i.test(String(err && (err.name || err.message))) ? 'Not enough storage space on this device for the photo.' : 'The photo could not be saved on this device.');
+    }
+  },
+  image(id) { return PhotoStore.be().get('images', id); },
+  thumb(id) { return PhotoStore.be().get('thumbs', id); },
+  delete(id) { return PhotoStore.be().delete(id); },
+  keys() { return PhotoStore.be().keys(); },
+  clear() { return PhotoStore.be().clear(); }
+};
+
+/** Decoding / thumbnails (browser canvas). Originals are never modified. */
+const ImageTools = {
+  load(blob) {
+    return new Promise((resolve, reject) => {
+      const url = URL.createObjectURL(blob);
+      const img = new Image();
+      img.onload = () => { resolve({ img, url }); };
+      img.onerror = () => { URL.revokeObjectURL(url); reject(new AppError('This image could not be read. Try a JPEG or PNG photo.')); };
+      img.src = url;
+    });
+  },
+  async thumbnail(blob, max = CONFIG.PHOTO_THUMB_PX) {
+    const { img, url } = await ImageTools.load(blob);
+    try {
+      const w = img.naturalWidth; const h = img.naturalHeight;
+      const k = Math.min(1, max / Math.max(w, h));
+      const c = document.createElement('canvas');
+      c.width = Math.max(1, Math.round(w * k)); c.height = Math.max(1, Math.round(h * k));
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      const thumb = await new Promise((res) => c.toBlob(res, 'image/jpeg', 0.82));
+      return { blob: thumb, width: w, height: h };
+    } finally { URL.revokeObjectURL(url); }
+  }
+};
+
+const PhotoService = {
+  /** Stores the image FIRST, then the metadata; undoes the image if the metadata fails. */
+  async add(blob, { date, pose, clothing, note = '', takenAt = null }) {
+    if (!PhotoStore.available()) throw new AppError('Photo storage is not available in this browser.');
+    if (!blob || !blob.size) throw new AppError('That file is empty.');
+    if (blob.size > CONFIG.MAX_PHOTO_BYTES) throw new AppError('That photo is too large (over 30 MB).');
+    if (!/^image\//.test(blob.type || 'image/')) throw new AppError('Choose an image file.');
+    if (!Tax.has('poses', pose) || !Tax.has('clothing', clothing)) throw new AppError('Choose a pose and clothing category.');
+    if (!DateKey.isKey(date)) throw new AppError('Choose a valid date.');
+    const t = await ImageTools.thumbnail(blob);
+    const id = PhotoMeta.newId();
+    await PhotoStore.put(id, blob, t.blob);
+    try {
+      PhotoMeta.add({
+        id, date, takenAt: takenAt || Util.now(), pose, clothing, note: String(note || '').trim(),
+        mime: blob.type || 'image/jpeg', sizeBytes: blob.size, width: t.width, height: t.height,
+        createdAt: Util.now(), updatedAt: Util.now()
+      });
+    } catch (err) {
+      await PhotoStore.delete(id).catch(() => {});
+      throw err;
+    }
+    return id;
+  },
+
+  /** Metadata first (the source of truth for the gallery); a leftover image file is pruned later. */
+  async remove(id) {
+    PhotoMeta.remove(id);
+    PhotoUrls.forget(id);
+    try { await PhotoStore.delete(id); } catch (err) { console.error(err); }
+  },
+
+  /** Deletes image files that no longer have metadata (e.g. after a reset or interrupted delete). */
+  async prune() {
+    if (!PhotoStore.available()) return 0;
+    const known = new Set(Store.get().photos.map((p) => p.id));
+    const keys = await PhotoStore.keys();
+    const orphans = keys.filter((k) => !known.has(k));
+    for (const k of orphans) await PhotoStore.delete(k);
+    return orphans.length;
+  },
+
+  async missing() {
+    if (!PhotoStore.available()) return new Set(Store.get().photos.map((p) => p.id));
+    const keys = new Set(await PhotoStore.keys());
+    return new Set(Store.get().photos.filter((p) => !keys.has(p.id)).map((p) => p.id));
+  },
+
+  toBase64(blob) {
+    return new Promise((resolve, reject) => {
+      const r = new FileReader();
+      r.onload = () => resolve(String(r.result).slice(String(r.result).indexOf(',') + 1));
+      r.onerror = () => reject(r.error || new Error('Could not read the photo'));
+      r.readAsDataURL(blob);
+    });
+  },
+  fromBase64(b64, mime) {
+    const bin = atob(b64);
+    const bytes = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return new Blob([bytes], { type: mime });
+  },
+
+  /** A separate PHOTO backup: metadata + image data, as one JSON file. */
+  async buildBackup() {
+    const photos = [];
+    for (const meta of PhotoMeta.list()) {
+      const blob = await PhotoStore.image(meta.id);
+      if (blob) photos.push({ meta, mime: blob.type || meta.mime || 'image/jpeg', data: await PhotoService.toBase64(blob) });
+    }
+    return { kind: 'iron-ledger-photo-backup', version: 1, app: CONFIG.APP_NAME, exportedAt: Util.now(), photos };
+  },
+
+  /** Adds photos that are not already on this device. Never deletes or overwrites existing ones. */
+  async importBackup(obj) {
+    if (!obj || obj.kind !== 'iron-ledger-photo-backup' || !Array.isArray(obj.photos)) throw new AppError('This file is not an Iron Ledger photo backup.');
+    const errors = Validate.photos(obj.photos.map((p) => p && p.meta));
+    if (errors.length) throw new AppError('The photo backup is damaged and was not imported.', errors);
+    const missing = await PhotoService.missing();
+    let added = 0; let skipped = 0;
+    for (const p of obj.photos) {
+      const existing = PhotoMeta.get(p.meta.id);
+      if (existing && !missing.has(p.meta.id)) { skipped++; continue; }
+      const blob = PhotoService.fromBase64(p.data, p.mime);
+      let thumb = null;
+      try { thumb = (await ImageTools.thumbnail(blob)).blob; } catch (_) { /* gallery falls back to the full image */ }
+      await PhotoStore.put(p.meta.id, blob, thumb);
+      if (!existing) PhotoMeta.add({ ...p.meta });
+      added++;
+    }
+    return { added, skipped };
+  }
+};
+
+/** Object URLs for images. Thumbnails are cached; full images are released when screens change. */
+const PhotoUrls = {
+  thumbs: new Map(),
+  full: [],
+  async thumb(id) {
+    if (PhotoUrls.thumbs.has(id)) return PhotoUrls.thumbs.get(id);
+    const blob = (await PhotoStore.thumb(id)) || (await PhotoStore.image(id));
+    if (!blob) return null;
+    const url = URL.createObjectURL(blob);
+    PhotoUrls.thumbs.set(id, url);
+    return url;
+  },
+  async image(id) {
+    const blob = await PhotoStore.image(id);
+    if (!blob) return null;
+    const url = URL.createObjectURL(blob);
+    PhotoUrls.full.push(url);
+    return url;
+  },
+  releaseFull() { PhotoUrls.full.forEach((u) => URL.revokeObjectURL(u)); PhotoUrls.full = []; },
+  forget(id) { const u = PhotoUrls.thumbs.get(id); if (u) URL.revokeObjectURL(u); PhotoUrls.thumbs.delete(id); },
+  reset() { PhotoUrls.thumbs.forEach((u) => URL.revokeObjectURL(u)); PhotoUrls.thumbs.clear(); PhotoUrls.releaseFull(); }
+};
+
+
+/* =======================================================================
    13. UI PRIMITIVES
    ======================================================================= */
 const esc = Util.esc;
@@ -3705,10 +4442,16 @@ const UIState = {
   library: { q: '', muscle: 'all', equipment: 'all', favourites: false },
   picker: { q: '', muscle: 'all', equipment: 'all', favourites: false, selected: [] },
   ui: {
-    historyMode: 'list', historyQuery: '', progressPeriod: '30d',
+    historyMode: 'list', historyQuery: '', progressPeriod: '30d', calMonth: null, calDay: null,
+    bodyMetric: 'weightKg', strengthPeriod: 'all', trFrom: null, trTo: null, lastClothing: 'shirt',
     strengthExercise: null, strengthMetric: 'weight', bodyPeriod: '3m',
-    photoView: 'front', photoShirt: 'all', compareMode: 'side'
+    photoView: 'all', photoShirt: 'all', compareMode: 'side'
   },
+  missingPhotos: new Set(), // photo ids whose image file is not on this device
+  newPhoto: null,           // { blob, url, pose } waiting for its details
+  cameraPose: 'front',
+  cameraFacing: 'environment',
+  compare: { a: null, b: null, choosing: null, showAll: false, cut: 50, zoom: { a: 1, b: 1 }, offset: { a: { x: 0, y: 0 }, b: { x: 0, y: 0 } } },
   replace: null,  // substitution flow choices for the exercise being replaced
   review: null    // ticked changes on the routine review screen
 };
@@ -3960,11 +4703,51 @@ const Views = {
         ]) : `<div class="empty-inline">${icon('progress')}<p>${sessions.length ? `No workouts logged this week yet.${goal ? ` Goal: ${goal} per week.` : ''}` : 'Complete your first workout to start building your training history.'}</p></div>`}
       </section>
 
+      ${Views.recentProgress()}
+
       <section class="section" aria-labelledby="next-h">
         <div class="section-head"><h2 class="section-title" id="next-h">Next workout</h2></div>
         ${next ? `<a class="next" href="#/workout/schedule"><span class="next__name">${esc(ScheduleService.routineName(next))}</span><span class="next__when">${esc(Fmt.relDay(next.date))}</span>${icon('chevron', 'xrow__chev')}</a>`
           : `<div class="empty-inline">${icon('clock')}<p>${ScheduleService.hasPlan() ? 'Nothing else scheduled in the next two weeks.' : 'Nothing scheduled.'}</p></div>`}
       </section>`;
+  },
+
+  /** At most two real insights: a recent PR and the bodyweight trend. Hidden when there is nothing real to say. */
+  recentProgress() {
+    const items = [];
+    const sessions = Store.get().sessions;
+    const recentFloor = Clock.now() - 14 * 86400000;
+    const prs = Calc.prTimeline(sessions).filter((p) => Date.parse(p.date) >= recentFloor);
+    if (prs.length) {
+      const order = { weight: 0, e1rm: 1, reps: 2, volume: 3 };
+      const p = prs.slice().sort((a, b) => Date.parse(b.date) - Date.parse(a.date) || order[a.kind] - order[b.kind])[0];
+      items.push(`<a class="insight" href="#/history/${esc(p.sessionId)}">${icon('trophy')}<span><b>New PR: ${esc(p.exerciseName)}</b>
+        <span>${esc(Views.prText(p))}, ${esc(Fmt.relDay(DateKey.of(new Date(p.date))))}${prs.length > 1 ? ` · ${Fmt.plural(prs.length, 'PR')} in 2 weeks` : ''}</span></span></a>`);
+    }
+    const w = Calc.bodySeries(Store.get().body.entries, 'weightKg');
+    if (w.length >= 2) {
+      const last = w[w.length - 1];
+      const base = w.filter((p) => p.t <= last.t - 21 * 86400000).pop() || w[0];
+      if (base !== last) {
+        items.push(`<a class="insight" href="#/progress/body">${icon('scale')}<span><b>Weight ${esc(Units.metric('weightKg', last.v))}</b>
+          <span>${esc(Units.metricDelta('weightKg', last.v - base.v))} since ${esc(Fmt.relDay(DateKey.of(new Date(base.t))))}</span></span></a>`);
+      }
+    }
+    if (!items.length) return '';
+    return `<section class="section" aria-labelledby="rp-h"><div class="section-head"><h2 class="section-title" id="rp-h">Recent progress</h2></div>${items.join('')}</section>`;
+  },
+
+  prText(p) {
+    const u = Units.current();
+    const set = `${p.weightKg == null ? 'BW' : `${Units.fmt(p.weightKg)} ${u}`} × ${p.reps}`;
+    if (p.kind === 'weight') return `heaviest weight, ${set}`;
+    if (p.kind === 'e1rm') return `est. 1RM ${Units.fmt(Math.round(p.value * 10) / 10)} ${u} (${set})`;
+    if (p.kind === 'volume') return `best set ${Units.fmtVolume(p.value)} (${set})`;
+    return `most reps at this weight, ${set}`;
+  },
+  prAlso(p) {
+    const names = { e1rm: 'est. 1RM', reps: 'reps', volume: 'best set', weight: 'weight' };
+    return (p.kinds || []).slice(1).map((k) => names[k]).join(', ');
   },
 
   /* ---------------- WORKOUT HUB ---------------- */
@@ -4206,6 +4989,7 @@ const Views = {
         ${row('Type', esc(Tax.label('mechanics', ex.mechanic)))}
         ${row('Body region', esc(Tax.label('regions', ex.bodyRegion)))}
         ${row('Default rest', `<span class="num">${Fmt.rest(ex.defaultRestSec)}</span>`)}
+        ${row('Weight increment', Calc.incrementFor(ex) ? `<span class="num">${esc(Units.fmt(Calc.incrementFor(ex)))} ${Units.current()}</span>${ex.weightIncrementKg == null ? ' <span class="muted">(default)</span>' : ''}` : '<span class="muted">None</span>')}
       </dl>
       <div class="prose"><h2>Instructions</h2>${ex.instructions ? `<p>${esc(ex.instructions)}</p>` : none('No instructions yet.')}</div>
       <div class="prose"><h2>Personal notes</h2>${ex.notes ? `<p>${esc(ex.notes)}</p>` : none('No notes yet. Tap Edit to add cues or reminders.')}</div>
@@ -4236,22 +5020,7 @@ const Views = {
     </li>`).join('')}</ol>`;
   },
 
-  exerciseProgress(ex) { return Views.strengthSummary(ex.id); },
-
-  /** Real per-exercise numbers from completed sessions (shared by Progress › Strength). */
-  strengthSummary(exerciseId) {
-    const sum = Calc.exerciseSummary(Store.get().sessions, exerciseId);
-    if (!sum.sessions) {
-      return `<div class="empty-inline">${icon('progress')}<p>Complete workouts with this exercise to see its numbers here.</p></div>`;
-    }
-    const set = (b) => (b ? `${b.weightKg == null ? 'BW' : Units.fmt(b.weightKg)} × ${b.reps}` : '—');
-    return Partials.tiles([
-      ['Heaviest set', sum.heaviest ? `${Units.fmt(sum.heaviest.weightKg)} ${Units.current()} × ${sum.heaviest.reps}` : '—'],
-      ['Best set volume', sum.bestVolume ? Units.fmtVolume(sum.bestVolume.volumeKg) : '—', sum.bestVolume ? set(sum.bestVolume) : ''],
-      ['Workouts', String(sum.sessions)],
-      ['Last performed', Fmt.dayDate(sum.lastPerformed)]
-    ]);
-  },
+  exerciseProgress(ex) { return Views.strengthPanel(ex.id); },
 
   /* ---------------- EXERCISE FORM (create / edit) ---------------- */
   exerciseForm(id) {
@@ -4266,13 +5035,14 @@ const Views = {
           name: ex.name, primaryMuscle: ex.primaryMuscle, secondaryMuscles: [...ex.secondaryMuscles],
           equipment: ex.equipment, movementPattern: ex.movementPattern, mechanic: ex.mechanic,
           defaultRestSec: ex.defaultRestSec, instructions: ex.instructions, notes: ex.notes,
-          machineSettings: ex.machineSettings
+          machineSettings: ex.machineSettings,
+          increment: ex.weightIncrementKg == null ? '' : String(Units.toDisplay(ex.weightIncrementKg))
         };
       } else {
         draft = {
           name: '', primaryMuscle: 'chest', secondaryMuscles: [], equipment: 'machine',
           movementPattern: 'horizontal-push', mechanic: 'compound', defaultRestSec: SettingsService.get().defaultRestSec,
-          instructions: '', notes: '', machineSettings: ''
+          instructions: '', notes: '', machineSettings: '', increment: ''
         };
       }
       form = Forms.open(key, 'exercise', draft, id ? `#/exercise/${id}` : '#/workout/exercises');
@@ -4319,6 +5089,12 @@ const Views = {
         <select id="ex-rest" data-bind="defaultRestSec" data-type="int">${Partials.restOptions(d.defaultRestSec)}</select>
       </div>
       <div class="field">
+        <label for="ex-inc">Weight increment (${Units.current()}) <span class="optional">(optional)</span></label>
+        <input id="ex-inc" type="text" inputmode="decimal" autocomplete="off" data-bind="increment" value="${esc(d.increment)}"
+          placeholder="${CONFIG.DEFAULT_INCREMENT_KG[d.equipment] ? `Default ${Units.fmt(CONFIG.DEFAULT_INCREMENT_KG[d.equipment])}` : 'None'}" ${err.increment ? 'aria-invalid="true"' : ''}>
+        ${err.increment ? `<p class="field-error">${esc(err.increment)}</p>` : '<p class="hint">The smallest load jump available, used for progression suggestions.</p>'}
+      </div>
+      <div class="field">
         <label for="ex-instr">Instructions <span class="optional">(optional)</span></label>
         <textarea id="ex-instr" rows="3" maxlength="1000" data-bind="instructions">${esc(d.instructions)}</textarea>
       </div>
@@ -4342,7 +5118,7 @@ const Views = {
 
 
 /* =======================================================================
-   14b. PLANNING, PROGRESS AND SETTINGS VIEWS (Alpha 3)
+   14b. PLANNING, PROGRESS AND SETTINGS VIEWS
    Every value is real: schedule entries, completed sessions, goals and
    settings. Nothing here renders demo data.
    ======================================================================= */
@@ -4425,11 +5201,12 @@ Object.assign(Views, {
       </div>
       <div class="hist-mode">${Partials.uiChoice({ label: 'History view', key: 'historyMode', options: [['list', 'List'], ['calendar', 'Calendar']] })}</div>
       ${mode === 'calendar' ? Views.calendar(all) : ''}
-      ${all.length ? `<div id="hist-results">${Views.historyList()}</div>` : `
+      ${all.length ? (mode === 'calendar' ? '' : `<div id="hist-results">${Views.historyList()}</div>`) : `
         <div class="empty">
           <div class="empty__mark">${icon('list')}</div>
-          <h2>No workouts logged yet.</h2>
-          <p>Completed workouts will appear here, grouped by date.</p>
+          <h2>No workout history yet.</h2>
+          <p>Completed workouts appear here, grouped by date.</p>
+          <a class="btn btn-primary" href="#/home">${icon('play')}Start a workout</a>
         </div>`}`;
   },
 
@@ -4448,26 +5225,59 @@ Object.assign(Views, {
       <div class="wcards">${g.items.map((ws) => Partials.sessionCard(ws)).join('')}</div></section>`).join('');
   },
 
+  /**
+   * Month calendar. Each day shows its state as a symbol AND text (not colour alone):
+   *   ✓ completed workout · ○ scheduled · ✕ missed · – skipped · blank = rest day
+   */
   calendar(sessions = []) {
-    const today = Clock.date();
-    const trained = new Set(sessions.map((ws) => new Date(ws.startedAt).toDateString()));
     const weekStart = SettingsService.get().weekStart;
-    const first = new Date(today.getFullYear(), today.getMonth(), 1);
+    const today = DateKey.today();
+    const month = UIState.ui.calMonth || today.slice(0, 7);
+    const first = DateKey.toDate(`${month}-01`);
     const lead = (first.getDay() - (weekStart === 'sunday' ? 0 : 1) + 7) % 7;
-    const daysIn = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
-    const heads = Calc.weekDays(today, weekStart).map((d) => d.toLocaleDateString(undefined, { weekday: 'narrow' }));
+    const daysIn = new Date(first.getFullYear(), first.getMonth() + 1, 0).getDate();
+    const heads = Calc.weekDays(first, weekStart).map((d) => d.toLocaleDateString(undefined, { weekday: 'narrow' }));
+    const byDay = new Map();
+    sessions.forEach((ws) => { const k = DateKey.of(new Date(ws.startedAt)); byDay.set(k, (byDay.get(k) || []).concat(ws)); });
+    const entries = ScheduleService.visible();
+    const state = (k) => {
+      if (byDay.has(k)) return ['done', '✓', 'workout completed'];
+      const ens = entries.filter((en) => en.date === k && en.status !== 'moved' && en.status !== 'completed');
+      if (ens.some((en) => ScheduleService.isMissed(en))) return ['missed', '✕', 'missed'];
+      if (ens.some((en) => en.status === 'planned')) return ['planned', '○', 'scheduled'];
+      if (ens.some((en) => en.status === 'skipped')) return ['skipped', '–', 'skipped'];
+      return ['rest', '', 'rest day'];
+    };
     const cells = [];
     for (let i = 0; i < lead; i++) cells.push('<span class="cal__cell" aria-hidden="true"></span>');
-    for (let d = 1; d <= daysIn; d++) {
-      const isToday = d === today.getDate();
-      const has = trained.has(new Date(today.getFullYear(), today.getMonth(), d).toDateString());
-      cells.push(`<span class="cal__cell ${isToday ? 'is-today' : ''} ${has ? 'has-workout' : ''}" ${isToday ? 'aria-current="date"' : ''}><span class="num">${d}</span>${has ? '<span class="sr-only">workout logged</span>' : ''}</span>`);
+    for (let n = 1; n <= daysIn; n++) {
+      const k = `${month}-${String(n).padStart(2, '0')}`;
+      const [cls, mark, word] = state(k);
+      cells.push(`<button type="button" class="cal__cell cal__cell--${cls} ${k === today ? 'is-today' : ''} ${k === UIState.ui.calDay ? 'is-selected' : ''}" data-action="cal-day" data-date="${k}"
+        ${k === today ? 'aria-current="date"' : ''} aria-label="${esc(Fmt.dayLabel(k))}, ${word}"><span class="num">${n}</span><span class="cal__mark" aria-hidden="true">${mark}</span></button>`);
     }
+    const sel = UIState.ui.calDay && UIState.ui.calDay.startsWith(month) ? UIState.ui.calDay : null;
+    let details = '';
+    if (sel) {
+      const ws = byDay.get(sel) || [];
+      const ens = entries.filter((en) => en.date === sel);
+      details = `<div class="cal__day"><p class="cal__dayhead">${esc(Fmt.dayLabel(sel))}</p>
+        ${ws.map((x) => Partials.sessionCard(x)).join('')}
+        ${ens.filter((en) => en.status !== 'completed').map((en) => `<p class="cal__entry">${esc(ScheduleService.routineName(en))}: ${en.status === 'moved' ? `moved to ${esc(Fmt.relDay(en.movedTo))}` : en.status === 'skipped' ? 'skipped' : ScheduleService.isMissed(en) ? 'missed' : 'scheduled'}</p>`).join('')}
+        ${!ws.length && !ens.length ? '<p class="cal__entry">Rest day. Nothing logged or scheduled.</p>' : ''}</div>`;
+    }
+    const prev = DateKey.of(new Date(first.getFullYear(), first.getMonth() - 1, 1)).slice(0, 7);
+    const next = DateKey.of(new Date(first.getFullYear(), first.getMonth() + 1, 1)).slice(0, 7);
     return `<div class="cal">
-      <p class="cal__month">${esc(today.toLocaleDateString(undefined, { month: 'long', year: 'numeric' }))}</p>
+      <div class="cal__nav">
+        <button type="button" class="icon-btn" data-action="cal-month" data-month="${prev}" aria-label="Previous month">${icon('back')}</button>
+        <p class="cal__month">${esc(first.toLocaleDateString(undefined, { month: 'long', year: 'numeric' }))}</p>
+        <button type="button" class="icon-btn" data-action="cal-month" data-month="${next}" aria-label="Next month">${icon('chevron')}</button>
+      </div>
       <div class="cal__grid" aria-hidden="true">${heads.map((h) => `<span class="cal__head">${esc(h)}</span>`).join('')}</div>
       <div class="cal__grid">${cells.join('')}</div>
-      <p class="hint">Marked days have a logged workout.</p>
+      <p class="cal__legend"><span><b>✓</b> Completed</span><span><b>○</b> Scheduled</span><span><b>✕</b> Missed</span><span><b>–</b> Skipped</span><span>Blank: rest</span></p>
+      ${details}
     </div>`;
   },
 
@@ -4477,9 +5287,11 @@ Object.assign(Views, {
       ${Partials.mainHead('Progress')}
       ${Partials.tabs('Progress sections', [
         ['overview', 'Overview', '#/progress/overview'],
-        ['strength', 'Strength', '#/progress/strength']
+        ['strength', 'Strength', '#/progress/strength'],
+        ['body', 'Body', '#/progress/body'],
+        ['photos', 'Photos', '#/progress/photos']
       ], tab)}
-      ${tab === 'strength' ? Views.progressStrength() : Views.progressOverview()}`;
+      ${{ strength: Views.progressStrength, body: Views.progressBody, photos: Views.progressPhotos }[tab] ? { strength: Views.progressStrength, body: Views.progressBody, photos: Views.progressPhotos }[tab]() : Views.progressOverview()}`;
   },
 
   progressOverview() {
@@ -4506,12 +5318,31 @@ Object.assign(Views, {
           ['Workouts', has ? String(P.workouts) : '—'],
           ['Working sets', has ? String(P.workingSets) : '—'],
           ['Training volume', has ? Units.fmtVolume(P.volumeKg) : '—'],
-          ['Training time', has ? Fmt.duration(P.durationSec) : '—']
+          ['Training time', has ? Fmt.duration(P.durationSec) : '—'],
+          ['Average workout', has ? Fmt.duration(P.avgDurationSec) : '—'],
+          ['Personal records', has ? String(P.prs) : '—']
         ])}
-        ${has ? '<p class="hint">Working sets exclude warm-ups. Volume counts completed working sets only.</p>' : '<p class="hint">Values appear after you complete workouts in this period.</p>'}
+        ${has ? '<p class="hint">Working sets exclude warm-ups. Volume counts completed working sets only.</p>' : `<div class="empty-inline">${icon('workout')}<p>No workouts in this period. <a href="#/home">Start a workout</a> to see your numbers.</p></div>`}
       </section>
 
       ${Views.goalsProgress()}
+
+      ${(() => {
+        const prs = Calc.prTimeline(Store.get().sessions).filter((p) => !from || Date.parse(p.date) >= from.getTime()).slice(-5).reverse();
+        return `<section class="section" aria-labelledby="ov-p"><div class="section-head"><h2 class="section-title" id="ov-p">Recent PRs</h2></div>
+          ${prs.length ? `<ul class="prs">${prs.map((p) => `<li><a href="#/history/${esc(p.sessionId)}">${icon('trophy')}<span class="prs__name">${esc(p.exerciseName)}<span class="prs__kind">${esc(Views.prText(p))}</span></span><span class="prs__when">${esc(Fmt.relDay(DateKey.of(new Date(p.date))))}</span></a></li>`).join('')}</ul>`
+            : `<div class="empty-inline">${icon('trophy')}<p>No PRs in this period. PRs appear when you beat a previous best on an exercise.</p></div>`}</section>`;
+      })()}
+
+      ${(() => {
+        const r = Views.transformationRange();
+        const t = Views.transformationData(r.from, r.to);
+        if (!t.metrics.length && !t.strength.length && !t.photos.length) return '';
+        return `<section class="section" aria-labelledby="ov-tr"><div class="section-head"><h2 class="section-title" id="ov-tr">Transformation</h2>
+          <a class="link" href="#/progress/transformation">Details${icon('chevron')}</a></div>
+          <p class="meta">${esc(Fmt.dayLabel(r.from))} → ${esc(Fmt.dayLabel(r.to))}</p>
+          <dl class="spec tr">${Views.transformationRows({ ...t, strength: t.strength.slice(0, 2) })}</dl></section>`;
+      })()}
 
       <section class="section" aria-labelledby="ov-m">
         <div class="section-head"><h2 class="section-title" id="ov-m">Muscle groups</h2><span class="meta">Working sets, by primary muscle</span></div>
@@ -4534,11 +5365,13 @@ Object.assign(Views, {
     const thisWeek = Calc.periodStats(Store.get().sessions, days[0], end).workouts;
     const row = (k, cur, goal, tag = '') => `<div><dt>${esc(k)}</dt><dd><span class="goal-cur">Current: ${cur}</span><span class="goal-target">Goal: ${goal}</span>${tag}</dd></div>`;
     const unit = Units.current();
+    const lw = Calc.latestBody(Store.get().body.entries, 'weightKg');
+    const lf = Calc.latestBody(Store.get().body.entries, 'bodyFatPct');
     return `<section class="section" aria-labelledby="ov-g">
       <div class="section-head"><h2 class="section-title" id="ov-g">Goals</h2><a class="link" href="#/more/goals">Edit${icon('chevron')}</a></div>
       <dl class="spec goals">
-        ${g.bodyweightKg != null ? row('Bodyweight', '—', `${esc(Units.fmt(g.bodyweightKg))} ${unit}`) : ''}
-        ${g.bodyFatPct != null ? row('Body fat', '—', `${g.bodyFatPct}%`) : ''}
+        ${g.bodyweightKg != null ? row('Bodyweight', lw ? esc(Units.metric('weightKg', lw.v)) : '—', `${esc(Units.fmt(g.bodyweightKg))} ${unit}`) : ''}
+        ${g.bodyFatPct != null ? row('Body fat', lf ? esc(Units.metric('bodyFatPct', lf.v)) : '—', `${g.bodyFatPct}%`) : ''}
         ${g.workoutsPerWeek != null ? row('Workouts this week', String(thisWeek), `${g.workoutsPerWeek} per week`, thisWeek >= g.workoutsPerWeek ? '<span class="tag tag--fav">Reached</span>' : '') : ''}
         ${g.strength.map((sg) => {
           const p = GoalService.strengthProgress(sg);
@@ -4548,7 +5381,7 @@ Object.assign(Views, {
           return row(name, cur, target, p.reached ? '<span class="tag tag--fav">Reached</span>' : '');
         }).join('')}
       </dl>
-      ${g.bodyweightKg != null || g.bodyFatPct != null ? '<p class="hint">Body measurements are not tracked yet, so only the goal is shown.</p>' : ''}
+      ${(g.bodyweightKg != null && !lw) || (g.bodyFatPct != null && !lf) ? '<p class="hint"><a href="#/progress/body/new">Record a measurement</a> to see your current values.</p>' : ''}
     </section>`;
   },
 
@@ -4571,7 +5404,7 @@ Object.assign(Views, {
         </select>
       </div>
       ${ex ? `<h2 class="str-name">${esc(ex.name)}</h2><p class="meta">${esc(Fmt.exerciseMeta(ex))}</p>
-        ${Views.strengthSummary(ex.id)}
+        ${Views.strengthPanel(ex.id)}
         <section class="section" aria-labelledby="str-h">
           <div class="section-head"><h2 class="section-title" id="str-h">History</h2></div>
           ${Views.exerciseHistory(ex)}
@@ -4646,20 +5479,22 @@ Object.assign(Views, {
           <h2 class="section-title" id="data-h">Data</h2>
           <span class="meta num">${Fmt.plural(data.routines.length, 'routine')}, ${Fmt.plural(data.sessions.length, 'workout')}, ${size}</span>
         </div>
-        ${Partials.navRow({ action: 'export-backup', icon: 'download', title: 'Export JSON backup', sub: 'A complete copy of your data, including any workout in progress.' })}
-        ${Partials.navRow({ action: 'import-backup', icon: 'upload', title: 'Import JSON backup', sub: 'Replace all current data with a backup file.' })}
+        ${Partials.navRow({ action: 'export-backup', icon: 'download', title: 'Export data backup', sub: 'Everything except photo images: routines, workouts, schedule, body, goals and settings.' })}
+        ${Partials.navRow({ action: 'import-backup', icon: 'upload', title: 'Import data backup', sub: 'Replace all current data with a backup file.' })}
         ${data.sessions.length ? Partials.navRow({ action: 'export-csv', icon: 'csv', title: 'Export workout CSV', sub: `Every completed set from ${Fmt.plural(data.sessions.length, 'workout')}, for spreadsheets.` }) : ''}
-        ${Partials.navRow({ action: 'reset-data', icon: 'reset', title: 'Reset Alpha data', sub: 'Erase everything and reload the sample routines.', danger: true })}
+        ${data.photos.length ? Partials.navRow({ action: 'export-photos', icon: 'camera', title: 'Export photo backup', sub: `Your ${Fmt.plural(data.photos.length, 'progress photo')} in one file. Not included in the data backup.` }) : ''}
+        ${PhotoStore.available() ? Partials.navRow({ action: 'import-photos', icon: 'upload', title: 'Import photo backup', sub: 'Adds photos from a photo backup. Existing photos are kept.' }) : ''}
+        ${Partials.navRow({ action: 'reset-data', icon: 'reset', title: 'Reset all data', sub: `Erase everything${data.photos.length ? ', including progress photos,' : ''} and reload the sample routines.`, danger: true })}
       </section>
 
       <section class="section" aria-labelledby="about-h">
         <div class="section-head"><h2 class="section-title" id="about-h">About</h2></div>
         <dl class="spec">
           <div><dt>App</dt><dd>Iron Ledger</dd></div>
-          <div><dt>Version</dt><dd class="num">2.0 ${esc(CONFIG.APP_STAGE)}</dd></div>
+          <div><dt>Version</dt><dd class="num">${esc(CONFIG.APP_DISPLAY_VERSION)}</dd></div>
           <div><dt>Data schema</dt><dd class="num">v${CONFIG.SCHEMA_VERSION}</dd></div>
         </dl>
-        <p class="about">Your data is stored only in this browser on this device. Export a backup regularly.</p>
+        <p class="about">Your data is stored only in this browser on this device. Export a data backup and a photo backup regularly.</p>
       </section>`;
   },
 
@@ -4754,7 +5589,7 @@ Object.assign(Views, {
 
 
 /* =======================================================================
-   14c. WORKOUT ENGINE VIEWS (Alpha 2)
+   14c. WORKOUT ENGINE VIEWS
    Render the active session, the summary and completed history.
    Everything shown comes from session records (snapshots), never from the
    current routine, so later edits cannot rewrite what happened.
@@ -4804,6 +5639,14 @@ Object.assign(Views, {
         <button type="button" class="icon-btn" data-action="aw-ex-menu" data-se="${esc(x.id)}" data-first="${i === 0}" data-last="${i === last}" aria-label="Options for ${esc(x.nameSnapshot)}">${icon('dots')}</button>
       </div>
       <p class="aw-target num"><b>${x.targetSets} × ${reps}</b><span>RIR <b>${rir}</b></span><span>Rest <b>${Fmt.rest(x.restSeconds)}</b></span></p>
+      ${Views.awReco(a, x, history)}
+      ${(() => {
+        const ex = ExerciseService.get(x.performedExerciseId);
+        const bits = [];
+        if (ex && ex.machineSettings) bits.push(`<span class="note-label">Machine settings</span>${esc(ex.machineSettings)}`);
+        if (ex && ex.notes) bits.push(`<span class="note-label">Personal note</span>${esc(ex.notes)}`);
+        return bits.length ? `<p class="aw-note aw-note--ex">${bits.join('<br>')}</p>` : '';
+      })()}
       ${x.notesSnapshot ? `<p class="aw-note"><span class="note-label">Routine note</span>${esc(x.notesSnapshot)}</p>` : ''}
       ${x.sessionNote ? `<p class="aw-note aw-note--today"><span class="note-label">Today's note</span>${esc(x.sessionNote)}</p>` : ''}
       <div class="sets" role="table" aria-label="Sets for ${esc(x.nameSnapshot)}">
@@ -4819,6 +5662,19 @@ Object.assign(Views, {
       </div>
       <button type="button" class="btn btn-ghost btn-sm aw-addset" data-action="aw-add-set" data-se="${esc(x.id)}">${icon('plus')}Add set</button>
     </section>`;
+  },
+
+  /** Unobtrusive, explained suggestion. It never changes any logged value. */
+  awReco(a, x, history) {
+    const ex = ExerciseService.get(x.performedExerciseId);
+    const r = Calc.recommendation(history, x, Calc.incrementFor(ex), a.id);
+    if (!r) return '';
+    const u = Units.current();
+    const head = { increase: `Try ${Units.fmt(r.weightKg)} ${u}`, reduce: `Try ${Units.fmt(r.weightKg)} ${u}`, stay: r.weightKg != null ? `Stay at ${Units.fmt(r.weightKg)} ${u}` : 'Same as last time', reps: 'Add reps or load' }[r.action];
+    return `<details class="reco reco--${r.action}">
+      <summary><span class="reco__label">Suggested today</span><b>${esc(head)}</b><span class="reco__target num">× ${esc(Fmt.range(x.targetRepMin, x.targetRepMax))}</span></summary>
+      <p class="reco__why">${esc(r.reason)}</p>
+    </details>`;
   },
 
   awSetRow(x, st, label, p, reps, rir, unit) {
@@ -4898,6 +5754,7 @@ Object.assign(Views, {
         <span class="fig"><b>${esc(Units.fmtVolume(st.volumeKg))}</b><span>volume</span></span>
       </div>
       <p class="hint">Working sets and volume count completed non-warm-up sets only.${st.incompleteSets ? ` ${Fmt.plural(st.incompleteSets, 'set')} not completed.` : ''}</p>
+      ${Views.prList(ws.id)}
       ${ws.sourceRoutineId ? `<section class="section" aria-labelledby="sc-h">
         <div class="section-head"><h2 class="section-title" id="sc-h">Changes today</h2></div>
         ${changes.length ? `<ul class="changes">${changes.map((c) => `<li>${icon(icons[c.kind])}<span>${esc(c.desc)}</span></li>`).join('')}</ul>`
@@ -4909,6 +5766,13 @@ Object.assign(Views, {
         <a class="btn btn-primary btn-block" href="#/home">Done</a>
         <a class="btn btn-secondary btn-block" href="#/history/${esc(ws.id)}">View workout</a>
       </div>`;
+  },
+
+  prList(sessionId) {
+    const prs = Calc.sessionPRs(Store.get().sessions, sessionId);
+    if (!prs.length) return '';
+    return `<section class="section" aria-labelledby="pr-h"><div class="section-head"><h2 class="section-title" id="pr-h">Personal records</h2></div>
+      <ul class="prs">${prs.map((p) => `<li>${icon('trophy')}<span class="prs__name">${esc(p.exerciseName)}<span class="prs__kind">${esc(Views.prText(p))}${Views.prAlso(p) ? ` · also ${esc(Views.prAlso(p))}` : ''}</span></span></li>`).join('')}</ul></section>`;
   },
 
   /* ---------------- REVIEW ROUTINE CHANGES ---------------- */
@@ -5018,6 +5882,7 @@ Object.assign(Views, {
         <span class="fig"><b>${esc(Units.fmtVolume(st.volumeKg))}</b><span>volume</span></span>
       </div>
       ${ws.notes ? `<p class="aw-note aw-note--today"><span class="note-label">Workout note</span>${esc(ws.notes)}</p>` : ''}
+      ${Views.prList(ws.id)}
       <ol class="cw">
         ${ws.exercises.map((x) => {
           const labels = Calc.setLabels(x.sets);
@@ -5051,6 +5916,417 @@ Object.assign(Views, {
 
 
 /* =======================================================================
+   14d. BODY, PHOTOS, COMPARISON, TRANSFORMATION, STRENGTH CHARTS
+   All numbers come from stored entries/sessions. Missing data is shown as
+   missing; nothing is interpolated or invented.
+   ======================================================================= */
+const PERIODS = [['30d', '30D'], ['3m', '3M'], ['6m', '6M'], ['1y', '1Y'], ['all', 'All']];
+function periodFrom(p) {
+  if (p === '6m') { const d = DateKey.toDate(DateKey.today()); d.setMonth(d.getMonth() - 6); return d; }
+  return Calc.periodStart(p);
+}
+
+Object.assign(Partials, {
+  /**
+   * Dependency-free SVG line chart. series: [{ name, points:[{t, v}], dashed }].
+   * Shows only real points; fewer than two points explains what is needed.
+   */
+  lineChart(series, { fmt = (v) => String(Math.round(v * 10) / 10), label = 'Trend' } = {}) {
+    const pts = series.flatMap((s) => s.points);
+    const longest = Math.max(0, ...series.map((s) => s.points.length));
+    if (longest < 2) {
+      return `<div class="chart-empty">${icon('progress')}<p>${longest === 1 ? 'One entry in this period. Add another to see a trend.' : 'No entries in this period.'}</p></div>`;
+    }
+    const W = 320; const H = 160; const L = 6; const R = 6; const T = 16; const B = 24;
+    const t0 = Math.min(...pts.map((p) => p.t)); let t1 = Math.max(...pts.map((p) => p.t)); if (t1 === t0) t1 = t0 + 1;
+    let lo = Math.min(...pts.map((p) => p.v)); let hi = Math.max(...pts.map((p) => p.v));
+    const pad = (hi - lo) * 0.15 || Math.abs(hi) * 0.05 || 1; lo -= pad; hi += pad;
+    const x = (t) => L + ((t - t0) / (t1 - t0)) * (W - L - R);
+    const y = (v) => T + (1 - (v - lo) / (hi - lo)) * (H - T - B);
+    const day = (t) => new Date(t).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+    const lines = series.map((s, i) => {
+      if (!s.points.length) return '';
+      const d = s.points.map((p, j) => `${j ? 'L' : 'M'}${x(p.t).toFixed(1)} ${y(p.v).toFixed(1)}`).join(' ');
+      return `<path class="ch__line ${i ? 'ch__line--2' : ''}" d="${d}"${s.dashed || i ? ' stroke-dasharray="5 5"' : ''}/>
+        ${s.points.map((p) => `<circle class="ch__dot ${i ? 'ch__dot--2' : ''}" cx="${x(p.t).toFixed(1)}" cy="${y(p.v).toFixed(1)}" r="3.2"/>`).join('')}`;
+    }).join('');
+    const summary = series.filter((s) => s.points.length).map((s) => {
+      const a = s.points[0]; const b = s.points[s.points.length - 1];
+      return `${s.name}: ${fmt(a.v)} on ${day(a.t)}, ${fmt(b.v)} on ${day(b.t)}`;
+    }).join('. ');
+    return `<figure class="ch">
+      <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(label)}. ${esc(summary)}">
+        <g class="ch__grid"><path d="M${L} ${T}H${W - R}M${L} ${(T + H - B) / 2}H${W - R}M${L} ${H - B}H${W - R}"/></g>
+        <text class="ch__lab" x="${L}" y="${T - 4}">${esc(fmt(hi - pad))}</text>
+        <text class="ch__lab" x="${L}" y="${H - B - 4}">${esc(fmt(lo + pad))}</text>
+        ${lines}
+        <text class="ch__lab" x="${L}" y="${H - 6}">${esc(day(t0))}</text>
+        <text class="ch__lab" x="${W - R}" y="${H - 6}" text-anchor="end">${esc(day(t1))}</text>
+      </svg>
+      ${series.length > 1 ? `<figcaption class="ch__legend">${series.map((s, i) => `<span><i class="ch__key ${i ? 'ch__key--2' : ''}"></i>${esc(s.name)}</span>`).join('')}</figcaption>` : ''}
+    </figure>`;
+  },
+
+  chips(key, options, label) {
+    return `<div class="chips" role="group" aria-label="${esc(label)}">${options.map(([v, t]) =>
+      `<button type="button" class="chip" data-action="ui-set" data-key="${key}" data-value="${esc(v)}" aria-pressed="${UIState.ui[key] === v}">${esc(t)}</button>`).join('')}</div>`;
+  },
+
+  photoTile(p, missing, action = '') {
+    const label = `${Tax.label('poses', p.pose)}, ${Tax.label('clothing', p.clothing).toLowerCase()}`;
+    const inner = `<span class="ph__img ${missing ? 'is-missing' : ''}">${missing ? `${icon('alert')}<span>Image not on this device</span>` : `<img data-thumb="${esc(p.id)}" alt="${esc(label)}, ${esc(Fmt.relDay(p.date))}">`}</span>
+      <span class="ph__cap"><b>${esc(DateKey.toDate(p.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }))}</b><span>${esc(label)}</span></span>`;
+    return action ? `<button type="button" class="ph" ${action}>${inner}</button>` : `<a class="ph" href="#/progress/photos/${esc(p.id)}">${inner}</a>`;
+  }
+});
+
+/** Framing guide (SVG overlay on the live camera only; never saved into the photo). */
+function framingGuide(pose) {
+  const side = pose === 'side';
+  const body = side
+    ? '<ellipse cx="50" cy="15" rx="7" ry="8.5"/><path d="M47 24 C42 34 42 48 45 58 C46 66 45 78 46 96 M53 24 C59 34 60 46 56 58 C55 66 56 78 55 96"/>'
+    : '<ellipse cx="50" cy="15" rx="7.5" ry="9"/><path d="M42 25 C30 27 27 31 26 40 L24 60 M58 25 C70 27 73 31 74 40 L76 60 M38 30 C37 45 39 52 41 58 L42 96 M62 30 C63 45 61 52 59 58 L58 96 M50 58 L50 96"/>';
+  return `<svg class="cam__guide" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <path class="cam__axis" d="M50 2V98M10 5H90M10 97H90"/><g class="cam__body">${body}</g></svg>`;
+}
+
+Object.assign(Views, {
+  /* ---------------- PROGRESS › BODY ---------------- */
+  progressBody() {
+    const entries = BodyService.entries();
+    const g = GoalService.get();
+    const all = Store.get().body.entries;
+    const lw = Calc.latestBody(all, 'weightKg'); const lf = Calc.latestBody(all, 'bodyFatPct');
+    const tile = (label, latest, metric, goal) => `<div class="tile"><dt>${esc(label)}</dt>
+      <dd class="num">${latest ? esc(Units.metric(metric, latest.v)) : '—'}</dd>
+      <span class="tile__sub">${goal != null ? `Goal: ${esc(Units.metric(metric, goal))}` : latest ? esc(Fmt.relDay(DateKey.of(new Date(latest.t)))) : 'No entries'}</span></div>`;
+    if (!entries.length) {
+      return `<div class="empty"><div class="empty__mark">${icon('scale')}</div><h2>No body measurements yet.</h2>
+        <p>Record your weight, body fat or any measurement. You don't need to record everything each time.</p>
+        <a class="btn btn-primary" href="#/progress/body/new">${icon('plus')}Record measurement</a></div>`;
+    }
+    const metric = UIState.ui.bodyMetric;
+    const pairs = { arms: ['armL', 'armR'], thighs: ['thighL', 'thighR'], calves: ['calfL', 'calfR'] };
+    const from = periodFrom(UIState.ui.bodyPeriod);
+    const inPeriod = (p) => !from || p.t >= from.getTime();
+    const series = (pairs[metric] || [metric]).map((m, i) => ({
+      name: Tax.label('bodyMetrics', m), dashed: i > 0,
+      points: Calc.bodySeries(all, m).filter(inPeriod).map((p) => ({ t: p.t, v: m === 'weightKg' ? Units.toDisplay(p.v) : TAXONOMY.bodyMetrics.find((x) => x.id === m).kind === 'len' ? Units.lenToDisplay(p.v) : p.v }))
+    }));
+    const unitOf = { weightKg: Units.current(), bodyFatPct: '%' };
+    const u = unitOf[metric] || Units.lenUnit();
+    return `
+      <dl class="tiles">${tile('Weight', lw, 'weightKg', g.bodyweightKg)}${tile('Body fat', lf, 'bodyFatPct', g.bodyFatPct)}</dl>
+      <a class="btn btn-primary btn-block" href="#/progress/body/new">${icon('plus')}Record measurement</a>
+      <section class="section" aria-labelledby="bt-h">
+        <div class="section-head"><h2 class="section-title" id="bt-h">Trend</h2></div>
+        ${Partials.chips('bodyMetric', [['weightKg', 'Weight'], ['bodyFatPct', 'Body fat'], ['waist', 'Waist'], ['chest', 'Chest'], ['hips', 'Hips'], ['arms', 'Arms'], ['thighs', 'Thighs'], ['calves', 'Calves']], 'Measurement')}
+        <div class="str-metric">${Partials.uiChoice({ label: 'Period', key: 'bodyPeriod', options: PERIODS })}</div>
+        ${Partials.lineChart(series, { fmt: (v) => `${Math.round(v * 10) / 10} ${u}`, label: `${series.map((s) => s.name).join(' and ')} trend` })}
+      </section>
+      <section class="section" aria-labelledby="bh-h">
+        <div class="section-head"><h2 class="section-title" id="bh-h">History</h2><span class="meta">${Fmt.plural(entries.length, 'entry', 'entries')}</span></div>
+        <ul class="xlist">${entries.map((en) => `<li><a class="xrow" href="#/progress/body/${esc(en.id)}">
+          <span class="xrow__body"><span class="xrow__name">${esc(Fmt.dayLabel(en.date))}${en.time ? `, ${esc(en.time)}` : ''}</span>
+          <span class="xrow__meta">${Object.entries(en.values).map(([k, v]) => `${esc(Tax.label('bodyMetrics', k))} ${esc(Units.metric(k, v))}`).join(' · ')}${en.note ? ` · “${esc(en.note)}”` : ''}</span></span>
+          ${icon('chevron', 'xrow__chev')}</a></li>`).join('')}</ul>
+      </section>`;
+  },
+
+  bodyForm(id) {
+    const key = id ? `body:${id}` : 'body:new';
+    let form = Forms.get(key);
+    if (!form) {
+      const draft = { id: null, date: DateKey.today(), time: `${String(Clock.date().getHours()).padStart(2, '0')}:${String(Clock.date().getMinutes()).padStart(2, '0')}`, note: '' };
+      TAXONOMY.bodyMetrics.forEach((m) => { draft[`m_${m.id}`] = ''; });
+      if (id) {
+        const en = BodyService.get(id);
+        if (!en) { Toast.show('That entry no longer exists.'); return Router.redirect('#/progress/body'); }
+        Object.assign(draft, { id: en.id, date: en.date, time: en.time || '', note: en.note, createdAt: en.createdAt });
+        Object.entries(en.values).forEach(([k, v]) => {
+          const kind = TAXONOMY.bodyMetrics.find((m) => m.id === k).kind;
+          draft[`m_${k}`] = String(kind === 'weight' ? Units.toDisplay(v) : kind === 'len' ? Units.lenToDisplay(v) : v);
+        });
+      }
+      form = Forms.open(key, 'body', draft, '#/progress/body');
+    }
+    const d = form.draft;
+    const err = form.errors || {};
+    const field = (m) => {
+      const u = m.kind === 'weight' ? Units.current() : m.kind === 'pct' ? '%' : Units.lenUnit();
+      return `<div class="bfield"><label for="bm-${m.id}">${esc(m.label)} <span class="optional">(${u})</span></label>
+        <input id="bm-${m.id}" type="text" inputmode="decimal" autocomplete="off" data-bind="m_${m.id}" value="${esc(d[`m_${m.id}`])}" ${err[m.id] ? 'aria-invalid="true"' : ''}>
+        ${err[m.id] ? `<p class="field-error">${esc(err[m.id])}</p>` : ''}</div>`;
+    };
+    return `
+      <header class="edit-head">
+        <button type="button" class="btn btn-ghost" data-action="form-cancel">Cancel</button>
+        <h1 class="edit-head__title">${id ? 'Edit measurement' : 'Record measurement'}</h1>
+        <button type="button" class="btn btn-primary btn-sm" data-action="body-save">Save</button>
+      </header>
+      ${err._ ? `<p class="field-error">${esc(err._)}</p>` : ''}
+      <div class="bgrid bgrid--2">
+        <div class="bfield"><label for="bm-date">Date</label><input id="bm-date" type="date" data-bind="date" value="${esc(d.date)}" max="${DateKey.today()}"></div>
+        <div class="bfield"><label for="bm-time">Time <span class="optional">(optional)</span></label><input id="bm-time" type="time" data-bind="time" value="${esc(d.time)}"></div>
+      </div>
+      <p class="hint">Fill in only what you measured today.</p>
+      <div class="bgrid bgrid--2">${TAXONOMY.bodyMetrics.slice(0, 2).map(field).join('')}</div>
+      <h2 class="section-title bm-head">Measurements</h2>
+      <div class="bgrid bgrid--3">${TAXONOMY.bodyMetrics.slice(2).map(field).join('')}</div>
+      <div class="field"><label for="bm-note">Note <span class="optional">(optional)</span></label>
+        <input id="bm-note" type="text" maxlength="200" data-bind="note" value="${esc(d.note)}" placeholder="e.g. Morning, before breakfast"></div>
+      ${id ? `<div class="form-footer"><button type="button" class="btn btn-danger-text" data-action="body-delete" data-id="${esc(id)}">${icon('trash')}Delete entry</button></div>` : ''}`;
+  },
+
+  /* ---------------- PROGRESS › PHOTOS ---------------- */
+  progressPhotos() {
+    if (!PhotoStore.available()) {
+      return `<div class="empty"><div class="empty__mark">${icon('camera')}</div><h2>Photos aren't available here</h2>
+        <p>This browser doesn't provide the storage Iron Ledger needs for photos. Open Iron Ledger in Chrome to use progress photos.</p></div>`;
+    }
+    const all = PhotoMeta.list();
+    const ui = UIState.ui;
+    const list = all.filter((p) => (ui.photoView === 'all' || p.pose === ui.photoView) && (ui.photoShirt === 'all' || p.clothing === ui.photoShirt));
+    const add = `<div class="ph-add">
+      <button type="button" class="btn btn-primary" data-action="photo-take">${icon('camera')}Take photo</button>
+      <button type="button" class="btn btn-secondary" data-action="photo-choose">${icon('upload')}Choose photo</button></div>`;
+    if (!all.length) {
+      return `<div class="empty"><div class="empty__mark">${icon('camera')}</div><h2>No progress photos yet.</h2>
+        <p>Front, side and back photos taken in similar light and framing make comparisons meaningful.</p></div>${add}
+        <p class="hint">Photos are stored only on this device. Back them up with Export photo backup in More.</p>`;
+    }
+    return `${add}
+      ${Partials.chips('photoView', [['all', 'All poses'], ...TAXONOMY.poses.map((p) => [p.id, p.label])], 'Pose')}
+      ${Partials.chips('photoShirt', [['all', 'All'], ...TAXONOMY.clothing.map((c) => [c.id, c.label])], 'Clothing')}
+      <div class="results-bar"><span>${Fmt.plural(list.length, 'photo')}</span>
+        ${all.length >= 2 ? `<a class="link" href="#/progress/compare">${icon('swap')}Compare</a>` : ''}</div>
+      ${list.length ? `<div class="ph-grid" id="ph-grid">${list.map((p) => Partials.photoTile(p, UIState.missingPhotos.has(p.id))).join('')}</div>`
+        : '<p class="desc">No photos match these filters.</p>'}
+      <p class="hint">Photos are stored only on this device and are not in the data backup. Use Export photo backup in More.</p>`;
+  },
+
+  photoView(id) {
+    const p = PhotoMeta.get(id);
+    if (!p) { Toast.show('That photo no longer exists.'); return Router.redirect('#/progress/photos'); }
+    const missing = UIState.missingPhotos.has(id);
+    return `
+      ${Partials.subHead({ title: DateKey.toDate(p.date).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' }), back: '#/progress/photos',
+        actions: `<button type="button" class="icon-btn" data-action="photo-menu" data-id="${esc(id)}" aria-label="Photo options">${icon('dots')}</button>` })}
+      <div class="ph-full">${missing ? `<div class="ph__img is-missing">${icon('alert')}<span>Image not on this device. Import your photo backup to restore it.</span></div>`
+        : `<img data-full="${esc(id)}" alt="${esc(Tax.label('poses', p.pose))} progress photo, ${esc(Fmt.dayLabel(p.date))}">`}</div>
+      <dl class="spec">
+        <div><dt>Pose</dt><dd>${esc(Tax.label('poses', p.pose))}</dd></div>
+        <div><dt>Clothing</dt><dd>${esc(Tax.label('clothing', p.clothing))}</dd></div>
+        <div><dt>Taken</dt><dd>${esc(Fmt.dayLabel(p.date))}</dd></div>
+        ${p.note ? `<div><dt>Note</dt><dd>${esc(p.note)}</dd></div>` : ''}
+      </dl>
+      <div class="finish-actions">
+        <button type="button" class="btn btn-primary btn-block" data-action="compare-from" data-id="${esc(id)}">${icon('swap')}Compare</button>
+        <a class="btn btn-secondary btn-block" href="#/progress/photos/${esc(id)}/edit">${icon('edit')}Edit details</a>
+      </div>`;
+  },
+
+  /** New photo (pending blob in memory) or edit details of an existing one. */
+  photoForm(id) {
+    const key = id ? `photo:${id}` : 'photo:new';
+    let form = Forms.get(key);
+    if (!form) {
+      if (id) {
+        const p = PhotoMeta.get(id);
+        if (!p) { Toast.show('That photo no longer exists.'); return Router.redirect('#/progress/photos'); }
+        form = Forms.open(key, 'photo', { date: p.date, pose: p.pose, clothing: p.clothing, note: p.note }, `#/progress/photos/${id}`);
+      } else {
+        if (!UIState.newPhoto) return Router.redirect('#/progress/photos');
+        form = Forms.open(key, 'photo', { date: DateKey.today(), pose: UIState.newPhoto.pose || 'front', clothing: UIState.ui.lastClothing || 'shirt', note: '' }, '#/progress/photos');
+      }
+    }
+    const d = form.draft;
+    return `
+      <header class="edit-head">
+        <button type="button" class="btn btn-ghost" data-action="form-cancel">Cancel</button>
+        <h1 class="edit-head__title">${id ? 'Photo details' : 'New photo'}</h1>
+        <button type="button" class="btn btn-primary btn-sm" data-action="photo-save" ${id ? `data-id="${esc(id)}"` : ''}>Save</button>
+      </header>
+      ${!id && UIState.newPhoto ? `<div class="ph-full ph-full--preview"><img src="${UIState.newPhoto.url}" alt="New photo preview"></div>` : ''}
+      <div class="field"><span class="field-label" id="pf-pose">Pose</span>
+        ${Partials.radioGroup({ id: 'pf-pose', options: TAXONOMY.poses, value: d.pose, action: 'form-radio', key: 'pose' })}</div>
+      <div class="field"><span class="field-label" id="pf-cl">Clothing</span>
+        ${Partials.radioGroup({ id: 'pf-cl', options: TAXONOMY.clothing, value: d.clothing, action: 'form-radio', key: 'clothing' })}</div>
+      <div class="field"><label for="pf-date">Date</label><input id="pf-date" type="date" data-bind="date" value="${esc(d.date)}" max="${DateKey.today()}"></div>
+      <div class="field"><label for="pf-note">Note <span class="optional">(optional)</span></label>
+        <input id="pf-note" type="text" maxlength="200" data-bind="note" value="${esc(d.note)}"></div>`;
+  },
+
+  /* ---------------- CAMERA (live preview with framing guide) ---------------- */
+  camera() {
+    const pose = UIState.cameraPose || 'front';
+    const guide = SettingsService.get().photoGuide;
+    return `<div class="cam">
+      <video id="cam-video" class="cam__video ${UIState.cameraFacing === 'user' ? 'is-mirrored' : ''}" playsinline muted autoplay></video>
+      ${guide ? framingGuide(pose) : ''}
+      <div class="cam__top">
+        <button type="button" class="icon-btn cam__btn" data-action="camera-close" aria-label="Close camera">${icon('close')}</button>
+        <div class="segmented seg-sm cam__poses" role="radiogroup" aria-label="Pose">${TAXONOMY.poses.map((p) =>
+          `<button type="button" role="radio" aria-checked="${p.id === pose}" data-action="camera-pose" data-value="${p.id}">${p.label}</button>`).join('')}</div>
+        <button type="button" class="cam__guide-toggle" role="switch" aria-checked="${guide}" data-action="camera-guide">Guide</button>
+      </div>
+      <p class="cam__msg" id="cam-msg" role="status">Starting camera…</p>
+      <div class="cam__bottom">
+        <button type="button" class="icon-btn cam__btn" data-action="photo-choose" aria-label="Choose a photo instead">${icon('upload')}</button>
+        <button type="button" class="cam__shutter" data-action="camera-shoot" aria-label="Take photo"><span></span></button>
+        <button type="button" class="icon-btn cam__btn" data-action="camera-flip" aria-label="Switch camera">${icon('reset')}</button>
+      </div>
+    </div>`;
+  },
+
+  /* ---------------- COMPARE ---------------- */
+  compare() {
+    const all = PhotoMeta.list();
+    const c = UIState.compare;
+    if (all.length >= 2 && !c.a && !c.b && !c.choosing) {
+      // Sensible default: the newest photo that has an earlier partner with the same pose and clothing.
+      const latest = all.find((p) => all.some((o) => o.id !== p.id && o.pose === p.pose && o.clothing === p.clothing)) || all[0];
+      const match = all.filter((p) => p.id !== latest.id && p.pose === latest.pose && p.clothing === latest.clothing).pop();
+      c.b = latest.id; c.a = match ? match.id : null; c.choosing = match ? null : 'a';
+    }
+    if (all.length < 2) return `${Partials.subHead({ title: 'Compare photos', back: '#/progress/photos' })}<div class="empty"><p>Add at least two photos to compare them.</p></div>`;
+    const A = PhotoMeta.get(c.a); const B = PhotoMeta.get(c.b);
+    const [early, late] = A && B && A.date > B.date ? [B, A] : [A, B];
+    const slot = (p, which, label) => `<button type="button" class="cmp-pick ${c.choosing === which ? 'is-active' : ''}" data-action="compare-choose" data-which="${which}">
+      ${p ? `<img data-thumb="${esc(p.id)}" alt=""><span><b>${esc(label)}</b>${esc(Fmt.relDay(p.date))}, ${esc(Tax.label('poses', p.pose).toLowerCase())}</span>` : `${icon('plus')}<span><b>${esc(label)}</b>Select photo</span>`}</button>`;
+    let chooser = '';
+    if (c.choosing) {
+      const other = PhotoMeta.get(c.choosing === 'a' ? c.b : c.a);
+      const filtered = other && !c.showAll ? all.filter((p) => p.pose === other.pose && p.clothing === other.clothing && p.id !== other.id) : all.filter((p) => !other || p.id !== other.id);
+      chooser = `<section class="section cmp-chooser" aria-label="Choose a photo">
+        <div class="section-head"><h2 class="section-title">${c.choosing === 'a' ? 'Select earlier photo' : 'Select later photo'}</h2>
+          ${other ? `<button type="button" class="link" data-action="compare-showall">${c.showAll ? 'Matching only' : 'Show all'}</button>` : ''}</div>
+        ${other && !c.showAll ? `<p class="hint">Showing ${esc(Tax.label('poses', other.pose).toLowerCase())}, ${esc(Tax.label('clothing', other.clothing).toLowerCase())} photos to match.</p>` : ''}
+        <div class="ph-grid">${filtered.map((p) => Partials.photoTile(p, UIState.missingPhotos.has(p.id), `data-action="compare-set" data-id="${esc(p.id)}"`)).join('') || '<p class="desc">No matching photos. Tap Show all.</p>'}</div>
+      </section>`;
+    }
+    const days = early && late ? DateKey.diffDays(late.date, early.date) : null;
+    const frame = (p, side) => {
+      const z = c.zoom[side]; const o = c.offset[side];
+      return `<div class="cmp-frame" data-pan="${side}"><img data-full="${esc(p.id)}" alt="${side === 'a' ? 'Earlier' : 'Later'} photo, ${esc(Fmt.dayLabel(p.date))}" style="transform:translate(${o.x}%,${o.y}%) scale(${z})" draggable="false"></div>`;
+    };
+    let viewer = '';
+    if (early && late && !c.choosing) {
+      viewer = UIState.ui.compareMode === 'slider'
+        ? `<div class="cmp-slider" style="--cut:${c.cut}%">
+            <div class="cmp-frame cmp-frame--base" data-pan="a"><img data-full="${esc(early.id)}" alt="Earlier photo" style="transform:translate(${c.offset.a.x}%,${c.offset.a.y}%) scale(${c.zoom.a})" draggable="false"></div>
+            <div class="cmp-frame cmp-frame--top" data-pan="b"><img data-full="${esc(late.id)}" alt="Later photo" style="transform:translate(${c.offset.b.x}%,${c.offset.b.y}%) scale(${c.zoom.b})" draggable="false"></div>
+            <span class="cmp-slider__line" aria-hidden="true"></span>
+          </div>
+          <label class="sr-only" for="cmp-cut">Reveal later photo</label>
+          <input id="cmp-cut" class="cmp-range" type="range" min="0" max="100" value="${c.cut}" data-compare="cut">`
+        : `<div class="cmp-side">${frame(early, 'a')}${frame(late, 'b')}</div>`;
+      viewer += `<div class="cmp-meta"><span>${esc(Fmt.dayLabel(early.date))}</span><span class="num">${days != null ? `${days} days` : ''}</span><span>${esc(Fmt.dayLabel(late.date))}</span></div>
+        <div class="cmp-adjust">
+          <label>Earlier zoom <input type="range" min="1" max="2.5" step="0.05" value="${c.zoom.a}" data-compare="zoom-a"></label>
+          <label>Later zoom <input type="range" min="1" max="2.5" step="0.05" value="${c.zoom.b}" data-compare="zoom-b"></label>
+          <button type="button" class="btn btn-ghost btn-sm" data-action="compare-reset">Reset position</button>
+        </div>
+        <p class="hint">Drag a photo to line it up. Adjustments are for viewing only; your photos are not changed.</p>`;
+    }
+    return `
+      ${Partials.subHead({ title: 'Compare photos', back: '#/progress/photos' })}
+      <div class="cmp-picks">${slot(early || A, 'a', 'Earlier')}${slot(late || B, 'b', 'Later')}</div>
+      ${chooser}
+      ${early && late && !c.choosing ? `<div class="cmp-mode">${Partials.uiChoice({ label: 'Comparison mode', key: 'compareMode', options: [['side', 'Side by side'], ['slider', 'Slider']] })}</div>` : ''}
+      ${viewer}`;
+  },
+
+  /* ---------------- TRANSFORMATION ---------------- */
+  transformationData(fromKey, toKey) {
+    const d = Store.get();
+    const body = d.body.entries;
+    const metrics = TAXONOMY.bodyMetrics.map((m) => ({ m, ch: Calc.bodyChange(body, m.id, fromKey, toKey) })).filter((x) => x.ch);
+    const inRange = d.sessions.filter((ws) => { const k = DateKey.of(new Date(ws.startedAt)); return k >= fromKey && k <= toKey; })
+      .sort((a, b) => Date.parse(a.startedAt) - Date.parse(b.startedAt));
+    const counts = new Map();
+    inRange.forEach((ws) => new Set(ws.exercises.filter((x) => x.sets.some((st) => st.completed && Calc.isWorkingSet(st))).map((x) => x.performedExerciseId)).forEach((id) => counts.set(id, (counts.get(id) || 0) + 1)));
+    const strength = [...counts.entries()].filter(([, n]) => n >= 2).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([id]) => {
+      const pts = Calc.exerciseSeries(inRange, id);
+      if (pts.length < 2) return null;
+      const name = (ExerciseService.get(id) || {}).name || inRange.flatMap((ws) => ws.exercises).find((x) => x.performedExerciseId === id).nameSnapshot;
+      return { id, name, from: pts[0].topSet, to: pts[pts.length - 1].topSet };
+    }).filter(Boolean);
+    const photosBy = (pose) => {
+      const list = d.photos.filter((p) => p.pose === pose && p.date >= fromKey && p.date <= toKey).sort((a, b) => a.date.localeCompare(b.date));
+      return list.length >= 2 ? { first: list[0], last: list[list.length - 1] } : null;
+    };
+    return { metrics, workouts: inRange.length, strength, photos: TAXONOMY.poses.map((p) => ({ pose: p, pair: photosBy(p.id) })).filter((x) => x.pair) };
+  },
+
+  transformationRange() {
+    const d = Store.get();
+    const dates = [...d.sessions.map((ws) => DateKey.of(new Date(ws.startedAt))), ...d.body.entries.map((e) => e.date), ...d.photos.map((p) => p.date)].sort();
+    return { from: UIState.ui.trFrom || dates[0] || DateKey.today(), to: UIState.ui.trTo || DateKey.today() };
+  },
+
+  transformationRows(t) {
+    const rows = [];
+    t.metrics.forEach(({ m, ch }) => rows.push(`<div><dt>${esc(m.label)}</dt><dd class="num">${esc(Units.metric(m.id, ch.from.v))} → <b>${esc(Units.metric(m.id, ch.to.v))}</b> <span class="delta">${esc(Units.metricDelta(m.id, ch.delta))}</span></dd></div>`));
+    const ts = (x) => `${x.weightKg == null ? 'BW' : `${Units.fmt(x.weightKg)} ${Units.current()}`} × ${x.reps}`;
+    t.strength.forEach((s) => rows.push(`<div><dt>${esc(s.name)}</dt><dd class="num">${esc(ts(s.from))} → <b>${esc(ts(s.to))}</b> <span class="delta">top set</span></dd></div>`));
+    rows.push(`<div><dt>Workouts</dt><dd class="num"><b>${t.workouts}</b> completed</dd></div>`);
+    return rows.join('');
+  },
+
+  transformation() {
+    const r = Views.transformationRange();
+    const t = Views.transformationData(r.from, r.to);
+    return `
+      ${Partials.subHead({ title: 'Transformation', back: '#/progress/overview' })}
+      <div class="bgrid bgrid--2">
+        <div class="bfield"><label for="tr-from">From</label><input id="tr-from" type="date" data-ui-date="trFrom" value="${r.from}" max="${r.to}"></div>
+        <div class="bfield"><label for="tr-to">To</label><input id="tr-to" type="date" data-ui-date="trTo" value="${r.to}" min="${r.from}" max="${DateKey.today()}"></div>
+      </div>
+      <dl class="spec tr">${Views.transformationRows(t)}</dl>
+      ${!t.metrics.length ? '<p class="hint">Body changes appear when a measurement was recorded at least twice in this range.</p>' : ''}
+      ${!t.strength.length ? '<p class="hint">Strength changes appear for exercises performed at least twice in this range.</p>' : ''}
+      ${t.photos.length ? `<section class="section" aria-labelledby="trp-h"><div class="section-head"><h2 class="section-title" id="trp-h">Photos</h2></div>
+        ${t.photos.map(({ pose, pair }) => `<div class="tr-photos"><span class="tr-photos__label">${esc(pose.label)}</span>
+          <img data-thumb="${esc(pair.first.id)}" alt="${esc(pose.label)}, ${esc(Fmt.dayLabel(pair.first.date))}">
+          <img data-thumb="${esc(pair.last.id)}" alt="${esc(pose.label)}, ${esc(Fmt.dayLabel(pair.last.date))}">
+          <button type="button" class="btn btn-secondary btn-sm" data-action="compare-pair" data-a="${esc(pair.first.id)}" data-b="${esc(pair.last.id)}">Compare</button></div>`).join('')}</section>`
+        : '<p class="hint">Photo comparisons appear when a pose has at least two photos in this range.</p>'}`;
+  },
+
+  /* ---------------- STRENGTH (shared by Progress and exercise detail) ---------------- */
+  strengthPanel(exerciseId) {
+    const sessions = Store.get().sessions;
+    const rec = Calc.exerciseRecords(sessions, exerciseId);
+    const series = Calc.exerciseSeries(sessions, exerciseId);
+    if (!series.length) {
+      return `<div class="empty-inline">${icon('progress')}<p>No completed sets yet. Start a workout with this exercise to build its history.</p></div>`;
+    }
+    const u = Units.current();
+    const set = (r) => (r ? `${r.weightKg == null ? 'BW' : `${Units.fmt(r.weightKg)} ${u}`} × ${r.reps}` : '—');
+    const last = series[series.length - 1];
+    const metric = UIState.ui.strengthMetric;
+    const from = periodFrom(UIState.ui.strengthPeriod);
+    const pts = series.filter((p) => (!from || p.t >= from.getTime()) && p[metric] != null)
+      .map((p) => ({ t: p.t, v: metric === 'reps' ? p.reps : Units.toDisplay(p[metric]) }));
+    const labelOf = { weight: 'Top set weight', e1rm: 'Estimated 1RM', volume: 'Session volume', reps: 'Most reps' };
+    return `
+      <dl class="tiles">
+        <div class="tile"><dt>Latest top set</dt><dd class="num">${last.weight != null ? `${esc(Units.fmt(last.weight))} ${u}` : `${last.reps} reps`}</dd><span class="tile__sub">${esc(Fmt.dayDate(new Date(last.t).toISOString()))}</span></div>
+        <div class="tile"><dt>Best weight</dt><dd class="num">${rec.heaviest ? esc(set(rec.heaviest)) : '—'}</dd></div>
+        <div class="tile"><dt>Best reps</dt><dd class="num">${esc(set(rec.mostReps))}</dd></div>
+        <div class="tile"><dt>Best set</dt><dd class="num">${rec.bestVolume ? esc(Units.fmtVolume(rec.bestVolume.volumeKg)) : '—'}</dd><span class="tile__sub">${rec.bestVolume ? esc(set(rec.bestVolume)) : ''}</span></div>
+        <div class="tile"><dt>Est. 1RM</dt><dd class="num">${rec.bestE1rm ? `${esc(Units.fmt(Math.round(rec.bestE1rm.value * 10) / 10))} ${u}` : '—'}</dd><span class="tile__sub">${rec.bestE1rm ? `from ${esc(set(rec.bestE1rm))}` : 'Needs a weighted set of 1–12 reps'}</span></div>
+      </dl>
+      <div class="str-metric">${Partials.chips('strengthMetric', [['weight', 'Weight'], ['e1rm', 'Est. 1RM'], ['volume', 'Volume'], ['reps', 'Reps']], 'Chart')}</div>
+      <div class="str-metric">${Partials.uiChoice({ label: 'Period', key: 'strengthPeriod', options: PERIODS })}</div>
+      ${Partials.lineChart([{ name: labelOf[metric], points: pts }], { fmt: (v) => (metric === 'reps' ? `${Math.round(v)}` : `${Math.round(v * 10) / 10} ${u}`), label: labelOf[metric] })}
+      <p class="hint">Est. 1RM uses the Epley formula, weight × (1 + reps ÷ 30), for sets of 1–12 reps.</p>`;
+  }
+});
+
+
+/* =======================================================================
    15. CONTROLLERS
    ======================================================================= */
 
@@ -5066,7 +6342,8 @@ const Forms = {
   },
   get(key) { return this.state && this.state.key === key ? this.state : null; },
   currentKey() { return this.state ? this.state.key : null; },
-  isDirty() { return !!this.state && JSON.stringify(this.state.draft) !== this.state.original; },
+  // A captured-but-unsaved photo always counts as unsaved work.
+  isDirty() { return !!this.state && (this.state.key === 'photo:new' || JSON.stringify(this.state.draft) !== this.state.original); },
   clear() { this.state = null; },
   /** Which form (if any) a route belongs to. */
   keyFor(hash) {
@@ -5076,6 +6353,10 @@ const Forms = {
     if (hash === '#/exercise/new') return 'exercise:new';
     if ((m = hash.match(/^#\/exercise\/([\w-]+)\/edit$/))) return `exercise:${m[1]}`;
     if (hash === '#/more/goals/strength/new') return 'goal:new';
+    if (hash === '#/progress/body/new') return 'body:new';
+    if ((m = hash.match(/^#\/progress\/body\/([\w-]+)$/))) return `body:${m[1]}`;
+    if (hash === '#/progress/photos/new') return 'photo:new';
+    if ((m = hash.match(/^#\/progress\/photos\/([\w-]+)\/edit$/))) return `photo:${m[1]}`;
     if ((m = hash.match(/^#\/more\/goals\/strength\/([\w-]+)$/))) return `goal:${m[1]}`;
     return null;
   },
@@ -5250,7 +6531,15 @@ const Router = (() => {
     { re: /^#\/exercise\/([\w-]+)\/edit$/, tab: 'workout', editing: true, view: (m) => Views.exerciseForm(m[1]) },
     { re: /^#\/exercise\/([\w-]+)\/(history|progress)$/, tab: 'workout', view: (m) => Views.exerciseDetail(m[1], m[2]) },
     { re: /^#\/exercise\/([\w-]+)$/, tab: 'workout', view: (m) => Views.exerciseDetail(m[1], 'overview') },
-    { re: /^#\/progress\/(overview|strength)$/, tab: 'progress', view: (m) => Views.progress(m[1]) },
+    { re: /^#\/progress\/(overview|strength|body|photos)$/, tab: 'progress', view: (m) => Views.progress(m[1]) },
+    { re: /^#\/progress\/body\/new$/, tab: 'progress', editing: true, view: () => Views.bodyForm(null) },
+    { re: /^#\/progress\/body\/([\w-]+)$/, tab: 'progress', editing: true, view: (m) => Views.bodyForm(m[1]) },
+    { re: /^#\/progress\/photos\/new$/, tab: 'progress', editing: true, view: () => Views.photoForm(null) },
+    { re: /^#\/progress\/photos\/camera$/, tab: 'progress', editing: true, camera: true, view: () => Views.camera() },
+    { re: /^#\/progress\/photos\/([\w-]+)\/edit$/, tab: 'progress', editing: true, view: (m) => Views.photoForm(m[1]) },
+    { re: /^#\/progress\/photos\/([\w-]+)$/, tab: 'progress', view: (m) => Views.photoView(m[1]) },
+    { re: /^#\/progress\/compare$/, tab: 'progress', view: () => Views.compare() },
+    { re: /^#\/progress\/transformation$/, tab: 'progress', view: () => Views.transformation() },
     { re: /^#\/more$/, tab: 'more', view: () => Views.more() },
     { re: /^#\/more\/goals$/, tab: 'more', view: () => Views.goals() },
     { re: /^#\/more\/goals\/strength\/new$/, tab: 'more', editing: true, view: () => Views.strengthGoalForm(null) },
@@ -5287,6 +6576,8 @@ const Router = (() => {
     // Drop a draft that belongs to a route we are no longer on.
     if (Forms.currentKey() && Forms.keyFor(hash) !== Forms.currentKey()) Forms.clear();
     const routeChanged = hash !== current;
+    if (!match.r.camera) Camera.stop();   // never leave the camera running off-screen
+    PhotoUrls.releaseFull();
     current = hash;
     const html = match.r.view(match.m);
     if (html == null) return null; // the view redirected
@@ -5302,6 +6593,8 @@ const Router = (() => {
       if (t.dataset.tab === match.r.tab) t.setAttribute('aria-current', 'page');
       else t.removeAttribute('aria-current');
     });
+    document.body.classList.toggle('is-camera', !!match.r.camera);
+    Hydrate.run(view);
     if (keepScroll) window.scrollTo(0, y);
     else if (routeChanged) { window.scrollTo(0, 0); view.focus({ preventScroll: true }); }
     return null;
@@ -5439,6 +6732,9 @@ const Actions = {
         { id: 'warmup', label: 'Add warm-up set', icon: 'spark' },
         { id: 'note', label: x.sessionNote ? "Edit today's note" : "Add today's note", icon: 'edit' },
         { id: 'history', label: 'View history', icon: 'list' },
+        ...(ExerciseService.get(x.performedExerciseId) ? [
+          { id: 'machine', label: ExerciseService.get(x.performedExerciseId).machineSettings ? 'Edit machine settings' : 'Add machine settings', icon: 'sliders' },
+          { id: 'pnote', label: ExerciseService.get(x.performedExerciseId).notes ? 'Edit personal note' : 'Add personal note', icon: 'edit' }] : []),
         ...(el.dataset.first === 'true' ? [] : [{ id: 'up', label: 'Move up', icon: 'up' }]),
         ...(el.dataset.last === 'true' ? [] : [{ id: 'down', label: 'Move down', icon: 'down' }]),
         { id: 'replace', label: 'Replace exercise', icon: 'swap' },
@@ -5448,6 +6744,18 @@ const Actions = {
     if (!choice) return;
     if (choice === 'set' || choice === 'warmup') { WorkoutService.addSet(x.id, choice === 'set' ? 'working' : 'warmup'); Router.refresh(); }
     if (choice === 'replace') Router.go(`#/workout/replace/${x.id}`);
+    if (choice === 'machine' || choice === 'pnote') {
+      const ex = ExerciseService.get(x.performedExerciseId);
+      const field = choice === 'machine' ? 'machineSettings' : 'notes';
+      const text = await Dialog.prompt({
+        title: choice === 'machine' ? 'Machine settings' : 'Personal note',
+        label: `${ex.name} (kept for every workout)`, value: ex[field], maxLength: 200, confirmLabel: 'Save',
+        placeholder: choice === 'machine' ? 'e.g. Seat 4, back 3, handle 2' : ''
+      });
+      if (text == null) return;
+      ExerciseService.setField(ex.id, field, text);
+      Router.refresh();
+    }
     if (choice === 'history') {
       if (ExerciseService.get(x.performedExerciseId)) Router.go(`#/exercise/${x.performedExerciseId}/history`);
       else Toast.show('This exercise is no longer in your library.');
@@ -5944,6 +7252,9 @@ const Actions = {
     const id = f.key === 'exercise:new' ? null : f.key.slice('exercise:'.length);
     f.draft.name = f.draft.name.trim();
     const errors = ExerciseService.validateDraft(f.draft, id);
+    const inc = Units.parse(f.draft.increment);
+    if (inc.invalid || (!inc.empty && !(inc.value > 0 && Units.fromDisplay(inc.value) <= 50))) errors.increment = 'Enter an increment between 0 and 50 kg, or leave it empty.';
+    else f.draft.weightIncrementKg = inc.empty ? null : Units.fromDisplay(inc.value);
     if (Object.keys(errors).length) {
       f.errors = errors;
       Router.refresh();
@@ -5976,21 +7287,171 @@ const Actions = {
   },
 
   async 'reset-data'() {
+    const n = Store.get().photos.length;
     const typed = await Dialog.prompt({
-      title: 'Reset Alpha data?',
-      message: 'This permanently erases your routines, workout history, any workout in progress, custom exercises and settings, then reloads the sample data. Export a backup first if you want to keep anything.',
-      label: 'Type RESET to confirm', confirmLabel: 'Reset data', danger: true, maxLength: 10,
+      title: 'Reset all data?',
+      message: `This permanently erases your routines, workout history, any workout in progress, schedule, goals, body measurements, custom exercises and settings${n ? `, and deletes ${Fmt.plural(n, 'progress photo')} stored on this device` : ''}. Sample routines are then reloaded. Export your backups first if you want to keep anything.`,
+      label: 'Type RESET to confirm', confirmLabel: 'Erase everything', danger: true, maxLength: 10,
       validate: (v) => (v.trim() === 'RESET' ? null : 'Type RESET in capital letters to confirm.')
     });
     if (typed == null) return;
     BackupService.reset();
+    try { if (PhotoStore.available()) await PhotoStore.clear(); } catch (err) { console.error(err); }
+    PhotoUrls.reset();
+    UIState.missingPhotos = new Set();
     Forms.clear();
     UIState.library = { q: '', muscle: 'all', equipment: 'all', favourites: false };
     ScheduleService.ensure();
     Theme.apply(SettingsService.get().theme);
-    Toast.show('Data reset to sample routines');
+    Toast.show('All data reset');
     Router.go('#/home', { force: true });
   },
+
+  /* ----- body ----- */
+  'body-save'() {
+    const f = Forms.state;
+    if (!f || f.kind !== 'body') return;
+    const d = f.draft;
+    const errors = {};
+    const values = {};
+    TAXONOMY.bodyMetrics.forEach((m) => {
+      const raw = String(d[`m_${m.id}`] || '').trim();
+      if (!raw) return;
+      const p = Units.parse(raw);
+      if (p.invalid) { errors[m.id] = 'Enter a number.'; return; }
+      const v = m.kind === 'weight' ? Units.fromDisplay(p.value) : m.kind === 'len' ? Units.lenFromDisplay(p.value) : Math.round(p.value * 10) / 10;
+      const [lo, hi] = m.kind === 'weight' ? [20, 400] : m.kind === 'pct' ? [2, 75] : [5, 300];
+      if (v < lo || v > hi) { errors[m.id] = 'That value is outside the realistic range.'; return; }
+      values[m.id] = v;
+    });
+    if (!DateKey.isKey(d.date) || d.date > DateKey.today()) errors._ = 'Choose today or an earlier date.';
+    else if (!Object.keys(values).length && !Object.keys(errors).length) errors._ = 'Enter at least one measurement.';
+    if (Object.keys(errors).length) { f.errors = errors; Router.refresh(); Toast.show(errors._ || 'Check the highlighted values.', 'error'); return; }
+    BodyService.save({ id: d.id, date: d.date, time: d.time, values, note: d.note, createdAt: d.createdAt });
+    Forms.clear();
+    Toast.show('Measurement saved');
+    Router.go('#/progress/body', { force: true });
+  },
+
+  async 'body-delete'(el) {
+    const ok = await Dialog.confirm({ title: 'Delete this entry?', message: 'All values recorded in this entry will be removed. This cannot be undone.', confirmLabel: 'Delete entry', danger: true });
+    if (!ok) return;
+    BodyService.remove(el.dataset.id);
+    Forms.clear();
+    Toast.show('Entry deleted');
+    Router.go('#/progress/body', { force: true });
+  },
+
+  /* ----- photos ----- */
+  'photo-take'() {
+    if (Camera.supported()) Router.go('#/progress/photos/camera');
+    else { const i = $('#photo-camera'); i.value = ''; i.click(); }
+  },
+  'photo-choose'() { const i = $('#photo-file'); i.value = ''; i.click(); },
+
+  async 'photo-save'(el) {
+    const f = Forms.state;
+    if (!f || f.kind !== 'photo') return;
+    const d = f.draft;
+    if (!DateKey.isKey(d.date) || d.date > DateKey.today()) throw new AppError('Choose today or an earlier date.');
+    if (el.dataset.id) {
+      PhotoMeta.update(el.dataset.id, { date: d.date, pose: d.pose, clothing: d.clothing, note: d.note });
+      Forms.clear();
+      Toast.show('Photo details saved');
+      Router.go(`#/progress/photos/${el.dataset.id}`, { force: true });
+      return;
+    }
+    const np = UIState.newPhoto;
+    if (!np) return;
+    el.disabled = true;
+    try {
+      const id = await PhotoService.add(np.blob, { date: d.date, pose: d.pose, clothing: d.clothing, note: d.note, takenAt: np.takenAt });
+      URL.revokeObjectURL(np.url);
+      UIState.newPhoto = null;
+      UIState.ui.lastClothing = d.clothing;
+      Forms.clear();
+      Toast.show('Photo saved');
+      Router.go(`#/progress/photos/${id}`, { force: true });
+    } finally { el.disabled = false; }
+  },
+
+  async 'photo-menu'(el) {
+    const p = PhotoMeta.get(el.dataset.id);
+    if (!p) return;
+    const choice = await Dialog.sheet({ title: Fmt.dayLabel(p.date), actions: [
+      { id: 'edit', label: 'Edit details', icon: 'edit' },
+      ...(UIState.missingPhotos.has(p.id) ? [] : [{ id: 'download', label: 'Download photo', icon: 'download' }]),
+      { id: 'delete', label: 'Delete photo', icon: 'trash', danger: true }] });
+    if (choice === 'edit') Router.go(`#/progress/photos/${p.id}/edit`);
+    if (choice === 'download') {
+      const blob = await PhotoStore.image(p.id);
+      if (!blob) throw new AppError('The image is not on this device.');
+      const ext = /png/.test(blob.type) ? 'png' : /webp/.test(blob.type) ? 'webp' : 'jpg';
+      await Download.save(`iron-ledger-photo-${p.date}-${p.pose}.${ext}`, blob, blob.type || 'image/jpeg', 'Photo downloaded');
+    }
+    if (choice === 'delete') {
+      const ok = await Dialog.confirm({ title: 'Delete this photo?', message: 'It will be removed from this device. If it is not in a photo backup, it cannot be recovered.', confirmLabel: 'Delete photo', danger: true });
+      if (!ok) return;
+      await PhotoService.remove(p.id);
+      Toast.show('Photo deleted');
+      Router.go('#/progress/photos', { force: true });
+    }
+  },
+
+  async 'export-photos'() {
+    if (!Store.get().photos.length) return;
+    Toast.show('Preparing photo backup…');
+    const backup = await PhotoService.buildBackup();
+    if (!backup.photos.length) { Toast.show('No photo images are stored on this device.', 'error'); return; }
+    await Download.save(`iron-ledger-photos-${DateKey.today()}.json`, JSON.stringify(backup), 'application/json', `Photo backup exported (${Fmt.plural(backup.photos.length, 'photo')})`);
+  },
+  'import-photos'() { const i = $('#photo-import-file'); i.value = ''; i.click(); },
+
+  /* ----- camera ----- */
+  'camera-close'() { Camera.stop(); Router.go('#/progress/photos', { force: true }); },
+  'camera-pose'(el) { UIState.cameraPose = el.dataset.value; Router.refresh(); },
+  'camera-guide'() { SettingsService.set('photoGuide', !SettingsService.get().photoGuide); Router.refresh(); },
+  'camera-flip'() { UIState.cameraFacing = UIState.cameraFacing === 'user' ? 'environment' : 'user'; Router.refresh(); },
+  async 'camera-shoot'() {
+    const blob = await Camera.capture();
+    Camera.stop();
+    UIState.newPhoto = { blob, url: URL.createObjectURL(blob), pose: UIState.cameraPose, takenAt: Util.now() };
+    Forms.clear();
+    Router.go('#/progress/photos/new', { force: true });
+  },
+
+  /* ----- compare ----- */
+  'compare-from'(el) {
+    const p = PhotoMeta.get(el.dataset.id);
+    const others = PhotoMeta.list().filter((o) => o.id !== p.id && o.pose === p.pose && o.clothing === p.clothing);
+    const c = UIState.compare;
+    Object.assign(c, { a: p.id, b: others.length ? others[0].id : null, choosing: others.length ? null : 'b', showAll: !others.length });
+    Actions['compare-reset']();
+    Router.go('#/progress/compare');
+  },
+  'compare-pair'(el) {
+    Object.assign(UIState.compare, { a: el.dataset.a, b: el.dataset.b, choosing: null });
+    Actions['compare-reset']();
+    Router.go('#/progress/compare');
+  },
+  'compare-choose'(el) { const c = UIState.compare; c.choosing = c.choosing === el.dataset.which ? null : el.dataset.which; Router.refresh(); },
+  'compare-showall'() { UIState.compare.showAll = !UIState.compare.showAll; Router.refresh(); },
+  'compare-set'(el) {
+    const c = UIState.compare;
+    c[c.choosing || 'b'] = el.dataset.id;
+    c.choosing = c.a && c.b ? null : (c.a ? 'b' : 'a');
+    Actions['compare-reset']();
+    Router.refresh();
+  },
+  'compare-reset'() {
+    const c = UIState.compare;
+    c.zoom = { a: 1, b: 1 }; c.offset = { a: { x: 0, y: 0 }, b: { x: 0, y: 0 } }; c.cut = 50;
+    if ($('.cmp-frame')) Router.refresh();
+  },
+
+  /* ----- history calendar ----- */
+  'cal-day'(el) { UIState.ui.calDay = UIState.ui.calDay === el.dataset.date ? null : el.dataset.date; Router.refresh(); },
+  'cal-month'(el) { UIState.ui.calMonth = el.dataset.month; UIState.ui.calDay = null; Router.refresh(); },
 
   'dismiss-banner'() { $('#banner').innerHTML = ''; }
 };
@@ -6020,6 +7481,8 @@ async function handleImportFile(file) {
   if (!ok) return;
   BackupService.apply(res.data, res.active);
   ScheduleService.ensure();
+  await refreshMissingPhotos();
+  if (UIState.missingPhotos.size) Toast.show(`${Fmt.plural(UIState.missingPhotos.size, 'photo')} need your photo backup to show images.`);
   Forms.clear();
   Theme.apply(SettingsService.get().theme);
   Toast.show('Backup imported');
@@ -6157,13 +7620,99 @@ async function chooseRoutine(title, currentId = null) {
   return c && c !== '__cancel' ? c : null;
 }
 
+/** Live camera for progress photos. The framing guide is an overlay only. */
+const Camera = {
+  stream: null,
+  supported() {
+    return !!(typeof navigator !== 'undefined' && navigator.mediaDevices && navigator.mediaDevices.getUserMedia) && window.isSecureContext !== false;
+  },
+  async start() {
+    const video = $('#cam-video');
+    const msg = $('#cam-msg');
+    if (!video) return;
+    Camera.stop();
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: UIState.cameraFacing, width: { ideal: 1920 }, height: { ideal: 1920 } }, audio: false });
+      if (!document.contains(video)) { stream.getTracks().forEach((t) => t.stop()); return; } // user already left
+      Camera.stream = stream;
+      video.srcObject = stream;
+      await video.play().catch(() => {});
+      if (msg) msg.hidden = true;
+    } catch (err) {
+      if (msg) msg.textContent = err && err.name === 'NotAllowedError'
+        ? 'Camera access is blocked. Allow it in your browser settings, or choose a photo instead.'
+        : 'The camera could not start. You can choose a photo instead.';
+    }
+  },
+  stop() { if (Camera.stream) { Camera.stream.getTracks().forEach((t) => t.stop()); Camera.stream = null; } },
+  capture() {
+    const v = $('#cam-video');
+    if (!v || !v.videoWidth) return Promise.reject(new AppError('The camera is not ready yet.'));
+    const c = document.createElement('canvas');
+    c.width = v.videoWidth; c.height = v.videoHeight;
+    c.getContext('2d').drawImage(v, 0, 0); // the guide is not part of the video, so it is never saved
+    return new Promise((res, rej) => c.toBlob((b) => (b ? res(b) : rej(new AppError('The photo could not be captured.'))), 'image/jpeg', 0.92));
+  }
+};
+
+/** After each render: load photo images, start the camera, wire photo panning. */
+const Hydrate = {
+  run(root) {
+    $$('img[data-thumb]', root).forEach((img) => {
+      PhotoUrls.thumb(img.dataset.thumb).then((u) => { if (u) img.src = u; else Hydrate.missing(img); }).catch(() => Hydrate.missing(img));
+    });
+    $$('img[data-full]', root).forEach((img) => {
+      PhotoUrls.image(img.dataset.full).then((u) => { if (u) img.src = u; else Hydrate.missing(img); }).catch(() => Hydrate.missing(img));
+    });
+    if ($('#cam-video', root)) Camera.start();
+    $$('[data-pan]', root).forEach((frame) => Hydrate.pan(frame));
+  },
+  missing(img) { img.removeAttribute('src'); img.alt = 'Image not on this device'; img.classList.add('is-missing'); },
+  /** Drag to reposition a photo for comparison (view-only; the photo is unchanged). */
+  pan(frame) {
+    const side = frame.dataset.pan;
+    const img = $('img', frame);
+    let start = null;
+    frame.addEventListener('pointerdown', (e) => {
+      start = { x: e.clientX, y: e.clientY, o: { ...UIState.compare.offset[side] }, w: frame.clientWidth, h: frame.clientHeight };
+      frame.setPointerCapture(e.pointerId);
+    });
+    frame.addEventListener('pointermove', (e) => {
+      if (!start) return;
+      const o = UIState.compare.offset[side];
+      o.x = Math.max(-40, Math.min(40, start.o.x + ((e.clientX - start.x) / start.w) * 100));
+      o.y = Math.max(-40, Math.min(40, start.o.y + ((e.clientY - start.y) / start.h) * 100));
+      img.style.transform = `translate(${o.x}%,${o.y}%) scale(${UIState.compare.zoom[side]})`;
+    });
+    const end = () => { start = null; };
+    frame.addEventListener('pointerup', end);
+    frame.addEventListener('pointercancel', end);
+  }
+};
+
+async function refreshMissingPhotos() {
+  try { UIState.missingPhotos = await PhotoService.missing(); } catch (err) { console.error(err); }
+}
+
+/** A picked or camera-captured file becomes a pending photo, then its details form opens. */
+function handleNewPhotoFile(file) {
+  if (!file) return;
+  if (!/^image\//.test(file.type)) { Toast.show('Choose an image file.', 'error'); return; }
+  if (file.size > CONFIG.MAX_PHOTO_BYTES) { Toast.show('That photo is too large (over 30 MB).', 'error'); return; }
+  if (UIState.newPhoto) URL.revokeObjectURL(UIState.newPhoto.url);
+  UIState.newPhoto = { blob: file, url: URL.createObjectURL(file), pose: UIState.cameraPose, takenAt: file.lastModified ? new Date(file.lastModified).toISOString() : Util.now() };
+  Camera.stop();
+  Forms.clear();
+  Router.go('#/progress/photos/new', { force: true });
+}
+
 /** File downloads: the artifact host's downloads capability, else a normal browser download. */
 const Download = {
   async save(filename, text, mime, doneMessage) {
     if (window.claude && typeof window.claude.use === 'function') {
       const downloads = await window.claude.use('downloads');
       if (downloads) {
-        try { await downloads.save({ filename, data: text }); Toast.show(doneMessage); }
+        try { await downloads.save({ filename, data: text }); Toast.show(doneMessage); }  // string or Blob
         catch (err) {
           if (err && err.code === 'declined') Toast.show('Export cancelled');
           else if (err && err.code === 'rate_limited') Toast.show('An export prompt is already open.', 'error');
@@ -6172,7 +7721,7 @@ const Download = {
         return;
       }
     }
-    const blob = new Blob([text], { type: mime });
+    const blob = text instanceof Blob ? text : new Blob([text], { type: mime });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -6265,6 +7814,11 @@ function bindEvents() {
     const el = e.target;
     try {
       if (el.dataset.goal) { saveGoalField(el); return; }
+      if (el.dataset.uiDate) {
+        if (DateKey.isKey(el.value)) UIState.ui[el.dataset.uiDate] = el.value;
+        Router.refresh();
+        return;
+      }
       if (el.dataset.setting === 'defaultRestSec') {
         let v = el.value;
         if (v === 'custom') {
@@ -6292,6 +7846,36 @@ function bindEvents() {
     const next = { weight: 'r', reps: 'q' }[el.dataset.aw];
     const target = next && document.getElementById(`${next}-${el.dataset.set}`);
     if (target) target.focus(); else el.blur();
+  });
+
+  ['#photo-file', '#photo-camera'].forEach((sel) => $(sel).addEventListener('change', (e) => {
+    const file = e.target.files && e.target.files[0];
+    e.target.value = ''; // so picking the same file again still fires 'change'
+    handleNewPhotoFile(file);
+  }));
+  $('#photo-import-file').addEventListener('change', async (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    try {
+      Toast.show('Importing photos…');
+      let obj;
+      try { obj = JSON.parse(await file.text()); } catch (_) { throw new AppError('That file is not a photo backup.'); }
+      const r = await PhotoService.importBackup(obj);
+      await refreshMissingPhotos();
+      Toast.show(`${Fmt.plural(r.added, 'photo')} imported${r.skipped ? `, ${r.skipped} already here` : ''}`);
+      Router.refresh();
+    } catch (err) { handleError(err); }
+  });
+  document.addEventListener('input', (e) => {
+    const el = e.target;
+    if (!el.dataset || !el.dataset.compare) return;
+    const c = UIState.compare;
+    const v = Number(el.value);
+    if (el.dataset.compare === 'cut') { c.cut = v; const box = $('.cmp-slider'); if (box) box.style.setProperty('--cut', `${v}%`); return; }
+    const side = el.dataset.compare === 'zoom-a' ? 'a' : 'b';
+    c.zoom[side] = v;
+    const img = $(`[data-pan="${side}"] img`);
+    if (img) img.style.transform = `translate(${c.offset[side].x}%,${c.offset[side].y}%) scale(${v})`;
   });
 
   $('#import-file').addEventListener('change', (e) => {
@@ -6400,6 +7984,23 @@ function boot() {
   showBanner(Store.takeNotices());
   Router.start();
   Ticker.start();
+  // Photos: find metadata without image files, and remove image files without metadata.
+  if (PhotoStore.available()) {
+    refreshMissingPhotos().then(() => PhotoService.prune()).then(() => { if (UIState.missingPhotos.size && /photo|compare|transformation/.test(location.hash)) Router.refresh(); }).catch((err) => console.error(err));
+  }
+  registerServiceWorker();
+}
+
+/**
+ * Installable app + offline shell. The worker fetches the app NETWORK-FIRST,
+ * so a new upload always wins when online; the cached copy is only used
+ * offline. Skipped where it cannot work (file://, embedded previews).
+ */
+function registerServiceWorker() {
+  try {
+    if (!('serviceWorker' in navigator) || !(location.protocol === 'https:' || location.hostname === 'localhost') || window.top !== window) return;
+    navigator.serviceWorker.register('sw.js').catch((err) => console.warn('Service worker not registered', err));
+  } catch (_) { /* not available */ }
 }
 
 boot();
